@@ -20,16 +20,17 @@ type OutlierRowProps = {
   outlier: Outlier;
   index: number;
   onInspire: (id: number, platform: "ig" | "tk") => void;
+  onAnalyze: (id: number, platform: "ig" | "tk") => void;
 };
 
-export function OutlierRow({ outlier, index, onInspire }: OutlierRowProps) {
+export function OutlierRow({ outlier, index, onInspire, onAnalyze }: OutlierRowProps) {
   const isTK = outlier.platform === "tk";
 
   return (
     <motion.div
       variants={rowIn}
       custom={index}
-      className={`outlier-row ${outlier.viral ? "border-l-[3px] border-l-orange-500" : ""} flex items-center gap-3 md:grid md:grid-cols-[56px_1fr_120px_80px_65px_70px_90px] md:gap-3 px-5 py-3.5 ${index > 0 ? "border-t border-stone-custom/30" : ""}`}
+      className={`outlier-row ${outlier.viral ? "border-l-[3px] border-l-orange-500" : ""} flex items-center gap-3 md:grid md:grid-cols-[56px_1fr_120px_80px_65px_70px_auto] md:gap-3 px-5 py-3.5 ${index > 0 ? "border-t border-stone-custom/30" : ""}`}
     >
       {/* Emoji thumbnail */}
       <div
@@ -83,17 +84,29 @@ export function OutlierRow({ outlier, index, onInspire }: OutlierRowProps) {
         {outlier.date}
       </span>
 
-      {/* Inspire button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onInspire(outlier.id, outlier.platform);
-        }}
-        className="inspire-btn border border-gold/60 rounded-lg px-3 py-1.5 text-[10px] font-bold text-gold flex items-center gap-1 shrink-0 whitespace-nowrap"
-      >
-        <Icon icon="solar:magic-stick-3-linear" width={12} />
-        S&apos;inspirer
-      </button>
+      {/* Actions */}
+      <div className="flex items-center gap-1.5 shrink-0">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onInspire(outlier.id, outlier.platform);
+          }}
+          className="inspire-btn border border-gold/60 rounded-lg px-3 py-1.5 text-[10px] font-bold text-gold flex items-center gap-1 whitespace-nowrap"
+        >
+          <Icon icon="solar:magic-stick-3-linear" width={12} />
+          S&apos;inspirer
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onAnalyze(outlier.id, outlier.platform);
+          }}
+          className="btn-ghost text-[10px] font-bold text-muted-rb flex items-center gap-1 px-2 py-1.5 rounded-lg hover:bg-beige"
+        >
+          <Icon icon="solar:videocamera-record-linear" width={12} />
+          <span className="hidden sm:inline">Analyser</span>
+        </button>
+      </div>
     </motion.div>
   );
 }

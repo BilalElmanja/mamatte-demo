@@ -16,8 +16,10 @@ const pathLabels: Record<string, string> = {
   "/competitors": "Concurrents",
   "/my-reels": "Mes Reels",
   "/outliers": "Outliers",
+  "/video-analysis": "Analyse Vidéo",
   "/reports": "Rapports",
   "/scripts": "Scripts",
+  "/calendar": "Calendrier",
   "/settings": "Paramètres",
 };
 

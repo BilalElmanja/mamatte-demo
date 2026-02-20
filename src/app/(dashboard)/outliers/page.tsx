@@ -13,6 +13,7 @@ import { PlatformTabs } from "./_components/platform-tabs";
 import { OutlierRow, type Outlier } from "./_components/outlier-row";
 import { TikTokTrendBar } from "./_components/tiktok-trend-bar";
 import { InspireModal } from "./_components/inspire-modal";
+import { OutlierAnalysisModal } from "./_components/outlier-analysis-modal";
 
 /* ═══ MOCK DATA ═══ */
 
@@ -46,9 +47,13 @@ export default function OutliersPage() {
   const [igSort, setIgSort] = useState("Vues");
   const [tkSort, setTkSort] = useState("Vues");
 
-  // Modal
+  // Inspire Modal
   const [inspireOpen, setInspireOpen] = useState(false);
   const [inspireOutlier, setInspireOutlier] = useState<Outlier | null>(null);
+
+  // Analysis Modal
+  const [analyzeOpen, setAnalyzeOpen] = useState(false);
+  const [analyzeOutlier, setAnalyzeOutlier] = useState<Outlier | null>(null);
 
   // Toast
   const [toastMsg, setToastMsg] = useState("");
@@ -66,6 +71,16 @@ export default function OutliersPage() {
       const outlier = all.find((o) => o.id === id) || null;
       setInspireOutlier(outlier);
       setInspireOpen(true);
+    },
+    []
+  );
+
+  const handleAnalyze = useCallback(
+    (id: number, plat: "ig" | "tk") => {
+      const all = [...IG_OUTLIERS, ...TK_OUTLIERS];
+      const outlier = all.find((o) => o.id === id) || null;
+      setAnalyzeOutlier(outlier);
+      setAnalyzeOpen(true);
     },
     []
   );
@@ -179,7 +194,7 @@ export default function OutliersPage() {
           <div className="bg-white rounded-2xl border border-stone-custom/40 overflow-hidden">
             {/* Column headers - desktop only */}
             <div
-              className={`hidden md:grid grid-cols-[56px_1fr_120px_80px_65px_70px_90px] gap-3 px-5 py-3 border-b border-stone-custom/30 ${
+              className={`hidden md:grid grid-cols-[56px_1fr_120px_80px_65px_70px_auto] gap-3 px-5 py-3 border-b border-stone-custom/30 ${
                 platform === "tk" ? "bg-tiktok-bg/30" : "bg-beige/30"
               }`}
             >
@@ -216,6 +231,7 @@ export default function OutliersPage() {
                   outlier={outlier}
                   index={i}
                   onInspire={handleInspire}
+                  onAnalyze={handleAnalyze}
                 />
               ))}
             </motion.div>
@@ -228,6 +244,14 @@ export default function OutliersPage() {
         open={inspireOpen}
         onClose={() => setInspireOpen(false)}
         outlier={inspireOutlier}
+        onToast={showToast}
+      />
+
+      {/* Analysis Modal */}
+      <OutlierAnalysisModal
+        open={analyzeOpen}
+        onClose={() => setAnalyzeOpen(false)}
+        outlier={analyzeOutlier}
         onToast={showToast}
       />
 

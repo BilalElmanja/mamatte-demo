@@ -10,8 +10,10 @@ const navItems = [
   { label: "Concurrents", href: "/competitors", icon: "solar:users-group-rounded-linear" },
   { label: "Mes Reels", href: "/my-reels", icon: "solar:reel-linear" },
   { label: "Outliers", href: "/outliers", icon: "solar:fire-linear" },
+  { label: "Analyse Vidéo", href: "/video-analysis", icon: "solar:videocamera-record-linear" },
   { label: "Rapports", href: "/reports", icon: "solar:chart-2-linear" },
   { label: "Scripts", href: "/scripts", icon: "solar:document-text-linear" },
+  { label: "Calendrier", href: "/calendar", icon: "solar:calendar-linear" },
 ];
 
 const bottomItems = [

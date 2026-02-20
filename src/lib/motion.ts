@@ -181,6 +181,26 @@ export const VIEWPORT_ONCE = { once: true, margin: "0px 0px -50px 0px" } as cons
 
 // ═══ ONBOARDING STEP VARIANTS ═══
 
+// SVG path draw-on animation
+export const drawOn = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    transition: { duration: 1.2, ease: easing.smooth },
+  },
+};
+
+// SVG arc/segment scale-in
+export const arcIn = {
+  hidden: { scale: 0, opacity: 0 },
+  visible: (delay: number = 0) => ({
+    scale: 1,
+    opacity: 1,
+    transition: { duration: 0.6, ease: easing.smooth, delay },
+  }),
+};
+
 export const stepVariants = {
   enter: (direction: number) => ({
     x: direction > 0 ? 50 : -50,

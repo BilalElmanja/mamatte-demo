@@ -7,6 +7,10 @@ import { ViralAlerts } from "./_components/viral-alerts";
 import { TikTokTrends } from "./_components/tiktok-trends";
 import { QuickActions } from "./_components/quick-actions";
 import { PlatformComparison } from "./_components/platform-comparison";
+import { ViewsSparkline } from "./_components/views-sparkline";
+import { EngagementRing } from "./_components/engagement-ring";
+import { PostingHeatmap } from "./_components/posting-heatmap";
+import { CategoryBars } from "./_components/category-bars";
 
 export default function DashboardPage() {
   return (
@@ -16,6 +20,14 @@ export default function DashboardPage() {
 
       {/* Stat cards (4-col grid) */}
       <StatCards />
+
+      {/* Performance charts */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+        <ViewsSparkline />
+        <EngagementRing />
+        <PostingHeatmap />
+        <CategoryBars />
+      </div>
 
       {/* Two columns: 3/5 latest ideas (left) + 2/5 alerts + trends + quick actions (right) */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">

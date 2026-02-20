@@ -4,6 +4,9 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { slideUpBlur, staggerContainer } from "@/lib/motion";
+import { ViewsAreaChart } from "./_components/views-area-chart";
+import { CategoryDonut } from "./_components/category-donut";
+import { GrowthIndicator } from "./_components/growth-indicator";
 import { ReelRow, type Reel } from "./_components/reel-row";
 
 /* ═══ MOCK DATA ═══ */
@@ -112,6 +115,29 @@ export default function MyReelsPage() {
             ))}
           </div>
         </div>
+      </motion.div>
+
+      {/* Performance overview */}
+      <motion.div
+        variants={slideUpBlur}
+        initial="hidden"
+        animate="visible"
+        transition={{ delay: 0.09 }}
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
+      >
+        <div className="md:col-span-2">
+          <ViewsAreaChart />
+        </div>
+        <GrowthIndicator />
+      </motion.div>
+      <motion.div
+        variants={slideUpBlur}
+        initial="hidden"
+        animate="visible"
+        transition={{ delay: 0.1 }}
+        className="mb-6"
+      >
+        <CategoryDonut />
       </motion.div>
 
       {/* Reels List */}

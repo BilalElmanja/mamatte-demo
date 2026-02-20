@@ -447,3 +447,387 @@ export const REPORT_DETAIL = {
     { word: "gratuit", count: 2 },
   ],
 };
+
+// ═══ CHART DATA ═══
+
+export const WEEKLY_VIEWS = [
+  { week: "6 Jan.", views: 4200 },
+  { week: "13 Jan.", views: 5100 },
+  { week: "20 Jan.", views: 4800 },
+  { week: "27 Jan.", views: 6200 },
+  { week: "3 Fév.", views: 7100 },
+  { week: "10 Fév.", views: 6800 },
+  { week: "17 Fév.", views: 8400 },
+  { week: "24 Fév.", views: 9200 },
+];
+
+export const ENGAGEMENT_DATA = {
+  likes: 1247,
+  comments: 312,
+  saves: 89,
+  total: 1648,
+};
+
+export const POSTING_HEATMAP = [
+  [0, 1, 0, 2, 0, 1, 0],
+  [1, 0, 1, 0, 1, 0, 0],
+  [0, 2, 0, 1, 0, 0, 1],
+  [1, 0, 1, 0, 2, 1, 0],
+];
+
+export const CATEGORY_PERFORMANCE = [
+  { cat: "🍳 BTS", views: 4895, color: "#f59e0b" },
+  { cat: "🔊 ASMR", views: 3645, color: "#8b5cf6" },
+  { cat: "🧑‍🍳 Recette", views: 3877, color: "#10b981" },
+  { cat: "🔥 Tendance", views: 3534, color: "#f43f5e" },
+  { cat: "📖 Story", views: 3174, color: "#3b82f6" },
+];
+
+export const DAILY_VIEWS = [
+  { day: 1, views: 245 }, { day: 2, views: 312 }, { day: 3, views: 278 },
+  { day: 4, views: 356 }, { day: 5, views: 289 }, { day: 6, views: 198 },
+  { day: 7, views: 167 }, { day: 8, views: 334 }, { day: 9, views: 412 },
+  { day: 10, views: 378 }, { day: 11, views: 298 }, { day: 12, views: 445 },
+  { day: 13, views: 389 }, { day: 14, views: 467 }, { day: 15, views: 356 },
+  { day: 16, views: 312 }, { day: 17, views: 278 }, { day: 18, views: 423 },
+  { day: 19, views: 389 }, { day: 20, views: 445 }, { day: 21, views: 512 },
+  { day: 22, views: 478 }, { day: 23, views: 534 }, { day: 24, views: 498 },
+  { day: 25, views: 567 }, { day: 26, views: 523 }, { day: 27, views: 489 },
+  { day: 28, views: 612 }, { day: 29, views: 578 }, { day: 30, views: 645 },
+];
+
+export const GROWTH_DATA = { current: 8400, previous: 5900, change: 42.4 };
+
+// ═══ VIDEO ANALYSIS DATA ═══
+
+export type VideoType = "scriptless" | "scripted";
+
+export interface ScrapedVideo {
+  id: number;
+  hook: string;
+  account: string;
+  views: string;
+  likes: string;
+  date: string;
+  duration: string;
+  platform: "ig" | "tk";
+  videoType: VideoType;
+  badge: string;
+  analyzed: boolean;
+  thumbnailGradient: string;
+  emoji: string;
+}
+
+export interface VideoAnalysis {
+  videoId: number;
+  sceneDescription: string;
+  visualTechniques: { name: string; confidence: number }[];
+  whyViral: string;
+  keyElements: { colorPalette: string; lighting: string; composition: string; rhythm: string };
+  recreationSteps: string[];
+}
+
+export const SCRAPED_VIDEOS: ScrapedVideo[] = [
+  {
+    id: 201,
+    hook: "Latte art rosetta en plongée — pas un mot, juste le geste",
+    account: "columbus_cafe_fr",
+    views: "312K",
+    likes: "18K",
+    date: "8 Fév.",
+    duration: "0:28",
+    platform: "ig",
+    videoType: "scriptless",
+    badge: "Sans script 🎬",
+    analyzed: true,
+    thumbnailGradient: "from-amber-200 via-orange-100 to-stone-custom",
+    emoji: "☕",
+  },
+  {
+    id: 202,
+    hook: "Service du brunch en time-lapse — 50 assiettes en 2 minutes",
+    account: "cafe_joyeux",
+    views: "189K",
+    likes: "11K",
+    date: "6 Fév.",
+    duration: "0:34",
+    platform: "ig",
+    videoType: "scriptless",
+    badge: "Visuel pur ✨",
+    analyzed: true,
+    thumbnailGradient: "from-yellow-100 via-amber-50 to-beige",
+    emoji: "🍳",
+  },
+  {
+    id: 203,
+    hook: "ASMR : extraction espresso en gros plan, mousse parfaite",
+    account: "coutume.paris",
+    views: "1.4M",
+    likes: "92K",
+    date: "5 Fév.",
+    duration: "0:19",
+    platform: "tk",
+    videoType: "scriptless",
+    badge: "Sans script 🎬",
+    analyzed: false,
+    thumbnailGradient: "from-stone-300 via-amber-100 to-cream",
+    emoji: "🎧",
+  },
+  {
+    id: 204,
+    hook: "Food plating satisfaisant — avocado toast assemblé en slow-motion",
+    account: "colombus.officiel",
+    views: "567K",
+    likes: "34K",
+    date: "4 Fév.",
+    duration: "0:41",
+    platform: "tk",
+    videoType: "scriptless",
+    badge: "Visuel pur ✨",
+    analyzed: false,
+    thumbnailGradient: "from-green-100 via-lime-50 to-amber-50",
+    emoji: "🥑",
+  },
+  {
+    id: 205,
+    hook: "Coulée de chocolat sur un croissant chaud — vue macro",
+    account: "columbus_cafe_fr",
+    views: "245K",
+    likes: "15K",
+    date: "3 Fév.",
+    duration: "0:22",
+    platform: "ig",
+    videoType: "scriptless",
+    badge: "Sans script 🎬",
+    analyzed: true,
+    thumbnailGradient: "from-amber-300 via-yellow-200 to-orange-100",
+    emoji: "🍫",
+  },
+  {
+    id: 206,
+    hook: "Séquence hypnotique : grains de café versés au ralenti dans un moulin en cuivre",
+    account: "coutume.paris",
+    views: "890K",
+    likes: "56K",
+    date: "2 Fév.",
+    duration: "0:31",
+    platform: "tk",
+    videoType: "scriptless",
+    badge: "Sans script 🎬",
+    analyzed: false,
+    thumbnailGradient: "from-amber-200 via-stone-custom to-beige",
+    emoji: "🫘",
+  },
+  {
+    id: 207,
+    hook: "Le geste parfait du barista qui fait mousser le lait — boucle infinie",
+    account: "cafe_joyeux",
+    views: "156K",
+    likes: "9.8K",
+    date: "1 Fév.",
+    duration: "0:15",
+    platform: "ig",
+    videoType: "scriptless",
+    badge: "Visuel pur ✨",
+    analyzed: false,
+    thumbnailGradient: "from-stone-200 via-cream to-amber-50",
+    emoji: "🥛",
+  },
+  {
+    id: 208,
+    hook: "Assemblage d'un plateau petit-déjeuner vue du dessus — chaque élément posé un par un",
+    account: "colombus.officiel",
+    views: "423K",
+    likes: "28K",
+    date: "30 Jan.",
+    duration: "0:47",
+    platform: "tk",
+    videoType: "scriptless",
+    badge: "Sans script 🎬",
+    analyzed: false,
+    thumbnailGradient: "from-orange-100 via-amber-100 to-yellow-50",
+    emoji: "🍞",
+  },
+];
+
+// ═══ OUTLIER ANALYSES ═══
+
+export const OUTLIER_ANALYSES: Record<number, VideoAnalysis> = {
+  1: {
+    videoId: 1,
+    sceneDescription:
+      "Le barista exécute une technique avancée de latte art en vue plongée. La caméra reste fixe, parfaitement centrée sur la tasse blanche. Le geste est précis, révélant un motif complexe en quelques secondes. Aucune narration — seul le son du lait versé est audible, créant une ambiance ASMR immersive.",
+    visualTechniques: [
+      { name: "Plongée (vue aérienne)", confidence: 96 },
+      { name: "Gros plan / Macro", confidence: 93 },
+      { name: "ASMR (son naturel)", confidence: 89 },
+      { name: "Plan fixe (stabilisé)", confidence: 85 },
+      { name: "Éclairage naturel chaud", confidence: 81 },
+    ],
+    whyViral:
+      "Le hook 'Personne ne parle de...' crée un curiosity gap puissant. La vue aérienne du latte art est hypnotique et pousse au re-visionnage. L'absence de parole élimine la barrière linguistique, maximisant la portée internationale. Le format court (< 30s) optimise le taux de complétion.",
+    keyElements: {
+      colorPalette: "Tons chauds : brun espresso, blanc crème du lait, beige naturel du comptoir. Palette minimaliste et organique.",
+      lighting: "Lumière naturelle douce, directionnelle (fenêtre latérale). Reflets subtils sur la surface du lait. Pas d'éclairage artificiel visible.",
+      composition: "Cadrage centré, tasse occupe 70% du frame. Arrière-plan flouté (bokeh). Bords du comptoir visibles pour ancrer la scène.",
+      rhythm: "Un seul plan continu, rythme dicté par le geste du barista. Pas de coupe. Accélération naturelle en fin de versement.",
+    },
+    recreationSteps: [
+      "Installez un trépied en position plongée, directement au-dessus du plan de travail.",
+      "Utilisez la lumière naturelle d'une fenêtre latérale. Éteignez les néons.",
+      "Préparez un espresso avec une crema épaisse dans une tasse blanche.",
+      "Filmez en 1080p/60fps avec stabilisation activée.",
+      "Laissez le barista exécuter le versement naturellement — ne pas ralentir.",
+      "Gardez 2-3 secondes de la tasse immobile à la fin pour la satisfaction visuelle.",
+      "Publiez sans musique. Le son naturel EST le contenu.",
+    ],
+  },
+  101: {
+    videoId: 101,
+    sceneDescription:
+      "Un barista derrière le comptoir reçoit la commande d'un 'café normal'. Le format POV montre sa réaction face caméra, puis une série de plans rapides montrant les multiples choix possibles (taille, type de lait, sirop, température). L'humour naît du décalage entre la simplicité apparente et la complexité réelle.",
+    visualTechniques: [
+      { name: "POV (point de vue)", confidence: 97 },
+      { name: "Montage rapide / Jump cuts", confidence: 94 },
+      { name: "Texte overlay", confidence: 91 },
+      { name: "Réaction face caméra", confidence: 88 },
+      { name: "Son tendance TikTok", confidence: 84 },
+    ],
+    whyViral:
+      "Le format POV barista crée une identification immédiate avec les professionnels du café ET les clients. L'humour situationnel est universel et partageable. Le montage rapide maintient l'attention. Le format 'relatable content' génère des commentaires massifs ('tellement vrai !'). La musique tendance TikTok amplifie la découvrabilité.",
+    keyElements: {
+      colorPalette: "Environnement réel du café : tons chauds du comptoir, blanc du tablier, couleurs variées des syrops en arrière-plan.",
+      lighting: "Éclairage mixte café (LED + naturel). Pas de setup particulier — authenticité brute.",
+      composition: "Selfie/POV en format vertical. Cadrage dynamique, mouvements de caméra intentionnellement amateurs pour l'authenticité.",
+      rhythm: "Montage rapide (cuts toutes les 1-2 secondes). Rythme calé sur la musique. Progression comique crescendo.",
+    },
+    recreationSteps: [
+      "Filmez en selfie derrière le comptoir. L'authenticité > la qualité technique.",
+      "Commencez par la réaction 'un café normal ?' en face caméra.",
+      "Montrez rapidement 5-6 options (expresso, filtre, cold brew, etc.) avec des jump cuts.",
+      "Ajoutez du texte overlay pour chaque option ('Quel lait ?', 'Quelle taille ?').",
+      "Utilisez un son tendance TikTok en fond — vérifiez les sons populaires du moment.",
+      "Terminez par un plan comique (montagne de choix ou regard perdu).",
+      "Ajoutez les hashtags #barista #CoffeeTok #POV dans la description.",
+    ],
+  },
+  102: {
+    videoId: 102,
+    sceneDescription:
+      "Un plan macro ultra-serré filme 50 grains de café tombant lentement dans un moulin manuel en cuivre. Le slow-motion capture chaque grain individuellement. Le son est amplifié — on entend le claquement de chaque grain contre le métal. La vidéo se termine par le début de la mouture avec un son ASMR croustillant.",
+    visualTechniques: [
+      { name: "Plan macro / Ultra gros plan", confidence: 98 },
+      { name: "Slow-motion (120fps+)", confidence: 95 },
+      { name: "ASMR (son amplifié)", confidence: 94 },
+      { name: "Bokeh d'arrière-plan", confidence: 87 },
+      { name: "Éclairage latéral dramatique", confidence: 83 },
+    ],
+    whyViral:
+      "L'ASMR café est l'un des contenus les plus addictifs sur TikTok. Le slow-motion transforme un geste banal en spectacle visuel. Le son amplifié crée une réponse sensorielle immédiate. La qualité macro donne une impression premium. Le format boucle parfaitement pour le re-visionnage infini.",
+    keyElements: {
+      colorPalette: "Brun profond des grains, cuivre doré du moulin, crème de l'arrière-plan. Palette monochrome luxueuse.",
+      lighting: "Éclairage latéral unique, chaud (3200K). Ombres dramatiques. Reflets dorés sur le cuivre.",
+      composition: "Ultra gros plan. Les grains occupent 90% du cadre. Profondeur de champ extrêmement faible.",
+      rhythm: "Slow-motion ×4. Chaque grain est un micro-événement. Rythme méditatif et hypnotique.",
+    },
+    recreationSteps: [
+      "Utilisez un moulin manuel en métal (le cuivre/laiton rend le mieux visuellement).",
+      "Placez votre téléphone en mode macro, très proche (5-10cm du moulin).",
+      "Filmez en slow-motion (120fps minimum, 240fps idéal).",
+      "Utilisez une seule lampe latérale. L'ombre est essentielle pour le volume.",
+      "Versez les grains lentement, un par un ou en petit flux.",
+      "Capturez le son avec le micro du téléphone très proche — l'ASMR est crucial.",
+      "En post-production : augmentez légèrement le volume du son, ajoutez de la chaleur aux couleurs.",
+    ],
+  },
+};
+
+export const VIDEO_ANALYSES: Record<number, VideoAnalysis> = {
+  201: {
+    videoId: 201,
+    sceneDescription:
+      "Un barista verse du lait dans une tasse d'espresso en vue plongée. La caméra est fixe, parfaitement centrée sur la tasse. Le geste est fluide et continu, formant une rosetta classique. Aucune parole, seul le son naturel du versement est audible. La vidéo se termine par un léger zoom arrière révélant le motif complet.",
+    visualTechniques: [
+      { name: "Plongée (vue aérienne)", confidence: 97 },
+      { name: "Gros plan / Macro", confidence: 92 },
+      { name: "Plan fixe (stabilisé)", confidence: 88 },
+      { name: "ASMR (son naturel)", confidence: 85 },
+      { name: "Éclairage naturel chaud", confidence: 78 },
+    ],
+    whyViral:
+      "La combinaison vue aérienne + gros plan crée une immersion hypnotique. L'absence de parole élimine la barrière linguistique (portée internationale). Le son naturel du versement déclenche une réponse ASMR. Le geste du barista communique une expertise sans explication. La brièveté (28s) maximise le taux de complétion et encourage le re-visionnage en boucle.",
+    keyElements: {
+      colorPalette: "Tons chauds : brun espresso, blanc crème, beige naturel du bois. Pas de couleurs vives — palette minimaliste et organique.",
+      lighting: "Lumière naturelle douce, légèrement directionnelle (fenêtre latérale). Pas de flash ni d'éclairage artificiel visible. Reflets doux sur la surface du lait.",
+      composition: "Cadrage centré parfait. La tasse occupe 70% du frame. Arrière-plan flouté (bokeh naturel). Bords de la table visibles pour ancrer la scène.",
+      rhythm: "Un seul plan continu sans coupe. Rythme organique dicté par le geste du barista. Accélération naturelle vers la fin du versement.",
+    },
+    recreationSteps: [
+      "Installez votre téléphone sur un trépied en position plongée, directement au-dessus du plan de travail.",
+      "Utilisez la lumière naturelle d'une fenêtre latérale. Éteignez les néons du plafond.",
+      "Préparez un espresso bien contrasté (crema épaisse) dans une tasse blanche ou beige.",
+      "Filmez en mode vidéo 1080p/60fps. Activez la stabilisation si disponible.",
+      "Laissez votre barista réaliser le versement naturellement. Ne lui demandez pas de ralentir.",
+      "Coupez avant et après le versement. Gardez 2-3 secondes de la tasse immobile à la fin.",
+      "Publiez sans musique — le son naturel EST le contenu. Ajoutez des sous-titres si nécessaire.",
+    ],
+  },
+  202: {
+    videoId: 202,
+    sceneDescription:
+      "Un time-lapse filmé en plongée montre la mise en place d'un service brunch. Les mains des cuisiniers apparaissent et disparaissent, déposant assiettes, couverts, garnitures. Le comptoir se remplit progressivement. La caméra fixe capture l'accumulation satisfaisante d'éléments visuels.",
+    visualTechniques: [
+      { name: "Time-lapse", confidence: 96 },
+      { name: "Plongée (vue aérienne)", confidence: 94 },
+      { name: "Plan fixe", confidence: 91 },
+      { name: "Montage accéléré", confidence: 87 },
+      { name: "Composition symétrique", confidence: 72 },
+    ],
+    whyViral:
+      "Le time-lapse transforme un processus ordinaire en spectacle visuel. L'accumulation progressive déclenche un sentiment de satisfaction. Le format BTS humanise la marque. La vue aérienne donne une perspective rarement accessible au client. La musique synchronisée crée un effet mémorable.",
+    keyElements: {
+      colorPalette: "Palette vive et naturelle : vert avocat, orange saumon, blanc crème, brun pain. Contraste fort entre les aliments et le plan de travail neutre.",
+      lighting: "Éclairage mixte : LED de cuisine + lumière naturelle. Température chaude. Ombres douces donnant du volume aux plats.",
+      composition: "Vue zénithale centrée sur le plan de travail. Symétrie dans le placement des assiettes. Mouvement des mains crée un flux dynamique.",
+      rhythm: "Accélération ×8 du temps réel. Coupes régulières entre les phases de préparation. Rythme crescendo.",
+    },
+    recreationSteps: [
+      "Fixez votre téléphone en position zénithale avec un trépied ou un bras articulé.",
+      "Nettoyez parfaitement votre plan de travail — il sera visible tout au long de la vidéo.",
+      "Utilisez le mode time-lapse natif ou filmez en temps réel pour accélérer en post-production.",
+      "Demandez à votre équipe de travailler normalement — pas besoin de chorégraphier.",
+      "Filmez tout le service de la première assiette à la dernière (30-60 min de rush).",
+      "En post-production, accélérez ×8 à ×12. Ajoutez une musique entraînante.",
+      "Ajoutez un compteur d'assiettes en overlay pour gamifier le visionnage.",
+    ],
+  },
+  205: {
+    videoId: 205,
+    sceneDescription:
+      "Gros plan macro sur un croissant chaud sortant du four. Une cuillère verse lentement du chocolat fondu sur la surface croustillante. Le chocolat coule le long des couches feuilletées. La vapeur monte doucement. Pas de parole — uniquement le son du craquement et du chocolat qui coule.",
+    visualTechniques: [
+      { name: "Plan macro / Ultra gros plan", confidence: 96 },
+      { name: "Slow-motion", confidence: 93 },
+      { name: "ASMR (son amplifié)", confidence: 91 },
+      { name: "Bokeh d'arrière-plan", confidence: 85 },
+      { name: "Éclairage latéral dramatique", confidence: 80 },
+    ],
+    whyViral:
+      "Le food porn en macro active des réponses sensorielles puissantes. Le slow-motion crée un moment de suspense et de satisfaction. L'ASMR du craquement est profondément satisfaisant. La simplicité du concept le rend universellement compréhensible. Le format court incite au partage.",
+    keyElements: {
+      colorPalette: "Brun doré du croissant, brun foncé du chocolat, blanc crème de la vapeur. Palette monochrome chaleureuse évoquant le luxe accessible.",
+      lighting: "Éclairage latéral unique, chaud (3200K). Ombres dramatiques sur les couches du croissant. Contraste volontairement fort.",
+      composition: "Le croissant occupe 80% du cadre. Profondeur de champ très faible (bokeh prononcé). Point de mise au point sur la zone de coulée.",
+      rhythm: "Slow-motion ×2 au moment de la coulée. Vitesse normale pour l'intro. Un seul geste, un seul plan.",
+    },
+    recreationSteps: [
+      "Sortez un croissant du four et agissez immédiatement — la vapeur disparaît vite.",
+      "Placez votre téléphone très proche (10-15cm). Activez le mode macro si disponible.",
+      "Utilisez une seule source de lumière latérale. Éteignez tout le reste.",
+      "Filmez en slow-motion (120fps ou 240fps). Le ralenti est essentiel.",
+      "Versez le chocolat lentement avec une cuillère. Le geste doit être fluide et continu.",
+      "Capturez le son séparément avec un micro externe si possible.",
+      "En post-production, ajustez la chaleur des couleurs (+15% warmth). N'ajoutez PAS de musique.",
+    ],
+  },
+};
