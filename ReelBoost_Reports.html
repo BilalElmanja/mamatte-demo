@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReelBoost — Rapports</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Manrope','system-ui','sans-serif'],serif:['Playfair Display','Georgia','serif']},colors:{cream:'#FAF8F5',beige:'#F0EBE3',stone:'#E8E2DA',gold:'#C8A97E',golddark:'#A68B5B',goldlight:'#D4BC99',ink:'#1A1A1A',inksoft:'#2D2D2D',muted:'#8B8680',faded:'#B5AFA8'}}}}</script>
+<style>
+@keyframes slideUpBlur{0%{opacity:0;transform:translateY(20px);filter:blur(8px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes cardIn{0%{opacity:0;transform:translateY(14px) scale(.98)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes sectionIn{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+
+.anim-up{animation:slideUpBlur .7s cubic-bezier(.16,1,.3,1) both}
+.anim-up-1{animation:slideUpBlur .7s .06s cubic-bezier(.16,1,.3,1) both}
+.anim-up-2{animation:slideUpBlur .7s .12s cubic-bezier(.16,1,.3,1) both}
+.anim-section{animation:sectionIn .5s cubic-bezier(.16,1,.3,1) both}
+
+.sidebar-item{transition:all .25s cubic-bezier(.16,1,.3,1);border-left:3px solid transparent}
+.sidebar-item:hover{background:rgba(26,26,26,.03)}
+.sidebar-item.active{background:rgba(26,26,26,.05);border-left-color:#1A1A1A;color:#1A1A1A;font-weight:600}
+
+.report-card{transition:all .4s cubic-bezier(.16,1,.3,1);animation:cardIn .6s cubic-bezier(.16,1,.3,1) both;cursor:pointer}
+.report-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.06)}
+.report-card.active{border-color:#1A1A1A;box-shadow:0 0 0 2px rgba(26,26,26,.06)}
+
+.section-card{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.section-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.04)}
+
+.topic-row{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.topic-row:hover{background:rgba(26,26,26,.03);transform:translateX(3px)}
+
+.word-pill{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.word-pill:hover{background:#1A1A1A;color:white;transform:scale(1.05)}
+
+.btn-ghost{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.btn-ghost:hover{color:#1A1A1A}
+
+.toast{transition:all .4s cubic-bezier(.16,1,.3,1)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#E8E2DA;border-radius:2px}
+@media(max-width:767px){.sidebar{transform:translateX(-100%);position:fixed;z-index:200;height:100vh;top:0;left:0}.sidebar.open{transform:translateX(0)}.bottom-nav{display:flex !important}.mobile-topbar{display:flex !important}}
+@media(min-width:768px){.bottom-nav{display:none !important}.mobile-topbar{display:none !important}}
+@media(min-width:768px) and (max-width:1023px){.sidebar{width:72px !important}.sidebar .lbl,.sidebar .logo-text,.sidebar .sidebar-footer-info{display:none}.sidebar-item{justify-content:center;padding-left:0;padding-right:0}}
+</style>
+</head>
+<body class="min-h-screen font-sans antialiased overflow-x-hidden bg-cream">
+
+<!-- SIDEBAR -->
+<aside class="sidebar fixed top-0 left-0 h-screen w-[240px] bg-white border-r border-stone/50 flex flex-col z-50 transition-transform duration-300" id="sidebar"><div class="px-5 py-5 flex items-center gap-2.5 border-b border-stone/40"><div class="w-8 h-8 bg-ink rounded-lg flex items-center justify-center flex-shrink-0 shadow-md shadow-ink/10"><iconify-icon icon="solar:cup-hot-bold" width="16" class="text-white"></iconify-icon></div><div class="logo-text min-w-0"><p class="text-sm font-bold tracking-tight text-ink leading-none">ReelBoost</p><p class="text-[11px] text-muted truncate mt-0.5">@mamatte.brunch.cafe</p></div></div><nav class="flex-1 py-3 px-2 flex flex-col gap-0.5 overflow-y-auto"><a href="ReelBoost_Dashboard.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:widget-2-linear" width="20"></iconify-icon><span class="lbl">Tableau de bord</span></a><a href="ReelBoost_Ideas.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:lightbulb-linear" width="20"></iconify-icon><span class="lbl">Idées</span></a><a href="ReelBoost_Competitors.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="20"></iconify-icon><span class="lbl">Concurrents</span></a><a href="ReelBoost_MyReels.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:reel-linear" width="20"></iconify-icon><span class="lbl">Mes Reels</span></a><a href="ReelBoost_Outliers.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:fire-linear" width="20"></iconify-icon><span class="lbl">Outliers</span></a><a href="#" class="sidebar-item active rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:chart-2-linear" width="20"></iconify-icon><span class="lbl">Rapports</span></a><a href="ReelBoost_Scripts.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:document-text-linear" width="20"></iconify-icon><span class="lbl">Scripts</span></a><div class="my-2 mx-3 h-px bg-stone/40"></div><a href="ReelBoost_Settings.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:settings-linear" width="20"></iconify-icon><span class="lbl">Paramètres</span></a></nav><div class="px-4 py-4 border-t border-stone/40 flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-xs font-bold text-white flex-shrink-0">M</div><div class="sidebar-footer-info min-w-0"><p class="text-xs font-semibold text-ink truncate">Mamatte Longueau</p></div></div></aside>
+
+<!-- MOBILE -->
+<header class="mobile-topbar hidden fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-lg border-b border-stone/40 z-40 items-center justify-between px-4"><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-beige"><iconify-icon icon="solar:hamburger-menu-linear" width="20" class="text-ink"></iconify-icon></button><span class="text-sm font-bold text-ink">Rapports</span><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-[10px] font-bold text-white">M</div></header>
+<nav class="bottom-nav hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-lg border-t border-stone/40 z-40 items-center justify-around px-2"><a href="ReelBoost_Dashboard.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:widget-2-linear" width="22"></iconify-icon><span class="text-[9px]">Accueil</span></a><a href="ReelBoost_Ideas.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:lightbulb-linear" width="22"></iconify-icon><span class="text-[9px]">Idées</span></a><a href="ReelBoost_Competitors.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="22"></iconify-icon><span class="text-[9px]">Rivaux</span></a><a href="ReelBoost_MyReels.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:reel-linear" width="22"></iconify-icon><span class="text-[9px]">Reels</span></a><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:menu-dots-bold" width="22"></iconify-icon><span class="text-[9px]">Plus</span></button></nav>
+
+<!-- MAIN -->
+<main class="md:ml-[240px] lg:ml-[240px] md:max-lg:ml-[72px] min-h-screen pt-14 md:pt-0 pb-20 md:pb-0">
+<div class="max-w-[1100px] mx-auto px-5 md:px-8 py-6 md:py-8">
+
+  <!-- Header -->
+  <div class="mb-6 anim-up">
+    <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-ink">Rapports <span class="font-serif italic text-gold">hebdomadaires</span></h1>
+    <p class="text-sm text-muted mt-1">Analyse des tendances et patterns de vos concurrents</p>
+  </div>
+
+  <!-- LIST VIEW -->
+  <div id="list-view">
+    <!-- Report cards -->
+    <div class="flex flex-col gap-3 anim-up-1" id="report-list">
+      <div class="report-card bg-white rounded-2xl border border-stone/40 p-5 flex items-center gap-4" style="animation-delay:0s" onclick="showReport(0)">
+        <div class="w-11 h-11 bg-gold/15 rounded-xl flex items-center justify-center flex-shrink-0"><iconify-icon icon="solar:chart-2-linear" width="22" class="text-golddark"></iconify-icon></div>
+        <div class="flex-1 min-w-0">
+          <p class="text-[15px] font-bold text-ink">Semaine du 17 Fév. 2026</p>
+          <p class="text-[12px] text-muted mt-0.5">3 sujets gagnants · 5 structures de hook · 12 power words</p>
+        </div>
+        <span class="text-[10px] font-bold text-gold bg-gold/10 px-2 py-1 rounded-md flex-shrink-0 hidden sm:block">Nouveau</span>
+        <iconify-icon icon="solar:arrow-right-linear" width="16" class="text-faded flex-shrink-0"></iconify-icon>
+      </div>
+      <div class="report-card bg-white rounded-2xl border border-stone/40 p-5 flex items-center gap-4" style="animation-delay:.06s" onclick="showReport(1)">
+        <div class="w-11 h-11 bg-beige rounded-xl flex items-center justify-center flex-shrink-0"><iconify-icon icon="solar:chart-2-linear" width="22" class="text-muted"></iconify-icon></div>
+        <div class="flex-1 min-w-0">
+          <p class="text-[15px] font-bold text-ink">Semaine du 10 Fév. 2026</p>
+          <p class="text-[12px] text-muted mt-0.5">4 sujets gagnants · 3 structures de hook · 10 power words</p>
+        </div>
+        <iconify-icon icon="solar:arrow-right-linear" width="16" class="text-faded flex-shrink-0"></iconify-icon>
+      </div>
+      <div class="report-card bg-white rounded-2xl border border-stone/40 p-5 flex items-center gap-4" style="animation-delay:.12s" onclick="showReport(2)">
+        <div class="w-11 h-11 bg-beige rounded-xl flex items-center justify-center flex-shrink-0"><iconify-icon icon="solar:chart-2-linear" width="22" class="text-muted"></iconify-icon></div>
+        <div class="flex-1 min-w-0">
+          <p class="text-[15px] font-bold text-ink">Semaine du 3 Fév. 2026</p>
+          <p class="text-[12px] text-muted mt-0.5">2 sujets gagnants · 4 structures de hook · 8 power words</p>
+        </div>
+        <iconify-icon icon="solar:arrow-right-linear" width="16" class="text-faded flex-shrink-0"></iconify-icon>
+      </div>
+      <div class="report-card bg-white rounded-2xl border border-stone/40 p-5 flex items-center gap-4" style="animation-delay:.18s" onclick="showReport(3)">
+        <div class="w-11 h-11 bg-beige rounded-xl flex items-center justify-center flex-shrink-0"><iconify-icon icon="solar:chart-2-linear" width="22" class="text-muted"></iconify-icon></div>
+        <div class="flex-1 min-w-0">
+          <p class="text-[15px] font-bold text-ink">Semaine du 27 Jan. 2026</p>
+          <p class="text-[12px] text-muted mt-0.5">3 sujets gagnants · 2 structures de hook · 9 power words</p>
+        </div>
+        <iconify-icon icon="solar:arrow-right-linear" width="16" class="text-faded flex-shrink-0"></iconify-icon>
+      </div>
+    </div>
+
+    <div class="text-center py-6">
+      <button class="btn-ghost text-sm font-semibold text-muted flex items-center gap-2 mx-auto"><iconify-icon icon="solar:arrow-down-linear" width="16"></iconify-icon>Charger plus</button>
+    </div>
+  </div>
+
+  <!-- DETAIL VIEW (hidden initially) -->
+  <div id="detail-view" class="hidden">
+    <button onclick="backToList()" class="inline-flex items-center gap-2 text-sm font-medium text-muted hover:text-ink transition-colors mb-6 anim-up">
+      <iconify-icon icon="solar:arrow-left-linear" width="16"></iconify-icon>Retour aux rapports
+    </button>
+
+    <div class="mb-6 anim-up">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-gold/15 rounded-xl flex items-center justify-center"><iconify-icon icon="solar:chart-2-linear" width="20" class="text-golddark"></iconify-icon></div>
+        <div><p class="text-xs font-bold text-gold uppercase tracking-wider">Rapport patterns</p><h2 class="text-xl font-bold text-ink" id="detail-title">Semaine du 17 Fév. 2026</h2></div>
+      </div>
+    </div>
+
+    <!-- Top Competitor Reels -->
+    <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6 mb-4 anim-section" style="animation-delay:.05s">
+      <h3 class="text-sm font-bold text-ink flex items-center gap-2 mb-4"><span class="text-base">🏆</span>Top Reels concurrents</h3>
+      <div class="space-y-3">
+        <div class="topic-row rounded-xl px-3 py-3 flex items-start gap-3">
+          <span class="w-6 h-6 bg-gold/15 rounded-full flex items-center justify-center text-[10px] font-bold text-golddark flex-shrink-0 mt-0.5">1</span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1"><span class="text-xs font-bold text-ink">@columbus_cafe_fr</span><span class="text-xs text-muted">— 245K vues</span></div>
+            <p class="text-[13px] font-semibold text-ink">« Personne ne parle de cette technique de latte art »</p>
+            <p class="text-[12px] text-muted italic mt-0.5">→ Curiosity gap + démonstration de compétence professionnelle</p>
+          </div>
+        </div>
+        <div class="topic-row rounded-xl px-3 py-3 flex items-start gap-3">
+          <span class="w-6 h-6 bg-beige rounded-full flex items-center justify-center text-[10px] font-bold text-inksoft flex-shrink-0 mt-0.5">2</span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1"><span class="text-xs font-bold text-ink">@cafe_joyeux</span><span class="text-xs text-muted">— 89K vues</span></div>
+            <p class="text-[13px] font-semibold text-ink">« 3 choses que j'aurais voulu savoir avant d'ouvrir mon café »</p>
+            <p class="text-[12px] text-muted italic mt-0.5">→ Format listicle + vulnérabilité personnelle</p>
+          </div>
+        </div>
+        <div class="topic-row rounded-xl px-3 py-3 flex items-start gap-3">
+          <span class="w-6 h-6 bg-beige rounded-full flex items-center justify-center text-[10px] font-bold text-inksoft flex-shrink-0 mt-0.5">3</span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1"><span class="text-xs font-bold text-ink">@columbus_cafe_fr</span><span class="text-xs text-muted">— 67K vues</span></div>
+            <p class="text-[13px] font-semibold text-ink">« Ce client a commandé LE truc le plus bizarre »</p>
+            <p class="text-[12px] text-muted italic mt-0.5">→ Curiosité + transgression sociale</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Winning Topics -->
+    <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6 mb-4 anim-section" style="animation-delay:.1s">
+      <h3 class="text-sm font-bold text-ink flex items-center gap-2 mb-4"><span class="text-base">📈</span>Sujets gagnants cette semaine</h3>
+      <div class="space-y-3">
+        <div class="topic-row rounded-xl px-3 py-3">
+          <div class="flex items-center gap-2 mb-1"><p class="text-[14px] font-semibold text-ink">Coulisses de la préparation matinale</p><span class="text-[10px] font-bold text-muted bg-beige px-2 py-0.5 rounded">7 Reels</span></div>
+          <p class="text-[12px] text-muted">Le contenu brut de cuisine surperforme le contenu produit. Les spectateurs veulent l'authenticité du « vrai travail ».</p>
+        </div>
+        <div class="topic-row rounded-xl px-3 py-3">
+          <div class="flex items-center gap-2 mb-1"><p class="text-[14px] font-semibold text-ink">Processus latte art en vidéo</p><span class="text-[10px] font-bold text-muted bg-beige px-2 py-0.5 rounded">5 Reels</span></div>
+          <p class="text-[12px] text-muted">Les vidéos ASMR de latte art en plongée font 3,1x le taux de complétion moyen.</p>
+        </div>
+        <div class="topic-row rounded-xl px-3 py-3">
+          <div class="flex items-center gap-2 mb-1"><p class="text-[14px] font-semibold text-ink">Réactions clients aux nouveaux produits</p><span class="text-[10px] font-bold text-muted bg-beige px-2 py-0.5 rounded">4 Reels</span></div>
+          <p class="text-[12px] text-muted">Les tests de dégustation « dans la rue » génèrent +45% d'engagement. Le format réaction est universellement apprécié.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hook Structures -->
+    <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6 mb-4 anim-section" style="animation-delay:.15s">
+      <h3 class="text-sm font-bold text-ink flex items-center gap-2 mb-4"><span class="text-base">🎣</span>Structures de hooks qui convertissent</h3>
+      <div class="space-y-3">
+        <div class="topic-row rounded-xl px-3 py-3 flex items-start gap-3">
+          <div class="flex-1">
+            <p class="text-[14px] font-semibold text-ink mb-1">Pression temporelle + révélation</p>
+            <p class="text-[12px] text-muted italic mb-1.5">« Tu as X secondes avant que… »</p>
+          </div>
+          <span class="text-[11px] font-bold text-gold bg-gold/10 px-2.5 py-1 rounded-lg flex-shrink-0">×2,8 vues</span>
+        </div>
+        <div class="topic-row rounded-xl px-3 py-3 flex items-start gap-3">
+          <div class="flex-1">
+            <p class="text-[14px] font-semibold text-ink mb-1">Question + curiosité</p>
+            <p class="text-[12px] text-muted italic mb-1.5">« Et si je vous disais que… » / « Savez-vous pourquoi… »</p>
+          </div>
+          <span class="text-[11px] font-bold text-gold bg-gold/10 px-2.5 py-1 rounded-lg flex-shrink-0">×2,1 vues</span>
+        </div>
+        <div class="topic-row rounded-xl px-3 py-3 flex items-start gap-3">
+          <div class="flex-1">
+            <p class="text-[14px] font-semibold text-ink mb-1">Listicle insider</p>
+            <p class="text-[12px] text-muted italic mb-1.5">« 3 choses que… » / « X choses que personne ne… »</p>
+          </div>
+          <span class="text-[11px] font-bold text-gold bg-gold/10 px-2.5 py-1 rounded-lg flex-shrink-0">×1,9 vues</span>
+        </div>
+        <div class="topic-row rounded-xl px-3 py-3 flex items-start gap-3">
+          <div class="flex-1">
+            <p class="text-[14px] font-semibold text-ink mb-1">Polémique douce + transparence</p>
+            <p class="text-[12px] text-muted italic mb-1.5">« La vérité sur… » / « Pourquoi notre X coûte Y€ »</p>
+          </div>
+          <span class="text-[11px] font-bold text-gold bg-gold/10 px-2.5 py-1 rounded-lg flex-shrink-0">×1,7 vues</span>
+        </div>
+        <div class="topic-row rounded-xl px-3 py-3 flex items-start gap-3">
+          <div class="flex-1">
+            <p class="text-[14px] font-semibold text-ink mb-1">Transformation / Avant-Après</p>
+            <p class="text-[12px] text-muted italic mb-1.5">« De X à Y en Z secondes » / « Regardez ce que… »</p>
+          </div>
+          <span class="text-[11px] font-bold text-gold bg-gold/10 px-2.5 py-1 rounded-lg flex-shrink-0">×1,5 vues</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom row: Emotional Triggers + Power Words -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+      <!-- Emotional Triggers -->
+      <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6 anim-section" style="animation-delay:.2s">
+        <h3 class="text-sm font-bold text-ink flex items-center gap-2 mb-4"><span class="text-base">💡</span>Déclencheurs émotionnels</h3>
+        <div class="flex flex-wrap gap-2">
+          <span class="bg-beige rounded-xl px-4 py-2 text-xs font-bold text-ink">😲 Curiosité</span>
+          <span class="bg-beige rounded-xl px-4 py-2 text-xs font-bold text-ink">⏰ Urgence</span>
+          <span class="bg-beige rounded-xl px-4 py-2 text-xs font-bold text-ink">😰 FOMO</span>
+          <span class="bg-beige rounded-xl px-4 py-2 text-xs font-bold text-ink">🤫 Exclusivité</span>
+          <span class="bg-beige rounded-xl px-4 py-2 text-xs font-bold text-ink">😍 Admiration</span>
+          <span class="bg-beige rounded-xl px-4 py-2 text-xs font-bold text-ink">🙌 Appartenance</span>
+        </div>
+      </div>
+
+      <!-- Power Words -->
+      <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6 anim-section" style="animation-delay:.25s">
+        <h3 class="text-sm font-bold text-ink flex items-center gap-2 mb-4"><span class="text-base">🔤</span>Top Power Words</h3>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="word-pill bg-beige/60 rounded-xl px-3 py-2 flex items-center justify-between"><span class="text-xs font-bold text-ink">secret</span><span class="text-[10px] font-bold text-gold bg-gold/10 px-1.5 py-0.5 rounded">12</span></div>
+          <div class="word-pill bg-beige/60 rounded-xl px-3 py-2 flex items-center justify-between"><span class="text-xs font-bold text-ink">avant</span><span class="text-[10px] font-bold text-gold bg-gold/10 px-1.5 py-0.5 rounded">8</span></div>
+          <div class="word-pill bg-beige/60 rounded-xl px-3 py-2 flex items-center justify-between"><span class="text-xs font-bold text-ink">personne</span><span class="text-[10px] font-bold text-gold bg-gold/10 px-1.5 py-0.5 rounded">7</span></div>
+          <div class="word-pill bg-beige/60 rounded-xl px-3 py-2 flex items-center justify-between"><span class="text-xs font-bold text-ink">seulement</span><span class="text-[10px] font-bold text-gold bg-gold/10 px-1.5 py-0.5 rounded">6</span></div>
+          <div class="word-pill bg-beige/60 rounded-xl px-3 py-2 flex items-center justify-between"><span class="text-xs font-bold text-ink">vérité</span><span class="text-[10px] font-bold text-gold bg-gold/10 px-1.5 py-0.5 rounded">5</span></div>
+          <div class="word-pill bg-beige/60 rounded-xl px-3 py-2 flex items-center justify-between"><span class="text-xs font-bold text-ink">enfin</span><span class="text-[10px] font-bold text-gold bg-gold/10 px-1.5 py-0.5 rounded">4</span></div>
+          <div class="word-pill bg-beige/60 rounded-xl px-3 py-2 flex items-center justify-between"><span class="text-xs font-bold text-ink">bizarre</span><span class="text-[10px] font-bold text-gold bg-gold/10 px-1.5 py-0.5 rounded">4</span></div>
+          <div class="word-pill bg-beige/60 rounded-xl px-3 py-2 flex items-center justify-between"><span class="text-xs font-bold text-ink">croire</span><span class="text-[10px] font-bold text-gold bg-gold/10 px-1.5 py-0.5 rounded">3</span></div>
+          <div class="word-pill bg-beige/60 rounded-xl px-3 py-2 flex items-center justify-between"><span class="text-xs font-bold text-ink">jamais</span><span class="text-[10px] font-bold text-gold bg-gold/10 px-1.5 py-0.5 rounded">3</span></div>
+          <div class="word-pill bg-beige/60 rounded-xl px-3 py-2 flex items-center justify-between"><span class="text-xs font-bold text-ink">gratuit</span><span class="text-[10px] font-bold text-gold bg-gold/10 px-1.5 py-0.5 rounded">2</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- TOAST -->
+<div id="toast" class="toast fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none translate-y-4 opacity-0"><div class="bg-ink text-white px-5 py-3 rounded-2xl text-sm font-medium flex items-center gap-2.5 shadow-2xl shadow-ink/20"><iconify-icon icon="solar:check-circle-bold" width="17"></iconify-icon><span id="toast-txt"></span></div></div>
+
+<script>
+const TITLES = ['Semaine du 17 Fév. 2026','Semaine du 10 Fév. 2026','Semaine du 3 Fév. 2026','Semaine du 27 Jan. 2026'];
+
+function showReport(idx) {
+  document.getElementById('list-view').classList.add('hidden');
+  document.getElementById('detail-view').classList.remove('hidden');
+  document.getElementById('detail-title').textContent = TITLES[idx];
+  // Re-trigger animations
+  document.querySelectorAll('.anim-section').forEach(el => {el.style.animation='none';el.offsetHeight;el.style.animation=''});
+  document.querySelectorAll('.anim-up').forEach(el => {el.style.animation='none';el.offsetHeight;el.style.animation=''});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function backToList() {
+  document.getElementById('detail-view').classList.add('hidden');
+  document.getElementById('list-view').classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+let toastTimer;function toast(m){clearTimeout(toastTimer);const el=document.getElementById('toast');document.getElementById('toast-txt').textContent=m;el.style.opacity='1';el.style.transform='translate(-50%,0)';toastTimer=setTimeout(()=>{el.style.opacity='0';el.style.transform='translate(-50%,8px)'},2800)}
+</script>
+</body>
+</html>

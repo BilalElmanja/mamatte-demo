@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReelBoost — Connexion & Configuration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>
+tailwind.config={theme:{extend:{fontFamily:{sans:['Manrope','system-ui','sans-serif'],serif:['Playfair Display','Georgia','serif']},colors:{
+  cream:'#FAF8F5',beige:'#F0EBE3',stone:'#E8E2DA',
+  gold:'#C8A97E',golddark:'#A68B5B',goldlight:'#D4BC99',
+  ink:'#1A1A1A',inksoft:'#2D2D2D',muted:'#8B8680',faded:'#B5AFA8',
+}}}}
+</script>
+<style>
+@keyframes slideUpBlur{0%{opacity:0;transform:translateY(30px);filter:blur(10px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes slideInRight{0%{opacity:0;transform:translateX(50px) scale(.97);filter:blur(6px)}100%{opacity:1;transform:translateX(0) scale(1);filter:blur(0)}}
+@keyframes slideOutLeft{0%{opacity:1;transform:translateX(0) scale(1);filter:blur(0)}100%{opacity:0;transform:translateX(-50px) scale(.97);filter:blur(6px)}}
+@keyframes fadeScale{0%{opacity:0;transform:scale(.94)}100%{opacity:1;transform:scale(1)}}
+@keyframes fadeOut{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.02)}}
+@keyframes sonarWave{0%{transform:scale(.9);opacity:.7}100%{transform:scale(2.5);opacity:0}}
+@keyframes checkBounce{0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.25) rotate(4deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+.anim-up{animation:slideUpBlur .8s cubic-bezier(.16,1,.3,1) both}
+.anim-up-1{animation:slideUpBlur .8s .1s cubic-bezier(.16,1,.3,1) both}
+.anim-up-2{animation:slideUpBlur .8s .2s cubic-bezier(.16,1,.3,1) both}
+.anim-up-3{animation:slideUpBlur .8s .3s cubic-bezier(.16,1,.3,1) both}
+.anim-up-4{animation:slideUpBlur .8s .4s cubic-bezier(.16,1,.3,1) both}
+.anim-in-right{animation:slideInRight .65s cubic-bezier(.16,1,.3,1) both}
+.anim-out-left{animation:slideOutLeft .4s cubic-bezier(.4,0,1,.5) both}
+.anim-fade{animation:fadeScale .5s cubic-bezier(.16,1,.3,1) both}
+.anim-check{animation:checkBounce .5s cubic-bezier(.34,1.56,.64,1) both}
+.anim-shake{animation:shake .5s cubic-bezier(.16,1,.3,1)}
+.float-1{animation:float 6s ease-in-out infinite}
+.float-2{animation:float 8s ease-in-out infinite;animation-delay:-2s}
+.float-3{animation:float 7s ease-in-out infinite;animation-delay:-4s}
+.sonar{animation:sonarWave 2s infinite cubic-bezier(.16,1,.3,1)}
+
+.glass{background:rgba(255,255,255,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.7)}
+.input-focus:focus{box-shadow:0 0 0 3px rgba(26,26,26,.06);border-color:#1A1A1A}
+.sel-card{transition:all .4s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.sel-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.06)}
+.sel-card.active{border-color:#1A1A1A !important;background:rgba(255,255,255,.8);box-shadow:0 0 0 3px rgba(26,26,26,.06),0 12px 40px rgba(0,0,0,.06);transform:translateY(-3px)}
+.btn-primary{transition:all .35s cubic-bezier(.16,1,.3,1)}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 12px 40px rgba(0,0,0,.15)}
+.btn-primary:active:not(:disabled){transform:translateY(0) scale(.98)}
+.btn-primary:disabled{opacity:.35;cursor:not-allowed}
+.btn-ghost{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.btn-ghost:hover{color:#1A1A1A}
+.api-card{transition:all .4s cubic-bezier(.16,1,.3,1)}
+.api-card.valid{border-color:#1A1A1A !important;background:rgba(255,255,255,.7)}
+.api-card.invalid{border-color:#dc2626 !important;background:rgba(254,242,242,.4)}
+.comp-row{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.comp-row:hover .comp-x{opacity:1;transform:scale(1)}
+.comp-x{opacity:0;transform:scale(.5);transition:all .25s cubic-bezier(.16,1,.3,1)}
+.prog-seg{transition:all .5s cubic-bezier(.16,1,.3,1)}
+.shimmer{background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);background-size:200% 100%;animation:shimmer 1.4s infinite}
+.toast{transition:all .4s cubic-bezier(.16,1,.3,1)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#E8E2DA;border-radius:3px}
+.page{display:none}.page.active{display:flex}
+.step{display:none}.step.active{display:block}
+</style>
+</head>
+<body class="min-h-screen font-sans antialiased overflow-x-hidden bg-cream">
+
+<!-- Floating orbs -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+  <div class="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-gold/10 via-beige/30 to-transparent blur-3xl float-1"></div>
+  <div class="absolute -bottom-48 -left-48 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-stone/40 via-transparent to-transparent blur-3xl float-2"></div>
+  <div class="absolute top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full bg-gold/5 blur-3xl float-3"></div>
+</div>
+
+<!-- ████ INSCRIPTION ████ -->
+<div id="pg-signup" class="page active min-h-screen flex-col items-center justify-center px-5 py-12 relative z-10">
+<div class="w-full max-w-[440px] mx-auto">
+  <div class="text-center mb-10">
+    <div class="inline-flex items-center gap-2.5 mb-8 anim-up">
+      <div class="w-10 h-10 bg-ink rounded-xl flex items-center justify-center shadow-lg shadow-ink/15">
+        <iconify-icon icon="solar:cup-hot-bold" width="20" class="text-white"></iconify-icon>
+      </div>
+      <span class="text-base font-bold tracking-tight text-ink">ReelBoost</span>
+    </div>
+    <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight text-ink leading-[.95] anim-up-1">Créez du contenu<br><span class="font-serif italic font-medium text-gold">viral.</span></h1>
+    <p class="text-muted mt-4 text-[15px] leading-relaxed anim-up-2">Des idées de Reels virales pour votre salon de thé — propulsées par l'IA et les données de vos concurrents.</p>
+  </div>
+  <div class="glass rounded-[2rem] p-8 sm:p-10 shadow-2xl shadow-black/[.03] anim-up-3">
+    <button onclick="go('pg-onboard')" class="group w-full flex items-center justify-center gap-3 bg-white border border-stone rounded-2xl px-6 py-[14px] text-sm font-semibold text-inksoft hover:bg-beige/30 hover:border-faded hover:shadow-lg transition-all duration-300">
+      <svg class="w-[18px] h-[18px] group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Continuer avec Google
+    </button>
+    <div class="flex items-center gap-4 my-7"><div class="flex-1 h-px bg-gradient-to-r from-transparent via-stone to-transparent"></div><span class="text-[10px] font-semibold text-faded uppercase tracking-[.2em]">ou</span><div class="flex-1 h-px bg-gradient-to-r from-transparent via-stone to-transparent"></div></div>
+    <form onsubmit="event.preventDefault();go('pg-onboard')" class="flex flex-col gap-5">
+      <div>
+        <label class="block text-[10px] font-bold text-muted uppercase tracking-[.15em] mb-2">E-mail</label>
+        <input type="email" required placeholder="vous@mamatte.fr" class="w-full bg-white/70 border border-stone rounded-xl px-4 py-3.5 text-sm text-ink placeholder:text-faded outline-none input-focus transition-all duration-300">
+      </div>
+      <div>
+        <label class="block text-[10px] font-bold text-muted uppercase tracking-[.15em] mb-2">Mot de passe</label>
+        <div class="relative">
+          <input id="su-pw" type="password" required placeholder="Min 8 caractères, 1 majuscule, 1 chiffre" class="w-full bg-white/70 border border-stone rounded-xl px-4 py-3.5 text-sm text-ink placeholder:text-faded outline-none input-focus transition-all duration-300 pr-11">
+          <button type="button" onclick="togglePw('su-pw',this)" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-faded hover:text-ink transition-colors"><iconify-icon icon="solar:eye-linear" width="18"></iconify-icon></button>
+        </div>
+        <p class="text-[11px] text-faded mt-1.5 ml-1">8+ caractères · 1 majuscule · 1 chiffre</p>
+      </div>
+      <button type="submit" class="btn-primary w-full bg-ink text-white rounded-xl px-6 py-4 text-sm font-semibold flex items-center justify-center gap-2 mt-1 group">Créer mon compte <iconify-icon icon="solar:arrow-right-linear" width="16" class="group-hover:translate-x-1 transition-transform duration-300"></iconify-icon></button>
+    </form>
+  </div>
+  <p class="text-center text-sm text-muted mt-7 anim-up-4">Vous avez déjà un compte ? <button onclick="go('pg-signin')" class="font-semibold text-ink hover:text-gold transition-colors underline decoration-stone underline-offset-[3px] hover:decoration-gold ml-1">Se connecter</button></p>
+</div>
+</div>
+
+<!-- ████ CONNEXION ████ -->
+<div id="pg-signin" class="page min-h-screen flex-col items-center justify-center px-5 py-12 relative z-10">
+<div class="w-full max-w-[440px] mx-auto">
+  <div class="text-center mb-10">
+    <div class="inline-flex items-center gap-2.5 mb-8 anim-up"><div class="w-10 h-10 bg-ink rounded-xl flex items-center justify-center shadow-lg shadow-ink/15"><iconify-icon icon="solar:cup-hot-bold" width="20" class="text-white"></iconify-icon></div><span class="text-base font-bold tracking-tight text-ink">ReelBoost</span></div>
+    <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight text-ink leading-[.95] anim-up-1">Content de vous<br><span class="font-serif italic font-medium text-gold">revoir.</span></h1>
+    <p class="text-muted mt-4 text-[15px] anim-up-2">Votre prochaine idée virale vous attend</p>
+  </div>
+  <div class="glass rounded-[2rem] p-8 sm:p-10 shadow-2xl shadow-black/[.03] anim-up-3">
+    <button onclick="go('pg-onboard')" class="group w-full flex items-center justify-center gap-3 bg-white border border-stone rounded-2xl px-6 py-[14px] text-sm font-semibold text-inksoft hover:bg-beige/30 hover:border-faded hover:shadow-lg transition-all duration-300">
+      <svg class="w-[18px] h-[18px] group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Continuer avec Google
+    </button>
+    <div class="flex items-center gap-4 my-7"><div class="flex-1 h-px bg-gradient-to-r from-transparent via-stone to-transparent"></div><span class="text-[10px] font-semibold text-faded uppercase tracking-[.2em]">ou</span><div class="flex-1 h-px bg-gradient-to-r from-transparent via-stone to-transparent"></div></div>
+    <form onsubmit="event.preventDefault();go('pg-onboard')" class="flex flex-col gap-5">
+      <div><label class="block text-[10px] font-bold text-muted uppercase tracking-[.15em] mb-2">E-mail</label><input type="email" required placeholder="vous@mamatte.fr" class="w-full bg-white/70 border border-stone rounded-xl px-4 py-3.5 text-sm text-ink placeholder:text-faded outline-none input-focus transition-all duration-300"></div>
+      <div><label class="block text-[10px] font-bold text-muted uppercase tracking-[.15em] mb-2">Mot de passe</label><div class="relative"><input id="si-pw" type="password" required placeholder="Votre mot de passe" class="w-full bg-white/70 border border-stone rounded-xl px-4 py-3.5 text-sm text-ink placeholder:text-faded outline-none input-focus transition-all duration-300 pr-11"><button type="button" onclick="togglePw('si-pw',this)" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-faded hover:text-ink transition-colors"><iconify-icon icon="solar:eye-linear" width="18"></iconify-icon></button></div><div class="flex justify-end mt-1.5"><button type="button" class="text-[11px] font-medium text-muted hover:text-ink transition-colors">Mot de passe oublié ?</button></div></div>
+      <button type="submit" class="btn-primary w-full bg-ink text-white rounded-xl px-6 py-4 text-sm font-semibold flex items-center justify-center gap-2 mt-1 group">Se connecter <iconify-icon icon="solar:arrow-right-linear" width="16" class="group-hover:translate-x-1 transition-transform duration-300"></iconify-icon></button>
+    </form>
+  </div>
+  <p class="text-center text-sm text-muted mt-7 anim-up-4">Pas encore de compte ? <button onclick="go('pg-signup')" class="font-semibold text-ink hover:text-gold transition-colors underline decoration-stone underline-offset-[3px] hover:decoration-gold ml-1">S'inscrire</button></p>
+</div>
+</div>
+
+<!-- ████ ONBOARDING — 3 étapes ████ -->
+<div id="pg-onboard" class="page min-h-screen flex-col items-center px-5 py-8 sm:py-12 relative z-10">
+<div class="w-full max-w-[600px] mx-auto">
+  <div class="flex items-center justify-between mb-6 anim-up">
+    <div class="flex items-center gap-2"><div class="w-7 h-7 bg-ink rounded-md flex items-center justify-center"><iconify-icon icon="solar:cup-hot-bold" width="14" class="text-white"></iconify-icon></div><span class="text-sm font-bold tracking-tight text-ink">ReelBoost</span></div>
+    <span id="step-lbl" class="text-[10px] font-bold text-faded uppercase tracking-[.2em]">Étape 1 sur 3</span>
+  </div>
+  <div class="flex gap-1.5 mb-10 anim-up-1" id="prog-bar">
+    <div class="prog-seg h-1 flex-1 rounded-full bg-ink"></div>
+    <div class="prog-seg h-1 flex-1 rounded-full bg-stone"></div>
+    <div class="prog-seg h-1 flex-1 rounded-full bg-stone"></div>
+  </div>
+  <div id="steps" class="min-h-[480px]">
+
+    <!-- ÉTAPE 1: Langue -->
+    <div class="step active" data-step="1">
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-beige rounded-2xl mb-5"><iconify-icon icon="solar:globus-linear" width="28" class="text-ink"></iconify-icon></div>
+        <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-ink leading-[.95]">Quelle langue parlent vos<br><span class="font-serif italic font-medium text-gold">clients</span> ?</h2>
+        <p class="text-muted mt-3 text-sm max-w-sm mx-auto">Toutes les idées, scripts et rapports seront générés dans cette langue.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-4 max-w-xs mx-auto">
+        <button onclick="pickLang(this)" class="sel-card active glass rounded-2xl p-6 flex flex-col items-center gap-3 border-2 border-transparent" data-v="fr"><span class="text-4xl">🇫🇷</span><span class="font-semibold text-sm text-ink">Français</span><div class="ck w-5 h-5 bg-ink rounded-full flex items-center justify-center anim-check"><iconify-icon icon="solar:check-read-linear" width="11" class="text-white"></iconify-icon></div></button>
+        <button onclick="pickLang(this)" class="sel-card glass rounded-2xl p-6 flex flex-col items-center gap-3 border-2 border-transparent" data-v="en"><span class="text-4xl">🇬🇧</span><span class="font-semibold text-sm text-ink">English</span><div class="ck w-5 h-5 bg-ink rounded-full items-center justify-center hidden"><iconify-icon icon="solar:check-read-linear" width="11" class="text-white"></iconify-icon></div></button>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 2: Concurrents -->
+    <div class="step" data-step="2">
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-beige rounded-2xl mb-5"><iconify-icon icon="solar:users-group-rounded-linear" width="28" class="text-ink"></iconify-icon></div>
+        <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-ink leading-[.95]">Ajoutez les cafés que vous<br><span class="font-serif italic font-medium text-gold">admirez</span></h2>
+        <p class="text-muted mt-3 text-sm max-w-sm mx-auto">Nous analyserons leurs meilleurs Reels pour trouver des tendances que vous pouvez utiliser.</p>
+      </div>
+      <div class="glass rounded-2xl p-6 sm:p-8 max-w-md mx-auto">
+        <div class="flex gap-2">
+          <div class="flex items-center bg-white/70 border border-stone rounded-xl px-3.5 text-faded text-sm font-medium select-none">@</div>
+          <input id="comp-in" type="text" placeholder="nom_du_concurrent" class="flex-1 bg-white/70 border border-stone rounded-xl px-4 py-3.5 text-sm text-ink placeholder:text-faded outline-none input-focus transition-all duration-300 min-w-0">
+          <button onclick="addComp()" class="btn-primary bg-ink text-white px-5 py-3.5 rounded-xl text-xs font-bold whitespace-nowrap">Chercher</button>
+        </div>
+        <div id="comp-list" class="mt-5 flex flex-col gap-2"><p id="comp-empty" class="text-xs text-muted text-center py-5">Ajoutez au moins 1 concurrent pour de meilleurs résultats. Jusqu'à 10 au total.</p></div>
+        <div class="flex items-center justify-between mt-5 pt-4 border-t border-stone/50">
+          <span id="comp-ct" class="text-[11px] font-bold text-faded uppercase tracking-wider">0 / 10</span>
+          <button onclick="goStep(3)" class="btn-ghost text-xs text-muted flex items-center gap-1.5 transition-colors">Passer <iconify-icon icon="solar:arrow-right-linear" width="12"></iconify-icon></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 3: Clés API -->
+    <div class="step" data-step="3">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-gold/15 rounded-2xl mb-5"><iconify-icon icon="solar:key-minimalistic-linear" width="28" class="text-golddark"></iconify-icon></div>
+        <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-ink leading-[.95]">Connectez vos<br><span class="font-serif italic font-medium text-gold">services IA</span></h2>
+        <p class="text-muted mt-3 text-sm max-w-sm mx-auto">Fournissez vos propres clés API. Elles sont chiffrées et jamais partagées.</p>
+      </div>
+      <div class="flex flex-col gap-3 max-w-lg mx-auto">
+        <div class="api-card glass rounded-2xl p-5 border-2 border-transparent" id="ak-openai">
+          <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-3"><div class="w-9 h-9 bg-ink text-white rounded-xl flex items-center justify-center shadow-md"><iconify-icon icon="solar:magic-stick-3-linear" width="17"></iconify-icon></div><div><p class="font-semibold text-sm text-ink">OpenAI</p><p class="text-[11px] text-muted">Transcription, analyse & génération d'idées</p></div></div><span class="text-[9px] font-bold uppercase tracking-wider bg-ink/5 text-inksoft px-2 py-1 rounded-md">Requis</span></div>
+          <div class="flex gap-2"><input type="password" placeholder="sk-..." class="ak-input flex-1 bg-white/70 border border-stone rounded-lg px-3 py-2.5 text-xs font-mono text-ink placeholder:text-faded outline-none input-focus transition-all min-w-0"><button onclick="testKey(this,'ak-openai')" class="ak-btn text-xs font-semibold text-muted border border-stone rounded-lg px-4 py-2.5 hover:bg-white hover:border-ink/20 transition-all whitespace-nowrap">Tester</button></div>
+          <a href="https://platform.openai.com" target="_blank" class="inline-flex items-center gap-1 text-[11px] text-muted hover:text-ink transition-colors mt-2"><iconify-icon icon="solar:link-minimalistic-linear" width="11"></iconify-icon>Obtenir la clé → platform.openai.com</a>
+        </div>
+        <div class="api-card glass rounded-2xl p-5 border-2 border-transparent" id="ak-apify">
+          <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-3"><div class="w-9 h-9 bg-emerald-600 text-white rounded-xl flex items-center justify-center shadow-md"><iconify-icon icon="solar:radar-2-linear" width="17"></iconify-icon></div><div><p class="font-semibold text-sm text-ink">Apify</p><p class="text-[11px] text-muted">Scraping de Reels Instagram</p></div></div><span class="text-[9px] font-bold uppercase tracking-wider bg-ink/5 text-inksoft px-2 py-1 rounded-md">Requis</span></div>
+          <div class="flex gap-2"><input type="password" placeholder="apify_api_..." class="ak-input flex-1 bg-white/70 border border-stone rounded-lg px-3 py-2.5 text-xs font-mono text-ink placeholder:text-faded outline-none input-focus transition-all min-w-0"><button onclick="testKey(this,'ak-apify')" class="ak-btn text-xs font-semibold text-muted border border-stone rounded-lg px-4 py-2.5 hover:bg-white hover:border-ink/20 transition-all whitespace-nowrap">Tester</button></div>
+          <a href="https://console.apify.com" target="_blank" class="inline-flex items-center gap-1 text-[11px] text-muted hover:text-ink transition-colors mt-2"><iconify-icon icon="solar:link-minimalistic-linear" width="11"></iconify-icon>Obtenir le token → console.apify.com</a>
+        </div>
+        <div class="api-card glass rounded-2xl p-5 border-2 border-transparent" id="ak-rapid">
+          <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-3"><div class="w-9 h-9 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-md"><iconify-icon icon="solar:bolt-circle-linear" width="17"></iconify-icon></div><div><p class="font-semibold text-sm text-ink">RapidAPI</p><p class="text-[11px] text-muted">Recherche de profils Instagram</p></div></div><span class="text-[9px] font-bold uppercase tracking-wider bg-ink/5 text-inksoft px-2 py-1 rounded-md">Requis</span></div>
+          <div class="flex gap-2"><input type="password" placeholder="Votre clé RapidAPI" class="ak-input flex-1 bg-white/70 border border-stone rounded-lg px-3 py-2.5 text-xs font-mono text-ink placeholder:text-faded outline-none input-focus transition-all min-w-0"><button onclick="testKey(this,'ak-rapid')" class="ak-btn text-xs font-semibold text-muted border border-stone rounded-lg px-4 py-2.5 hover:bg-white hover:border-ink/20 transition-all whitespace-nowrap">Tester</button></div>
+          <a href="https://rapidapi.com" target="_blank" class="inline-flex items-center gap-1 text-[11px] text-muted hover:text-ink transition-colors mt-2"><iconify-icon icon="solar:link-minimalistic-linear" width="11"></iconify-icon>Obtenir la clé → rapidapi.com</a>
+        </div>
+        <div class="api-card glass rounded-2xl p-5 border-2 border-transparent opacity-50 hover:opacity-100 transition-opacity duration-300" id="ak-resend">
+          <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-3"><div class="w-9 h-9 bg-stone text-muted rounded-xl flex items-center justify-center"><iconify-icon icon="solar:letter-linear" width="17"></iconify-icon></div><div><p class="font-semibold text-sm text-ink">Resend</p><p class="text-[11px] text-muted">Rapports hebdomadaires par e-mail</p></div></div><span class="text-[9px] font-bold uppercase tracking-wider bg-stone text-faded px-2 py-1 rounded-md">Optionnel</span></div>
+          <div class="flex gap-2"><input type="password" placeholder="re_..." class="ak-input flex-1 bg-white/70 border border-stone rounded-lg px-3 py-2.5 text-xs font-mono text-ink placeholder:text-faded outline-none input-focus transition-all min-w-0"><button onclick="testKey(this,'ak-resend')" class="ak-btn text-xs font-semibold text-muted border border-stone rounded-lg px-4 py-2.5 hover:bg-white hover:border-ink/20 transition-all whitespace-nowrap">Tester</button></div>
+          <p class="text-[11px] text-muted mt-2">Passez si vous n'avez pas besoin des rapports par e-mail.</p>
+        </div>
+        <p class="text-center text-[11px] text-muted mt-1 flex items-center justify-center gap-1.5"><iconify-icon icon="solar:shield-check-linear" width="13" class="text-gold"></iconify-icon>Chiffrées et stockées en sécurité. Jamais partagées.</p>
+      </div>
+    </div>
+
+    <!-- TERMINÉ -->
+    <div class="step" data-step="4">
+      <div class="text-center py-4 sm:py-8">
+        <div class="relative inline-flex items-center justify-center mb-8"><div class="absolute w-20 h-20 bg-ink/10 rounded-full sonar"></div><div class="relative w-16 h-16 bg-ink rounded-full flex items-center justify-center anim-check shadow-xl shadow-ink/20"><iconify-icon icon="solar:check-read-bold" width="28" class="text-white"></iconify-icon></div></div>
+        <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-ink leading-[.95] mb-3">Tout est <span class="font-serif italic font-medium text-gold">prêt !</span></h2>
+        <p class="text-muted text-[15px] max-w-sm mx-auto mb-10">ReelBoost analyse votre contenu et celui de vos concurrents. Vos 10 premières idées virales seront prêtes dans environ 10 minutes.</p>
+        <div class="glass rounded-2xl p-5 max-w-xs mx-auto mb-10 shadow-lg shadow-black/[.03]">
+          <div class="flex items-center gap-3 mb-4"><div class="w-8 h-8 bg-ink text-white rounded-lg flex items-center justify-center"><iconify-icon icon="solar:refresh-linear" width="15" class="animate-spin" style="animation-duration:2s"></iconify-icon></div><div class="text-left"><p class="text-xs font-bold text-ink">Analyse en cours...</p><p class="text-[11px] text-muted" id="pipe-lbl">Étape 1 sur 3 — Scraping de vos Reels</p></div></div>
+          <div class="h-1.5 bg-stone rounded-full overflow-hidden"><div id="pipe-bar" class="h-full bg-ink rounded-full transition-all duration-[1500ms] ease-out" style="width:12%"></div></div>
+        </div>
+        <div class="flex flex-col gap-3 max-w-xs mx-auto text-left mb-10">
+          <div class="flex items-start gap-3"><div class="w-6 h-6 bg-ink/5 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0"><span class="text-[10px] font-bold text-inksoft">1</span></div><p class="text-sm text-muted">Scraping de vos derniers Reels et ceux de vos concurrents</p></div>
+          <div class="flex items-start gap-3"><div class="w-6 h-6 bg-ink/5 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0"><span class="text-[10px] font-bold text-inksoft">2</span></div><p class="text-sm text-muted">L'IA transcrit et analyse les hooks & tendances</p></div>
+          <div class="flex items-start gap-3"><div class="w-6 h-6 bg-ink/5 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0"><span class="text-[10px] font-bold text-inksoft">3</span></div><p class="text-sm text-muted">Génération de vos 10 premières idées virales</p></div>
+        </div>
+        <button onclick="alert('→ /dashboard')" class="btn-primary bg-ink text-white px-10 py-4 rounded-full font-semibold text-sm inline-flex items-center gap-2 group shadow-xl shadow-ink/10">Aller au Tableau de bord <iconify-icon icon="solar:arrow-right-linear" width="16" class="group-hover:translate-x-1 transition-transform duration-300"></iconify-icon></button>
+      </div>
+    </div>
+  </div>
+
+  <div id="ob-nav" class="flex items-center justify-between mt-10 pt-6 border-t border-stone/50 anim-up-2">
+    <button id="btn-back" onclick="prevStep()" class="btn-ghost text-sm font-medium text-muted flex items-center gap-2 invisible"><iconify-icon icon="solar:arrow-left-linear" width="16"></iconify-icon> Retour</button>
+    <button id="btn-next" onclick="nextStep()" class="btn-primary bg-ink text-white px-8 py-3.5 rounded-full text-sm font-semibold flex items-center gap-2 group ml-auto">Continuer <iconify-icon icon="solar:arrow-right-linear" width="16" class="group-hover:translate-x-1 transition-transform duration-300"></iconify-icon></button>
+  </div>
+</div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none translate-y-4 opacity-0"><div class="bg-ink text-white px-5 py-3 rounded-2xl text-sm font-medium flex items-center gap-2.5 shadow-2xl shadow-ink/20"><iconify-icon icon="solar:check-circle-bold" width="17"></iconify-icon><span id="toast-txt">Fait !</span></div></div>
+
+<script>
+function go(id){const cur=document.querySelector('.page.active');if(!cur||cur.id===id)return;cur.style.animation='fadeOut .3s ease-in forwards';setTimeout(()=>{cur.classList.remove('active');cur.style.animation='';const next=document.getElementById(id);next.classList.add('active');next.style.animation='fadeScale .5s cubic-bezier(.16,1,.3,1) forwards';next.querySelectorAll('[class*="anim-up"]').forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation=''});if(id==='pg-onboard'){curStep=1;renderStep()}window.scrollTo({top:0,behavior:'smooth'})},280)}
+function togglePw(id,btn){const inp=document.getElementById(id);const show=inp.type==='password';inp.type=show?'text':'password';btn.querySelector('iconify-icon').setAttribute('icon',show?'solar:eye-closed-linear':'solar:eye-linear')}
+let curStep=1;const TOTAL=3;
+function renderStep(){document.getElementById('step-lbl').textContent=curStep<=TOTAL?`Étape ${curStep} sur ${TOTAL}`:'Terminé !';document.querySelectorAll('#prog-bar .prog-seg').forEach((s,i)=>{s.style.background=i<curStep?'#1A1A1A':curStep>TOTAL?'#1A1A1A':'#E8E2DA'});document.getElementById('btn-back').classList.toggle('invisible',curStep<=1);const btn=document.getElementById('btn-next');btn.innerHTML=curStep===TOTAL?'Terminer <iconify-icon icon="solar:check-read-linear" width="16" class="group-hover:scale-110 transition-transform duration-300"></iconify-icon>':'Continuer <iconify-icon icon="solar:arrow-right-linear" width="16" class="group-hover:translate-x-1 transition-transform duration-300"></iconify-icon>';document.getElementById('ob-nav').classList.toggle('hidden',curStep>TOTAL)}
+function showStepAnim(n){const cur=document.querySelector('.step.active');if(cur){cur.classList.add('anim-out-left');setTimeout(()=>{cur.classList.remove('active','anim-out-left')},380)}setTimeout(()=>{const tgt=document.querySelector(`.step[data-step="${n}"]`);if(tgt){tgt.classList.add('active','anim-in-right');setTimeout(()=>tgt.classList.remove('anim-in-right'),650)}},400)}
+function goStep(n){curStep=n;showStepAnim(n);renderStep()}
+function nextStep(){if(curStep<TOTAL){curStep++;showStepAnim(curStep);renderStep()}else if(curStep===TOTAL){curStep=4;showStepAnim(4);renderStep();runPipeline()}}
+function prevStep(){if(curStep>1){curStep--;showStepAnim(curStep);renderStep()}}
+function pickLang(el){document.querySelectorAll('.sel-card[data-v]').forEach(c=>{c.classList.remove('active');const ck=c.querySelector('.ck');ck.classList.add('hidden');ck.classList.remove('flex')});el.classList.add('active');const ck=el.querySelector('.ck');ck.classList.remove('hidden');ck.classList.add('flex','anim-check')}
+const COMPS=[];const SAMPLE=[{n:'mamatte.brunch.cafe',f:'15.2K'},{n:'columbus_cafe_fr',f:'89K'},{n:'cafe_joyeux',f:'62.3K'},{n:'starbucks_fr',f:'245K'},{n:'coutume_cafe',f:'22.1K'},{n:'belleville_brulerie',f:'18.9K'}];let ci=0;
+function addComp(){if(COMPS.length>=10)return;const c=SAMPLE[ci%SAMPLE.length];ci++;COMPS.push(c);renderComps();toast(`@${c.n} ajouté !`);document.getElementById('comp-in').value=''}
+function rmComp(i){COMPS.splice(i,1);renderComps()}
+function renderComps(){const list=document.getElementById('comp-list');const emp=document.getElementById('comp-empty');list.querySelectorAll('.comp-row').forEach(r=>r.remove());if(!COMPS.length){emp.classList.remove('hidden')}else{emp.classList.add('hidden');COMPS.forEach((c,i)=>{const d=document.createElement('div');d.className='comp-row bg-white rounded-xl p-3 flex items-center gap-3 border border-stone/50 anim-fade shadow-sm';d.innerHTML=`<div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-xs font-bold text-white flex-shrink-0">${c.n[0].toUpperCase()}</div><div class="flex-1 min-w-0"><span class="text-sm font-semibold text-ink">@${c.n}</span><span class="text-xs text-muted ml-2">${c.f}</span></div><button onclick="rmComp(${i})" class="comp-x w-6 h-6 bg-red-50 rounded-full flex items-center justify-center text-red-400 hover:bg-red-100 hover:text-red-600 transition-all flex-shrink-0"><iconify-icon icon="solar:close-circle-linear" width="13"></iconify-icon></button>`;list.appendChild(d)})};document.getElementById('comp-ct').textContent=`${COMPS.length} / 10`}
+function testKey(btn,cardId){const card=document.getElementById(cardId);const inp=card.querySelector('.ak-input');if(!inp.value.trim()){card.classList.add('anim-shake','invalid');setTimeout(()=>card.classList.remove('anim-shake','invalid'),1500);return}btn.textContent='Test...';btn.disabled=true;card.style.borderColor='#C8A97E';setTimeout(()=>{card.style.borderColor='';card.classList.add('valid');btn.innerHTML='<iconify-icon icon="solar:check-circle-bold" width="13" class="text-green-600"></iconify-icon> Valide';btn.classList.add('border-green-200','bg-green-50','text-green-700');const name=cardId.replace('ak-','');toast(`Clé ${name.charAt(0).toUpperCase()+name.slice(1)} vérifiée !`)},1600)}
+function runPipeline(){const bar=document.getElementById('pipe-bar');const lbl=document.getElementById('pipe-lbl');[{w:'30%',t:'Étape 1 sur 3 — Scraping de vos Reels'},{w:'60%',t:'Étape 2 sur 3 — Analyse du contenu concurrent'},{w:'88%',t:'Étape 3 sur 3 — Génération de vos idées'},{w:'100%',t:'Terminé ! Vos idées sont prêtes.'}].forEach((s,i)=>setTimeout(()=>{bar.style.width=s.w;lbl.textContent=s.t},2000*(i+1)))}
+let toastTimer;function toast(msg){clearTimeout(toastTimer);const el=document.getElementById('toast');document.getElementById('toast-txt').textContent=msg;el.style.opacity='1';el.style.transform='translate(-50%,0)';toastTimer=setTimeout(()=>{el.style.opacity='0';el.style.transform='translate(-50%,8px)'},2800)}
+renderStep();
+</script>
+</body>
+</html>

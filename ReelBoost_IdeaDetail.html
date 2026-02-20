@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReelBoost — Détail Idée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Manrope','system-ui','sans-serif'],serif:['Playfair Display','Georgia','serif']},colors:{cream:'#FAF8F5',beige:'#F0EBE3',stone:'#E8E2DA',gold:'#C8A97E',golddark:'#A68B5B',goldlight:'#D4BC99',ink:'#1A1A1A',inksoft:'#2D2D2D',muted:'#8B8680',faded:'#B5AFA8'}}}}</script>
+<style>
+@keyframes slideUpBlur{0%{opacity:0;transform:translateY(20px);filter:blur(8px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes modalIn{0%{opacity:0;transform:scale(.95) translateY(8px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes resultIn{0%{opacity:0;transform:translateY(12px) scale(.97)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes sparkle{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+@keyframes panelSlide{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:translateY(0)}}
+.au{animation:slideUpBlur .7s cubic-bezier(.16,1,.3,1) both}
+.au1{animation:slideUpBlur .7s .06s cubic-bezier(.16,1,.3,1) both}
+.au2{animation:slideUpBlur .7s .12s cubic-bezier(.16,1,.3,1) both}
+.au3{animation:slideUpBlur .7s .18s cubic-bezier(.16,1,.3,1) both}
+.au4{animation:slideUpBlur .7s .24s cubic-bezier(.16,1,.3,1) both}
+.sidebar-item{transition:all .25s cubic-bezier(.16,1,.3,1);border-left:3px solid transparent}
+.sidebar-item:hover{background:rgba(26,26,26,.03)}
+.sidebar-item.active{background:rgba(26,26,26,.05);border-left-color:#1A1A1A;color:#1A1A1A;font-weight:600}
+.option-chip{transition:all .25s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.option-chip:hover{border-color:#B5AFA8;background:rgba(26,26,26,.03)}
+.option-chip.selected{background:#1A1A1A;color:white;border-color:#1A1A1A}
+.action-btn{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.action-btn:hover{background:rgba(26,26,26,.05)}
+.action-btn.saved{background:#C8A97E;color:white;border-color:#C8A97E}
+.action-btn.liked{background:#1A1A1A;color:white;border-color:#1A1A1A}
+.remix-btn{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.remix-btn:hover{background:#C8A97E;color:white;border-color:#C8A97E;transform:scale(1.05)}
+.section-card{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.section-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.04)}
+.modal-content{animation:modalIn .4s cubic-bezier(.16,1,.3,1) both}
+.result-card{animation:resultIn .6s cubic-bezier(.16,1,.3,1) both}
+.shimmer-block{background:linear-gradient(90deg,#F0EBE3,#FAF8F5,#F0EBE3);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:12px}
+.panel-in{animation:panelSlide .5s cubic-bezier(.16,1,.3,1) both}
+.btn-primary{transition:all .35s cubic-bezier(.16,1,.3,1)}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.btn-primary:active:not(:disabled){transform:translateY(0) scale(.98)}
+.btn-primary:disabled{opacity:.35;cursor:not-allowed}
+.btn-outline{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.btn-outline:hover{background:rgba(26,26,26,.04);border-color:#B5AFA8}
+.btn-ghost{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.btn-ghost:hover{color:#1A1A1A}
+.sparkle{animation:sparkle 1.5s ease-in-out infinite}
+.edit-area{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.edit-area:focus{border-color:#1A1A1A;box-shadow:0 0 0 3px rgba(26,26,26,.06)}
+.toast{transition:all .4s cubic-bezier(.16,1,.3,1)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#E8E2DA;border-radius:2px}
+@media(max-width:767px){.sidebar{transform:translateX(-100%);position:fixed;z-index:200;height:100vh;top:0;left:0}.sidebar.open{transform:translateX(0)}.bottom-nav{display:flex !important}.mobile-topbar{display:flex !important}}
+@media(min-width:768px){.bottom-nav{display:none !important}.mobile-topbar{display:none !important}}
+@media(min-width:768px) and (max-width:1023px){.sidebar{width:72px !important}.sidebar .lbl,.sidebar .logo-text,.sidebar .sidebar-footer-info{display:none}.sidebar-item{justify-content:center;padding-left:0;padding-right:0}}
+</style>
+</head>
+<body class="min-h-screen font-sans antialiased overflow-x-hidden bg-cream">
+<!-- SIDEBAR -->
+<aside class="sidebar fixed top-0 left-0 h-screen w-[240px] bg-white border-r border-stone/50 flex flex-col z-50 transition-transform duration-300" id="sidebar"><div class="px-5 py-5 flex items-center gap-2.5 border-b border-stone/40"><div class="w-8 h-8 bg-ink rounded-lg flex items-center justify-center flex-shrink-0 shadow-md shadow-ink/10"><iconify-icon icon="solar:cup-hot-bold" width="16" class="text-white"></iconify-icon></div><div class="logo-text min-w-0"><p class="text-sm font-bold tracking-tight text-ink leading-none">ReelBoost</p><p class="text-[11px] text-muted truncate mt-0.5">@mamatte.brunch.cafe</p></div></div><nav class="flex-1 py-3 px-2 flex flex-col gap-0.5 overflow-y-auto"><a href="ReelBoost_Dashboard.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:widget-2-linear" width="20"></iconify-icon><span class="lbl">Tableau de bord</span></a><a href="ReelBoost_Ideas.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:lightbulb-linear" width="20"></iconify-icon><span class="lbl">Idées</span></a><a href="ReelBoost_Competitors.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="20"></iconify-icon><span class="lbl">Concurrents</span></a><a href="ReelBoost_MyReels.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:reel-linear" width="20"></iconify-icon><span class="lbl">Mes Reels</span></a><a href="ReelBoost_Outliers.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:fire-linear" width="20"></iconify-icon><span class="lbl">Outliers</span></a><a href="ReelBoost_Reports.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:chart-2-linear" width="20"></iconify-icon><span class="lbl">Rapports</span></a><a href="ReelBoost_Scripts.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:document-text-linear" width="20"></iconify-icon><span class="lbl">Scripts</span></a><div class="my-2 mx-3 h-px bg-stone/40"></div><a href="ReelBoost_Settings.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:settings-linear" width="20"></iconify-icon><span class="lbl">Paramètres</span></a></nav><div class="px-4 py-4 border-t border-stone/40 flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-xs font-bold text-white flex-shrink-0">M</div><div class="sidebar-footer-info min-w-0"><p class="text-xs font-semibold text-ink truncate">Mamatte Longueau</p></div></div></aside>
+<!-- MOBILE -->
+<header class="mobile-topbar hidden fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-lg border-b border-stone/40 z-40 items-center justify-between px-4"><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-beige"><iconify-icon icon="solar:hamburger-menu-linear" width="20" class="text-ink"></iconify-icon></button><span class="text-sm font-bold text-ink">Idée</span><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-[10px] font-bold text-white">M</div></header>
+<nav class="bottom-nav hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-lg border-t border-stone/40 z-40 items-center justify-around px-2"><a href="ReelBoost_Dashboard.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:widget-2-linear" width="22"></iconify-icon><span class="text-[9px]">Accueil</span></a><a href="ReelBoost_Ideas.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:lightbulb-linear" width="22"></iconify-icon><span class="text-[9px]">Idées</span></a><a href="ReelBoost_Competitors.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="22"></iconify-icon><span class="text-[9px]">Rivaux</span></a><a href="ReelBoost_MyReels.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:reel-linear" width="22"></iconify-icon><span class="text-[9px]">Reels</span></a><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:menu-dots-bold" width="22"></iconify-icon><span class="text-[9px]">Plus</span></button></nav>
+
+<!-- MAIN -->
+<main class="md:ml-[240px] lg:ml-[240px] md:max-lg:ml-[72px] min-h-screen pt-14 md:pt-0 pb-20 md:pb-0">
+<div class="max-w-[820px] mx-auto px-5 md:px-8 py-6 md:py-8">
+
+  <!-- Back -->
+  <a href="ReelBoost_Ideas.html" class="inline-flex items-center gap-2 text-sm font-medium text-muted hover:text-ink transition-colors mb-6 au"><iconify-icon icon="solar:arrow-left-linear" width="16"></iconify-icon>Retour aux idées</a>
+
+  <!-- IDEA CARD -->
+  <div class="section-card bg-white rounded-2xl border border-stone/40 p-6 md:p-8 mb-5 au1">
+    <h1 class="text-xl md:text-2xl font-bold text-ink leading-tight mb-4">« Tu as 3 secondes avant que ce latte art disparaisse »</h1>
+    <p class="text-[14px] text-inksoft leading-relaxed mb-4">Filmez le barista versant le latte art en plongée. Gros plan. Laissez le dessin se former en temps réel, sans musique. La tension monte naturellement. Révélez le résultat final avec un zoom arrière dramatique.</p>
+    <div class="bg-beige/40 rounded-xl p-4 mb-5">
+      <p class="text-[10px] font-bold text-gold uppercase tracking-wider mb-1.5">Pourquoi ça marche</p>
+      <p class="text-[13px] text-muted italic leading-relaxed">L'ASMR visuel + vue aérienne sont en tendance. Format prouvé avec 2,8x plus de vues. Le silence accroche le spectateur et maximise la complétion. Facile à filmer avec un smartphone.</p>
+    </div>
+    <div class="flex flex-wrap gap-2 mb-5">
+      <span class="text-[10px] font-bold text-muted bg-beige px-2.5 py-1 rounded-md">🔊 ASMR</span>
+      <span class="text-[10px] font-bold text-muted bg-beige px-2.5 py-1 rounded-md">🎨 Plating</span>
+      <span class="text-[10px] font-bold text-green-600 bg-green-50 px-2.5 py-1 rounded-md">🟢 Facile</span>
+      <span class="text-[10px] text-faded bg-beige/50 px-2.5 py-1 rounded-md">Généré le 17 Fév. 2026</span>
+    </div>
+    <!-- Actions -->
+    <div class="flex flex-wrap gap-2 pt-4 border-t border-stone/30">
+      <button onclick="toggleSave(this)" class="action-btn saved border border-gold rounded-lg px-4 py-2 text-[11px] font-bold flex items-center gap-1.5"><iconify-icon icon="solar:star-bold" width="14"></iconify-icon>Sauvée</button>
+      <button onclick="toggleLike(this,'like')" class="action-btn border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted flex items-center gap-1.5"><iconify-icon icon="solar:like-linear" width="14"></iconify-icon>Utile</button>
+      <button onclick="toggleLike(this,'dis')" class="action-btn border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted flex items-center gap-1.5"><iconify-icon icon="solar:dislike-linear" width="14"></iconify-icon></button>
+      <button onclick="openRemix()" class="remix-btn border border-gold/60 rounded-lg px-4 py-2 text-[11px] font-bold text-gold flex items-center gap-1.5 ml-auto"><iconify-icon icon="solar:magic-stick-3-linear" width="14"></iconify-icon>Remixer cette idée</button>
+    </div>
+  </div>
+
+  <!-- SCRIPT PANEL -->
+  <div class="section-card bg-white rounded-2xl border border-stone/40 p-6 md:p-8 mb-5 au2">
+    <div class="flex items-center justify-between mb-5">
+      <div class="flex items-center gap-2.5"><div class="w-9 h-9 bg-gold/15 rounded-xl flex items-center justify-center"><iconify-icon icon="solar:document-text-bold" width="18" class="text-golddark"></iconify-icon></div><div><h2 class="text-base font-bold text-ink">Script</h2><p class="text-[10px] text-muted">147 mots · ~60 sec · ✏️ Modifié</p></div></div>
+      <div class="flex items-center gap-2">
+        <button onclick="toggleEdit()" id="edit-btn" class="btn-outline border border-stone rounded-lg px-3 py-1.5 text-[11px] font-bold text-muted flex items-center gap-1.5"><iconify-icon icon="solar:pen-2-linear" width="13"></iconify-icon>Modifier</button>
+        <button onclick="toast('Script copié 📋')" class="btn-outline border border-stone rounded-lg px-3 py-1.5 text-[11px] font-bold text-muted flex items-center gap-1.5"><iconify-icon icon="solar:copy-linear" width="13"></iconify-icon>Copier</button>
+      </div>
+    </div>
+
+    <!-- View mode -->
+    <div id="script-view" class="space-y-4">
+      <div><p class="text-[10px] font-bold text-gold uppercase tracking-wider mb-1.5">Accroche</p><p class="text-[14px] font-semibold text-ink leading-relaxed">« Tu as 3 secondes avant que ce latte art disparaisse… Regarde bien. »</p></div>
+      <div><p class="text-[10px] font-bold text-gold uppercase tracking-wider mb-1.5">Contexte</p><p class="text-[14px] text-inksoft leading-relaxed">Tu scrolles tous les jours des vidéos de café. Mais celle-là, tu n'en as jamais vu une comme ça. Notre barista met 45 secondes de concentration pure pour créer ce dessin éphémère dans ta tasse.</p></div>
+      <div><p class="text-[10px] font-bold text-gold uppercase tracking-wider mb-1.5">Valeur</p><p class="text-[14px] text-inksoft leading-relaxed">Le secret ? La hauteur du versement — entre 5 et 7 cm, pas plus. La température du lait — 65°C exactement. Et surtout, des heures et des heures de pratique. Ce que tu vois en 15 secondes, c'est 3 ans de travail.</p></div>
+      <div><p class="text-[10px] font-bold text-gold uppercase tracking-wider mb-1.5">CTA</p><p class="text-[14px] text-inksoft leading-relaxed">Enregistre cette vidéo et montre-moi ton essai en story 💪 Tag @mamatte.brunch.cafe — les meilleurs sont repostés !</p></div>
+      <div class="pt-4 border-t border-stone/30"><p class="text-[10px] font-bold text-gold uppercase tracking-wider mb-1.5">Caption</p><p class="text-[13px] text-muted leading-relaxed">L'art du latte, 45 secondes de pure précision ☕✨ Oui, c'est fait à la main. Chaque. Matin. 💛 #mamatte #latteart #barista #coffeeshop #asmrcafe #cafefrancais</p></div>
+    </div>
+
+    <!-- Edit mode -->
+    <div id="script-edit" class="hidden space-y-4">
+      <div><p class="text-[10px] font-bold text-gold uppercase tracking-wider mb-1.5">Accroche</p><textarea class="edit-area w-full bg-beige/30 border border-stone rounded-xl px-4 py-3 text-[14px] text-ink outline-none resize-none" rows="2">« Tu as 3 secondes avant que ce latte art disparaisse… Regarde bien. »</textarea></div>
+      <div><p class="text-[10px] font-bold text-gold uppercase tracking-wider mb-1.5">Contexte</p><textarea class="edit-area w-full bg-beige/30 border border-stone rounded-xl px-4 py-3 text-[14px] text-ink outline-none resize-none" rows="3">Tu scrolles tous les jours des vidéos de café. Mais celle-là, tu n'en as jamais vu une comme ça. Notre barista met 45 secondes de concentration pure pour créer ce dessin éphémère dans ta tasse.</textarea></div>
+      <div><p class="text-[10px] font-bold text-gold uppercase tracking-wider mb-1.5">Valeur</p><textarea class="edit-area w-full bg-beige/30 border border-stone rounded-xl px-4 py-3 text-[14px] text-ink outline-none resize-none" rows="4">Le secret ? La hauteur du versement — entre 5 et 7 cm, pas plus. La température du lait — 65°C exactement. Et surtout, des heures et des heures de pratique. Ce que tu vois en 15 secondes, c'est 3 ans de travail.</textarea></div>
+      <div><p class="text-[10px] font-bold text-gold uppercase tracking-wider mb-1.5">CTA</p><textarea class="edit-area w-full bg-beige/30 border border-stone rounded-xl px-4 py-3 text-[14px] text-ink outline-none resize-none" rows="2">Enregistre cette vidéo et montre-moi ton essai en story 💪 Tag @mamatte.brunch.cafe — les meilleurs sont repostés !</textarea></div>
+      <div class="pt-4 border-t border-stone/30"><p class="text-[10px] font-bold text-gold uppercase tracking-wider mb-1.5">Caption</p><textarea class="edit-area w-full bg-beige/30 border border-stone rounded-xl px-4 py-3 text-[13px] text-ink outline-none resize-none" rows="3">L'art du latte, 45 secondes de pure précision ☕✨ Oui, c'est fait à la main. Chaque. Matin. 💛 #mamatte #latteart #barista #coffeeshop #asmrcafe #cafefrancais</textarea></div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="saveEdit()" class="btn-primary bg-ink text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2"><iconify-icon icon="solar:check-read-linear" width="14"></iconify-icon>Sauver les modifications</button>
+        <button onclick="toggleEdit()" class="btn-outline border border-stone rounded-xl px-4 py-2.5 text-xs font-semibold text-muted">Annuler</button>
+        <button onclick="revertScript()" class="btn-ghost text-xs font-semibold text-faded ml-auto flex items-center gap-1"><iconify-icon icon="solar:restart-linear" width="13"></iconify-icon>Revenir à l'original</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REMIX / GENERATE SECTION -->
+  <div class="section-card bg-white rounded-2xl border border-stone/40 p-6 md:p-8 mb-5 au3">
+    <div class="flex items-center gap-2.5 mb-5">
+      <div class="w-9 h-9 bg-gold/15 rounded-xl flex items-center justify-center"><iconify-icon icon="solar:magic-stick-3-bold" width="18" class="text-golddark"></iconify-icon></div>
+      <div><h2 class="text-base font-bold text-ink">Générer du contenu</h2><p class="text-[10px] text-muted">Créez des variantes, nouveaux hooks ou un script alternatif</p></div>
+    </div>
+
+    <!-- What to generate -->
+    <div class="mb-5">
+      <p class="text-[11px] font-bold text-faded uppercase tracking-wider mb-2.5">Type de contenu</p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <button onclick="selType(this,'variant')" class="option-chip selected border border-stone rounded-xl p-3 text-center"><iconify-icon icon="solar:refresh-linear" width="18" class="mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold block">Variante</span></button>
+        <button onclick="selType(this,'hooks')" class="option-chip border border-stone rounded-xl p-3 text-center text-muted"><iconify-icon icon="solar:text-bold-linear" width="18" class="mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold block">Hooks</span></button>
+        <button onclick="selType(this,'script')" class="option-chip border border-stone rounded-xl p-3 text-center text-muted"><iconify-icon icon="solar:document-text-linear" width="18" class="mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold block">Script alt.</span></button>
+        <button onclick="selType(this,'caption')" class="option-chip border border-stone rounded-xl p-3 text-center text-muted"><iconify-icon icon="solar:chat-round-dots-linear" width="18" class="mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold block">Caption</span></button>
+      </div>
+    </div>
+
+    <!-- Direction -->
+    <div class="mb-5">
+      <p class="text-[11px] font-bold text-faded uppercase tracking-wider mb-2.5">Direction</p>
+      <div class="flex flex-wrap gap-2">
+        <button onclick="selC(this)" class="option-chip selected border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold">🔄 Même angle, nouveau hook</button>
+        <button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">🎭 Version humour</button>
+        <button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">📖 Plus de storytelling</button>
+        <button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">🎯 Plus commercial</button>
+        <button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">🔊 ASMR pur</button>
+      </div>
+    </div>
+
+    <!-- Custom notes -->
+    <div class="mb-5">
+      <p class="text-[11px] font-bold text-faded uppercase tracking-wider mb-2">Notes <span class="font-normal text-faded">(optionnel)</span></p>
+      <textarea placeholder="Ex: Mentionner notre offre du moment, cibler les étudiants..." class="w-full bg-beige/30 border border-stone rounded-xl px-4 py-3 text-sm text-ink placeholder:text-faded outline-none focus:border-ink focus:shadow-[0_0_0_3px_rgba(26,26,26,.06)] transition-all resize-none h-16"></textarea>
+    </div>
+
+    <!-- Generate button -->
+    <button onclick="generate()" id="gen-btn" class="btn-primary w-full bg-ink text-white py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2.5 shadow-lg shadow-ink/10"><iconify-icon icon="solar:stars-minimalistic-bold" width="18" class="sparkle"></iconify-icon>Générer</button>
+
+    <!-- Loading -->
+    <div id="gen-loading" class="hidden mt-5">
+      <div class="flex items-center gap-3 mb-4"><iconify-icon icon="solar:refresh-linear" width="16" class="text-gold" style="animation:spin 1s linear infinite"></iconify-icon><span class="text-sm font-medium text-muted">L'IA génère votre contenu...</span></div>
+      <div class="space-y-2"><div class="shimmer-block h-4 w-3/4"></div><div class="shimmer-block h-4 w-full"></div><div class="shimmer-block h-4 w-5/6"></div><div class="shimmer-block h-4 w-2/3"></div></div>
+    </div>
+
+    <!-- Result -->
+    <div id="gen-result" class="hidden mt-5">
+      <div class="result-card border-2 border-gold/30 rounded-2xl p-5 bg-gradient-to-br from-gold/5 to-transparent">
+        <div class="flex items-center gap-2 mb-3"><iconify-icon icon="solar:stars-minimalistic-bold" width="14" class="text-gold"></iconify-icon><span class="text-[10px] font-bold text-gold uppercase tracking-wider">Résultat généré</span></div>
+
+        <div id="r-variant"><div class="mb-3"><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Nouveau hook</p><p class="text-[15px] font-semibold text-ink leading-snug">« Et si on filmait l'impossible : un latte art qui dure plus de 3 secondes ? »</p></div><div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Concept</p><p class="text-[13px] text-inksoft leading-relaxed">Challenge : votre barista essaie de garder le latte art intact le plus longtemps possible. Filmez la tension, les clients qui attendent, le moment où quelqu'un boit enfin.</p></div></div>
+
+        <div id="r-hooks" class="hidden"><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-2">5 hooks alternatifs</p><p class="text-[14px] font-semibold text-ink py-2">1. « Combien de temps peut survivre un latte art ? On a chronométré ⏱️ »</p><p class="text-[14px] font-semibold text-ink py-2 border-t border-stone/20">2. « POV : tu es barista et tu rates ton latte art devant 50 clients »</p><p class="text-[14px] font-semibold text-ink py-2 border-t border-stone/20">3. « ASMR : le son parfait du latte art versé au ralenti »</p><p class="text-[14px] font-semibold text-ink py-2 border-t border-stone/20">4. « On a demandé à nos clients de dessiner leur propre latte art »</p><p class="text-[14px] font-semibold text-ink py-2 border-t border-stone/20">5. « Le latte art le plus complexe qu'on ait jamais tenté chez Mamatte »</p></div>
+
+        <div id="r-script" class="hidden space-y-3"><div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Accroche</p><p class="text-[13px] text-ink">« Tu vas voir le latte art le plus satisfaisant de ta vie. Et il a été fait chez Mamatte. »</p></div><div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Contexte</p><p class="text-[13px] text-ink">Chaque matin, notre barista transforme du lait en œuvre d'art éphémère. Mais aujourd'hui, il tente un motif jamais vu.</p></div><div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Valeur</p><p class="text-[13px] text-ink">Regardez la précision du geste. Le versement, l'angle du poignet. C'est 3 ans d'entraînement en 30 secondes.</p></div><div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">CTA</p><p class="text-[13px] text-ink">Viens voir ça en vrai au Mamatte Longueau ☕ Dis-moi en commentaire quel motif tu veux !</p></div></div>
+
+        <div id="r-caption" class="hidden"><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-2">5 captions</p><p class="text-[13px] text-ink py-2">1. L'art du café, version Mamatte ☕✨ 45 secondes de magie pure #latteart</p><p class="text-[13px] text-ink py-2 border-t border-stone/20">2. On ne sert pas du café. On sert des œuvres d'art éphémères 🎨 #mamatte #barista</p><p class="text-[13px] text-ink py-2 border-t border-stone/20">3. ASMR : le bruit du lait qui dessine dans la tasse 🥛💛 #asmrcafe #coffeelover</p><p class="text-[13px] text-ink py-2 border-t border-stone/20">4. 3 secondes de beauté pure. Pas de filtre. Pas de triche. Just☕ #mamatte</p><p class="text-[13px] text-ink py-2 border-t border-stone/20">5. Tu as déjà vu un latte art aussi propre ? Moi non plus, avant de bosser ici 😂☕</p></div>
+
+        <div class="flex flex-wrap gap-2 mt-5 pt-4 border-t border-gold/20">
+          <button onclick="toast('Sauvegardé comme nouvelle idée ⭐')" class="btn-primary bg-ink text-white px-4 py-2.5 rounded-xl text-[11px] font-bold flex items-center gap-1.5"><iconify-icon icon="solar:bookmark-linear" width="13"></iconify-icon>Sauver</button>
+          <button onclick="generate()" class="btn-outline border border-stone rounded-xl px-4 py-2.5 text-[11px] font-bold text-muted flex items-center gap-1.5"><iconify-icon icon="solar:refresh-linear" width="13"></iconify-icon>Régénérer</button>
+          <button onclick="toast('Copié 📋')" class="btn-outline border border-stone rounded-xl px-4 py-2.5 text-[11px] font-bold text-muted flex items-center gap-1.5 ml-auto"><iconify-icon icon="solar:copy-linear" width="13"></iconify-icon>Copier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export -->
+  <div class="flex justify-end au4">
+    <button onclick="toast('PDF exporté 📄')" class="btn-outline border border-stone rounded-xl px-5 py-2.5 text-xs font-bold text-muted flex items-center gap-2 hidden md:flex"><iconify-icon icon="solar:file-download-linear" width="14"></iconify-icon>Exporter en PDF</button>
+  </div>
+
+</div>
+</main>
+
+<!-- REMIX MODAL (quick access) -->
+<div id="remix-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" onclick="if(event.target===this)closeRemix()"><div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div><div class="modal-content relative bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl text-center"><div class="w-14 h-14 bg-gold/15 rounded-2xl flex items-center justify-center mx-auto mb-4"><iconify-icon icon="solar:magic-stick-3-bold" width="28" class="text-golddark"></iconify-icon></div><h3 class="text-lg font-bold text-ink mb-2">Remixer cette idée</h3><p class="text-sm text-muted mb-6">Utilisez le panneau « Générer du contenu » ci-dessous pour créer des variantes, hooks, scripts ou captions à partir de cette idée.</p><button onclick="closeRemix();document.querySelector('.au3').scrollIntoView({behavior:'smooth'})" class="btn-primary bg-ink text-white px-6 py-3 rounded-xl text-sm font-bold flex items-center gap-2 mx-auto"><iconify-icon icon="solar:arrow-down-linear" width="16"></iconify-icon>Aller au générateur</button></div></div>
+
+<div id="toast" class="toast fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none translate-y-4 opacity-0"><div class="bg-ink text-white px-5 py-3 rounded-2xl text-sm font-medium flex items-center gap-2.5 shadow-2xl shadow-ink/20"><iconify-icon icon="solar:check-circle-bold" width="17"></iconify-icon><span id="toast-txt"></span></div></div>
+
+<script>
+let genTypeD='variant', editing=false;
+
+function toggleSave(b){const s=b.classList.toggle('saved');b.innerHTML=s?'<iconify-icon icon="solar:star-bold" width="14"></iconify-icon>Sauvée':'<iconify-icon icon="solar:star-linear" width="14"></iconify-icon>Sauver';b.classList.toggle('text-muted',!s);toast(s?'Sauvegardée ⭐':'Retirée')}
+function toggleLike(b,t){const a=b.classList.toggle('liked');b.classList.toggle('text-muted',!a);toast(t==='like'?(a?'Marquée utile 👍':'Annulé'):(a?'Feedback enregistré 👎':'Annulé'))}
+function toggleEdit(){editing=!editing;document.getElementById('script-view').classList.toggle('hidden',editing);document.getElementById('script-edit').classList.toggle('hidden',!editing);document.getElementById('edit-btn').innerHTML=editing?'<iconify-icon icon="solar:close-circle-linear" width="13"></iconify-icon>Annuler':'<iconify-icon icon="solar:pen-2-linear" width="13"></iconify-icon>Modifier'}
+function saveEdit(){editing=false;document.getElementById('script-view').classList.remove('hidden');document.getElementById('script-edit').classList.add('hidden');document.getElementById('edit-btn').innerHTML='<iconify-icon icon="solar:pen-2-linear" width="13"></iconify-icon>Modifier';toast('Script sauvegardé ✅')}
+function revertScript(){toast('Script restauré à l\'original')}
+
+function selType(el,t){genTypeD=t;el.closest('.grid').querySelectorAll('.option-chip').forEach(c=>{c.classList.remove('selected');c.classList.add('text-muted')});el.classList.add('selected');el.classList.remove('text-muted')}
+function selC(el){el.closest('.flex').querySelectorAll('.option-chip').forEach(c=>{c.classList.remove('selected');c.classList.add('text-muted')});el.classList.add('selected');el.classList.remove('text-muted')}
+
+function generate(){
+  document.getElementById('gen-btn').classList.add('hidden');document.getElementById('gen-loading').classList.remove('hidden');document.getElementById('gen-result').classList.add('hidden');
+  setTimeout(()=>{
+    document.getElementById('gen-loading').classList.add('hidden');document.getElementById('gen-result').classList.remove('hidden');document.getElementById('gen-btn').classList.remove('hidden');
+    document.getElementById('r-variant').classList.toggle('hidden',genTypeD!=='variant');
+    document.getElementById('r-hooks').classList.toggle('hidden',genTypeD!=='hooks');
+    document.getElementById('r-script').classList.toggle('hidden',genTypeD!=='script');
+    document.getElementById('r-caption').classList.toggle('hidden',genTypeD!=='caption');
+    document.getElementById('gen-result').scrollIntoView({behavior:'smooth',block:'nearest'});
+  },2300);
+}
+
+function openRemix(){document.getElementById('remix-modal').classList.remove('hidden');document.getElementById('remix-modal').classList.add('flex')}
+function closeRemix(){document.getElementById('remix-modal').classList.add('hidden');document.getElementById('remix-modal').classList.remove('flex')}
+
+let tt;function toast(m){clearTimeout(tt);const el=document.getElementById('toast');document.getElementById('toast-txt').textContent=m;el.style.opacity='1';el.style.transform='translate(-50%,0)';tt=setTimeout(()=>{el.style.opacity='0';el.style.transform='translate(-50%,8px)'},2800)}
+</script>
+</body>
+</html>

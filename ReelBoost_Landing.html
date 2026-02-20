@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReelBoost — Vos concurrents cartonnent sur Instagram. Et vous ?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Manrope','system-ui','sans-serif'],serif:['Playfair Display','Georgia','serif'],mono:['DM Mono','monospace']},colors:{cream:'#FAF8F5',beige:'#F0EBE3',stone:'#E8E2DA',gold:'#C8A97E',golddark:'#A68B5B',goldlight:'#D4BC99',ink:'#1A1A1A',inksoft:'#2D2D2D',muted:'#8B8680',faded:'#B5AFA8'}}}}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Manrope',system-ui,sans-serif;color:#1A1A1A;background:#FAF8F5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ═══ CORE ANIMATIONS ═══ */
+@keyframes heroFade{0%{opacity:0;transform:translateY(50px);filter:blur(12px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes floatSlow{0%,100%{transform:translateY(0) rotate(0deg)}33%{transform:translateY(-12px) rotate(1deg)}66%{transform:translateY(-6px) rotate(-1deg)}}
+@keyframes pulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes borderGlow{0%,100%{border-color:rgba(200,169,126,.15)}50%{border-color:rgba(200,169,126,.5)}}
+@keyframes phonePop{0%{opacity:0;transform:perspective(1200px) rotateY(-15deg) translateX(40px) scale(.9)}100%{opacity:1;transform:perspective(1200px) rotateY(0deg) translateX(0) scale(1)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes countUp{0%{opacity:0;transform:translateY(24px) scale(.9)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes dash{0%{stroke-dashoffset:100}100%{stroke-dashoffset:0}}
+@keyframes waveIn{0%{clip-path:inset(0 100% 0 0)}100%{clip-path:inset(0 0% 0 0)}}
+@keyframes scaleReveal{0%{clip-path:circle(0% at 50% 50%)}100%{clip-path:circle(75% at 50% 50%)}}
+@keyframes textReveal{0%{clip-path:inset(0 100% 0 0)}100%{clip-path:inset(0 0% 0 0)}}
+@keyframes cardFloat{0%,100%{transform:translateY(0) rotate(-.5deg)}50%{transform:translateY(-10px) rotate(.5deg)}}
+
+.hero-el{opacity:0;animation:heroFade .9s cubic-bezier(.16,1,.3,1) forwards}
+.hero-d1{animation-delay:.1s}
+.hero-d2{animation-delay:.25s}
+.hero-d3{animation-delay:.4s}
+.hero-d4{animation-delay:.55s}
+.hero-d5{animation-delay:.7s}
+.hero-phone{opacity:0;animation:phonePop 1.1s .5s cubic-bezier(.16,1,.3,1) forwards}
+
+/* ═══ SCROLL REVEAL ═══ */
+.rv{opacity:0;transform:translateY(50px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv-l{opacity:0;transform:translateX(-60px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.rv-l.vis{opacity:1;transform:translateX(0)}
+.rv-r{opacity:0;transform:translateX(60px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.rv-r.vis{opacity:1;transform:translateX(0)}
+.rv-s{opacity:0;transform:scale(.88);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.rv-s.vis{opacity:1;transform:scale(1)}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}.d6{transition-delay:.48s}
+
+/* ═══ GRADIENT TEXT ═══ */
+.gradient-text{background:linear-gradient(135deg,#C8A97E 0%,#A68B5B 40%,#D4BC99 70%,#C8A97E 100%);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradient 8s ease infinite}
+
+/* ═══ NAV ═══ */
+.nav-glass{backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.nav-link{position:relative}
+.nav-link::after{content:'';position:absolute;bottom:-4px;left:50%;width:0;height:2px;background:#C8A97E;border-radius:1px;transition:all .35s cubic-bezier(.16,1,.3,1);transform:translateX(-50%)}
+.nav-link:hover::after{width:100%}
+.nav-link:hover{color:#1A1A1A}
+
+/* ═══ BUTTONS ═══ */
+.btn-hero{position:relative;overflow:hidden;transition:all .45s cubic-bezier(.16,1,.3,1)}
+.btn-hero::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transition:left .6s}
+.btn-hero:hover::before{left:100%}
+.btn-hero:hover{transform:translateY(-3px);box-shadow:0 24px 60px rgba(26,26,26,.2)}
+.btn-hero:active{transform:translateY(-1px) scale(.98)}
+
+.btn-outline-hero{transition:all .35s cubic-bezier(.16,1,.3,1)}
+.btn-outline-hero:hover{background:#1A1A1A;color:white;border-color:#1A1A1A;transform:translateY(-2px);box-shadow:0 12px 40px rgba(26,26,26,.12)}
+
+.btn-cta{position:relative;overflow:hidden;transition:all .4s cubic-bezier(.16,1,.3,1)}
+.btn-cta:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(26,26,26,.15)}
+.btn-cta:active{transform:translateY(0) scale(.98)}
+
+/* ═══ CARDS ═══ */
+.feature-card{transition:all .5s cubic-bezier(.16,1,.3,1)}
+.feature-card:hover{transform:translateY(-10px);box-shadow:0 30px 80px rgba(0,0,0,.06)}
+.feature-card .f-icon{transition:all .45s cubic-bezier(.16,1,.3,1)}
+.feature-card:hover .f-icon{transform:scale(1.18) rotate(-8deg);background:#1A1A1A}
+.feature-card:hover .f-icon iconify-icon{color:white !important}
+.feature-card .f-img{transition:all .6s cubic-bezier(.16,1,.3,1)}
+.feature-card:hover .f-img{transform:scale(1.08)}
+
+.step-card{transition:all .45s cubic-bezier(.16,1,.3,1)}
+.step-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.07)}
+.step-num{transition:all .4s cubic-bezier(.16,1,.3,1)}
+.step-card:hover .step-num{color:#C8A97E;transform:scale(1.1)}
+
+.testi-card{transition:all .45s cubic-bezier(.16,1,.3,1)}
+.testi-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.06)}
+
+.price-card{transition:all .45s cubic-bezier(.16,1,.3,1)}
+.price-card:hover{transform:translateY(-8px);box-shadow:0 30px 80px rgba(0,0,0,.08)}
+.price-card.pop{animation:borderGlow 4s ease-in-out infinite}
+
+.bento-img{transition:all .6s cubic-bezier(.16,1,.3,1);overflow:hidden}
+.bento-img:hover{transform:scale(1.02)}
+.bento-img img{transition:all .7s cubic-bezier(.16,1,.3,1);object-fit:cover;width:100%;height:100%}
+.bento-img:hover img{transform:scale(1.1)}
+
+/* ═══ FAQ ═══ */
+.faq-row{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.faq-row:hover{background:rgba(26,26,26,.015)}
+.faq-body{max-height:0;overflow:hidden;transition:all .45s cubic-bezier(.16,1,.3,1);opacity:0}
+.faq-row.open .faq-body{max-height:220px;opacity:1}
+.faq-row .faq-chev{transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.faq-row.open .faq-chev{transform:rotate(180deg)}
+
+/* ═══ PARALLAX IMGS ═══ */
+.parallax-img{will-change:transform;transition:transform .1s linear}
+
+/* ═══ MARQUEE ═══ */
+.marquee-track{animation:marquee 30s linear infinite;display:flex;gap:4rem;white-space:nowrap;align-items:center}
+
+/* ═══ MISC ═══ */
+.text-balance{text-wrap:balance}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.015;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#E8E2DA;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#C8A97E}
+
+@media(max-width:768px){
+  .hero-flex{flex-direction:column !important;text-align:center}
+  .hero-phone-wrap{display:none !important}
+  .feat-grid{grid-template-columns:1fr !important}
+  .steps-grid{grid-template-columns:1fr !important}
+  .price-grid{grid-template-columns:1fr !important}
+  .testi-grid{grid-template-columns:1fr !important}
+  .bento{grid-template-columns:1fr !important;grid-template-rows:auto !important}
+  .footer-grid{grid-template-columns:1fr 1fr !important}
+  .hero-ctas{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- NAVBAR                                                -->
+<!-- ══════════════════════════════════════════════════════ -->
+<nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" id="topnav">
+<div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
+  <a href="#" class="flex items-center gap-2.5 group">
+    <div class="w-9 h-9 bg-ink rounded-xl flex items-center justify-center shadow-lg shadow-ink/10 transition-transform duration-300 group-hover:rotate-[-10deg] group-hover:scale-110">
+      <iconify-icon icon="solar:cup-hot-bold" width="17" class="text-white"></iconify-icon>
+    </div>
+    <span class="text-lg font-extrabold tracking-tight text-ink">Reel<span class="text-gold">Boost</span></span>
+  </a>
+  <div class="hidden md:flex items-center gap-9">
+    <a href="#features" class="nav-link text-[13px] font-semibold text-muted transition-colors">Fonctionnalités</a>
+    <a href="#how" class="nav-link text-[13px] font-semibold text-muted transition-colors">Comment ça marche</a>
+    <a href="#pricing" class="nav-link text-[13px] font-semibold text-muted transition-colors">Tarifs</a>
+    <a href="#faq" class="nav-link text-[13px] font-semibold text-muted transition-colors">FAQ</a>
+  </div>
+  <div class="flex items-center gap-3">
+    <a href="ReelBoost_Auth_Onboarding.html" class="hidden sm:inline-block text-[13px] font-semibold text-muted hover:text-ink transition-colors">Connexion</a>
+    <a href="ReelBoost_Auth_Onboarding.html" class="btn-cta bg-ink text-white px-5 py-2.5 rounded-xl text-[13px] font-bold shadow-lg shadow-ink/10 inline-flex items-center gap-2">Essai gratuit <iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></a>
+  </div>
+</div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- HERO                                                   -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="relative min-h-[100vh] flex items-center pt-24 pb-16 overflow-hidden">
+  <!-- Ambient blobs -->
+  <div class="absolute top-10 right-[5%] w-[600px] h-[600px] bg-gradient-to-br from-gold/6 to-beige/15 rounded-full blur-[100px]" style="animation:floatSlow 8s ease-in-out infinite"></div>
+  <div class="absolute bottom-0 left-[-5%] w-[500px] h-[500px] bg-gradient-to-tr from-stone/20 to-goldlight/5 rounded-full blur-[80px]" style="animation:floatSlow 10s 2s ease-in-out infinite"></div>
+  <!-- Decorative dots -->
+  <div class="absolute top-[20%] left-[12%] w-2 h-2 bg-gold/25 rounded-full" style="animation:float 4s .5s ease-in-out infinite"></div>
+  <div class="absolute top-[40%] left-[8%] w-1.5 h-1.5 bg-gold/15 rounded-full" style="animation:float 5s 1s ease-in-out infinite"></div>
+  <div class="absolute top-[55%] right-[8%] w-2.5 h-2.5 bg-gold/20 rounded-full" style="animation:float 6s 1.5s ease-in-out infinite"></div>
+
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 w-full">
+    <div class="hero-flex flex items-center gap-16 lg:gap-24">
+
+      <!-- LEFT: Copy -->
+      <div class="flex-1 max-w-[580px]">
+        <!-- Badge -->
+        <div class="hero-el hero-d1 inline-flex items-center gap-2.5 bg-white/80 backdrop-blur-sm border border-stone/40 rounded-full px-4 py-2 mb-8 shadow-sm">
+          <span class="relative flex h-2.5 w-2.5"><span class="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" style="animation:pulse 2s infinite"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400"></span></span>
+          <span class="text-[12px] font-semibold text-muted">Instagram Reels + TikTok · <span class="text-ink font-bold">240+</span> cafés en France</span>
+        </div>
+
+        <h1 class="hero-el hero-d2 text-[2.6rem] sm:text-[3.2rem] lg:text-[3.75rem] font-extrabold leading-[1.06] tracking-tight text-ink mb-7 text-balance">
+          Vos concurrents cartonnent sur Instagram.
+          <span class="block font-serif italic font-normal gradient-text mt-1">Et vous ?</span>
+        </h1>
+
+        <p class="hero-el hero-d3 text-base sm:text-lg text-muted leading-[1.7] mb-10 max-w-[480px]">
+          ReelBoost <strong class="text-ink font-semibold">analyse les Reels & TikToks de vos concurrents</strong>, détecte ce qui marche, et génère chaque semaine des <strong class="text-ink font-semibold">idées de contenu prêtes à filmer</strong> — avec hook, script et caption. Pour Instagram <em>et</em> TikTok.
+        </p>
+
+        <!-- CTAs -->
+        <div class="hero-el hero-d4 hero-ctas flex flex-wrap gap-4 mb-7">
+          <a href="ReelBoost_Auth_Onboarding.html" class="btn-hero bg-ink text-white px-8 py-4 rounded-2xl text-[15px] font-bold inline-flex items-center gap-3 shadow-xl shadow-ink/15">
+            Commencer gratuitement
+            <iconify-icon icon="solar:arrow-right-linear" width="18"></iconify-icon>
+          </a>
+          <a href="#how" class="btn-outline-hero border-2 border-stone/60 px-7 py-4 rounded-2xl text-[15px] font-semibold text-muted inline-flex items-center gap-2.5">
+            <iconify-icon icon="solar:play-circle-linear" width="20" class="text-gold"></iconify-icon>
+            Voir la démo
+          </a>
+        </div>
+
+        <p class="hero-el hero-d5 text-[11px] text-faded flex items-center gap-2.5 flex-wrap">
+          <span class="inline-flex items-center gap-1"><iconify-icon icon="solar:lock-linear" width="13"></iconify-icon>Aucune carte requise</span>
+          <span class="w-1 h-1 bg-stone rounded-full"></span>
+          <span>Configuration en 5 min</span>
+          <span class="w-1 h-1 bg-stone rounded-full"></span>
+          <span>Vos clés API, vos données</span>
+        </p>
+      </div>
+
+      <!-- RIGHT: Phone mockup with real screenshots -->
+      <div class="hero-phone-wrap flex-1 flex justify-center relative">
+        <div class="hero-phone relative">
+          <!-- Main phone -->
+          <div class="w-[310px] bg-white rounded-[2.8rem] shadow-[0_30px_80px_rgba(0,0,0,.12)] border border-stone/30 overflow-hidden relative">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[120px] h-[28px] bg-ink rounded-b-2xl z-10"></div>
+            <div class="pt-8 pb-3 px-4 bg-cream min-h-[560px]">
+              <!-- App header -->
+              <div class="flex items-center justify-between mb-4 px-1">
+                <div class="flex items-center gap-2"><div class="w-7 h-7 bg-ink rounded-lg flex items-center justify-center"><iconify-icon icon="solar:cup-hot-bold" width="12" class="text-white"></iconify-icon></div><span class="text-[11px] font-extrabold text-ink">ReelBoost</span></div>
+                <div class="w-6 h-6 bg-beige rounded-full flex items-center justify-center"><span class="text-[8px] font-bold text-muted">M</span></div>
+              </div>
+              <!-- Stat pills -->
+              <div class="grid grid-cols-2 gap-2 mb-3">
+                <div class="bg-white rounded-xl p-3 border border-stone/25 shadow-sm"><p class="text-[8px] text-faded font-semibold uppercase tracking-wider">Idées</p><p class="text-xl font-extrabold text-ink mt-0.5">12</p><p class="text-[8px] text-green-500 font-bold mt-0.5">↑ cette semaine</p></div>
+                <div class="bg-white rounded-xl p-3 border border-stone/25 shadow-sm"><p class="text-[8px] text-faded font-semibold uppercase tracking-wider">Outliers</p><p class="text-xl font-extrabold text-ink mt-0.5">13</p><div class="flex gap-0.5 mt-0.5"><span class="text-[7px] font-bold text-[#E1306C] bg-pink-50 px-1 py-0.5 rounded">7 IG</span><span class="text-[7px] font-bold text-[#ff0050] bg-[#fff0f3] px-1 py-0.5 rounded">6 TK</span></div></div>
+              </div>
+              <!-- Idea card -->
+              <div class="bg-white rounded-xl p-3 border border-stone/25 shadow-sm mb-2">
+                <p class="text-[10px] font-bold text-ink leading-snug mb-1.5">« Tu as 3 secondes avant que ce latte art disparaisse »</p>
+                <div class="flex gap-1 mb-2"><span class="text-[7px] bg-beige px-1.5 py-0.5 rounded font-bold text-muted">🔊 ASMR</span><span class="text-[7px] bg-green-50 px-1.5 py-0.5 rounded font-bold text-green-600">Facile</span></div>
+                <div class="flex gap-1.5"><div class="bg-ink rounded-lg px-2.5 py-1.5 inline-flex items-center gap-1"><span class="text-[8px] text-white font-bold">Script →</span></div><div class="bg-gold/15 border border-gold/30 rounded-lg px-2.5 py-1.5 inline-flex items-center gap-1"><iconify-icon icon="solar:magic-stick-3-linear" width="10" class="text-gold"></iconify-icon><span class="text-[8px] text-gold font-bold">Remixer</span></div></div>
+              </div>
+              <!-- Outlier alert -->
+              <div class="bg-gradient-to-r from-orange-50 to-cream rounded-xl p-3 border border-orange-200/40 mb-2">
+                <div class="flex items-center gap-1.5 mb-1"><span class="text-[10px]">🔥</span><span class="text-[8px] font-bold text-orange-600 uppercase tracking-wider">Alerte virale</span></div>
+                <p class="text-[10px] text-ink font-bold">@columbus_cafe — 245K vues</p>
+                <p class="text-[9px] text-muted mt-0.5">« Personne ne parle de cette technique... »</p>
+                <div class="mt-2 bg-gold/15 border border-gold/25 rounded-lg px-2 py-1 inline-flex items-center gap-1"><iconify-icon icon="solar:magic-stick-3-linear" width="9" class="text-gold"></iconify-icon><span class="text-[7px] text-gold font-bold">S'inspirer</span></div>
+              </div>
+              <!-- 2nd idea -->
+              <div class="bg-white rounded-xl p-3 border border-stone/25 shadow-sm">
+                <p class="text-[10px] font-bold text-ink leading-snug">« Le secret de notre cold brew »</p>
+                <div class="flex gap-1 mt-1"><span class="text-[7px] bg-beige px-1.5 py-0.5 rounded font-bold text-muted">🧑‍🍳 Recette</span><span class="text-[7px] bg-amber-50 px-1.5 py-0.5 rounded font-bold text-amber-600">Moyen</span></div>
+              </div>
+            </div>
+            <!-- Bottom nav -->
+            <div class="bg-white border-t border-stone/25 px-6 py-2.5 flex justify-around">
+              <div class="flex flex-col items-center gap-0.5"><iconify-icon icon="solar:widget-2-bold" width="16" class="text-ink"></iconify-icon><span class="text-[7px] font-bold text-ink">Accueil</span></div>
+              <div class="flex flex-col items-center gap-0.5"><iconify-icon icon="solar:lightbulb-linear" width="16" class="text-faded"></iconify-icon><span class="text-[7px] text-faded">Idées</span></div>
+              <div class="flex flex-col items-center gap-0.5"><iconify-icon icon="solar:fire-linear" width="16" class="text-faded"></iconify-icon><span class="text-[7px] text-faded">Outliers</span></div>
+              <div class="flex flex-col items-center gap-0.5"><iconify-icon icon="solar:document-text-linear" width="16" class="text-faded"></iconify-icon><span class="text-[7px] text-faded">Scripts</span></div>
+            </div>
+          </div>
+
+          <!-- Floating cards -->
+          <div class="absolute -left-20 top-16 bg-white rounded-2xl shadow-xl shadow-ink/8 p-3.5 border border-stone/25 z-20" style="animation:cardFloat 5s 1s ease-in-out infinite">
+            <div class="flex items-center gap-2.5"><div class="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=80&h=80&fit=crop" class="w-full h-full object-cover" alt="coffee"></div><div><p class="text-[11px] font-bold text-ink">+340%</p><p class="text-[9px] text-muted">vues en 4 sem.</p></div></div>
+          </div>
+          <div class="absolute -right-16 top-56 bg-white rounded-2xl shadow-xl shadow-ink/8 p-3 border border-stone/25 z-20" style="animation:cardFloat 6s 2s ease-in-out infinite">
+            <div class="flex items-center gap-2"><iconify-icon icon="solar:stars-minimalistic-bold" width="16" class="text-gold"></iconify-icon><div><p class="text-[10px] font-bold text-ink">Script prêt ✓</p><p class="text-[8px] text-muted">Hook + CTA + Caption</p></div></div>
+          </div>
+          <div class="absolute -left-12 bottom-28 bg-ink rounded-2xl shadow-xl p-3 z-20" style="animation:cardFloat 7s 3s ease-in-out infinite">
+            <div class="flex items-center gap-2"><span class="text-sm">🔥</span><p class="text-[10px] font-bold text-white">Outlier détecté !</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SOCIAL PROOF MARQUEE                                   -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-10 border-y border-stone/30 bg-white/40">
+  <div class="overflow-hidden">
+    <div class="marquee-track">
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">MAMATTE <span class="text-gold/40">☕</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">COLUMBUS CAFÉ <span class="text-gold/40">🫘</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">CAFÉ JOYEUX <span class="text-gold/40">💛</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">COUTUME <span class="text-gold/40">✨</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">BELLEVILLE BRÛLERIE <span class="text-gold/40">🔥</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">LOMI PARIS <span class="text-gold/40">🌿</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">CAFÉ OBERKAMPF <span class="text-gold/40">☀️</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">TERRES DE CAFÉ <span class="text-gold/40">🌍</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">MAMATTE <span class="text-gold/40">☕</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">COLUMBUS CAFÉ <span class="text-gold/40">🫘</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">CAFÉ JOYEUX <span class="text-gold/40">💛</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">COUTUME <span class="text-gold/40">✨</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">BELLEVILLE BRÛLERIE <span class="text-gold/40">🔥</span></span>
+      <span class="text-lg font-extrabold text-stone/50 tracking-tight flex items-center gap-3">LOMI PARIS <span class="text-gold/40">🌿</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- BENTO IMAGE GRID                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-24">
+<div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+  <div class="text-center mb-14">
+    <p class="rv text-[11px] font-bold text-gold uppercase tracking-[.25em] mb-4">Conçu pour les cafés & restaurants · Instagram + TikTok</p>
+    <h2 class="rv d1 text-3xl md:text-[2.8rem] font-extrabold text-ink leading-tight text-balance">L'IA qui comprend<br><span class="font-serif italic font-normal gradient-text">votre niche</span></h2>
+  </div>
+  <div class="bento grid grid-cols-4 grid-rows-2 gap-3 h-[420px] md:h-[480px]">
+    <div class="bento-img rv d1 rounded-2xl col-span-2 row-span-2 relative"><img src="https://images.unsplash.com/photo-1511081692775-05d0f180a065?w=800&h=900&fit=crop" alt="Café intérieur" class="rounded-2xl"><div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-xl px-4 py-2.5 shadow-lg border border-stone/20"><p class="text-[10px] font-bold text-gold uppercase tracking-wider">Analyse de niche</p><p class="text-[13px] font-bold text-ink">Brunch · Coffee · Bakery</p></div></div>
+    <div class="bento-img rv d2 rounded-2xl col-span-1 row-span-1 relative"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&h=400&fit=crop" alt="Latte art" class="rounded-2xl"><div class="absolute top-3 right-3 bg-ink/80 backdrop-blur-sm rounded-lg px-2.5 py-1"><span class="text-[9px] font-bold text-white">245K vues 🔥</span></div></div>
+    <div class="bento-img rv d3 rounded-2xl col-span-1 row-span-1 relative"><img src="https://images.unsplash.com/photo-1514066558159-fc8c737ef259?w=500&h=400&fit=crop" alt="Brunch assiette" class="rounded-2xl"><div class="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-1"><span class="text-[9px] font-bold text-ink">📝 Script prêt</span></div></div>
+    <div class="bento-img rv d4 rounded-2xl col-span-1 row-span-1 relative"><img src="https://images.unsplash.com/photo-1559305616-3f99cd43e353?w=500&h=400&fit=crop" alt="Barista" class="rounded-2xl"><div class="absolute top-3 left-3 bg-gold/90 backdrop-blur-sm rounded-lg px-2.5 py-1"><span class="text-[9px] font-bold text-white">✨ S'inspirer</span></div></div>
+    <div class="bento-img rv d5 rounded-2xl col-span-1 row-span-1 relative"><img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=500&h=400&fit=crop" alt="Coffee beans" class="rounded-2xl"><div class="absolute bottom-3 right-3 bg-[#ff0050]/90 backdrop-blur-sm rounded-lg px-2.5 py-1"><span class="text-[9px] font-bold text-white">#CoffeeTok 🔥</span></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- STATS                                                  -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-20">
+<div class="max-w-[1080px] mx-auto px-6 lg:px-10">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
+    <div class="rv text-center"><p class="text-[3rem] md:text-[3.5rem] font-extrabold text-ink leading-none mb-1 stat-counter" data-target="2.8" data-suffix="×">0×</p><p class="text-sm text-muted">plus de vues en moyenne</p></div>
+    <div class="rv d1 text-center"><p class="text-[3rem] md:text-[3.5rem] font-extrabold text-ink leading-none mb-1 stat-counter" data-target="12" data-suffix="">0</p><p class="text-sm text-muted">idées générées / semaine</p></div>
+    <div class="rv d2 text-center"><p class="text-[3rem] md:text-[3.5rem] font-extrabold text-ink leading-none mb-1"><span class="stat-counter" data-target="5" data-suffix="">0</span><span class="text-gold font-serif italic text-[2rem]">min</span></p><p class="text-sm text-muted">pour tout configurer</p></div>
+    <div class="rv d3 text-center"><p class="text-[3rem] md:text-[3.5rem] font-extrabold text-ink leading-none mb-1"><span class="stat-counter" data-target="0" data-suffix="€">0€</span></p><p class="text-sm text-muted">d'abonnement · vos API keys</p></div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- PROBLEM                                                -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-28 bg-ink relative overflow-hidden">
+  <div class="absolute inset-0 opacity-[.04]" style="background-image:radial-gradient(rgba(200,169,126,.3) 1px,transparent 1px);background-size:24px 24px"></div>
+  <div class="max-w-[880px] mx-auto px-6 lg:px-10 text-center relative z-10">
+    <p class="rv text-[11px] font-bold text-gold uppercase tracking-[.25em] mb-6">Le problème</p>
+    <h2 class="rv d1 text-3xl md:text-[2.75rem] font-extrabold text-white leading-tight mb-8 text-balance">
+      Vous passez des heures à chercher des idées de Reels.
+      <span class="block font-serif italic font-normal text-gold/70 mt-2">Vos concurrents, eux, postent déjà.</span>
+    </h2>
+    <p class="rv d2 text-base text-white/40 leading-relaxed max-w-xl mx-auto mb-16">Scroller Instagram et TikTok. Copier ce que font les autres. Improviser des scripts à la dernière minute. Résultat ? Des vidéos à 200 vues et un sentiment de frustration permanent.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-left">
+      <div class="rv d2 bg-white/[.04] backdrop-blur-sm border border-white/[.06] rounded-2xl p-7 hover:bg-white/[.06] transition-all duration-300 hover:border-white/10">
+        <div class="w-12 h-12 bg-white/[.06] rounded-xl flex items-center justify-center mb-5"><span class="text-2xl">😩</span></div>
+        <h3 class="text-[15px] font-bold text-white mb-2">Pas d'inspiration</h3>
+        <p class="text-[13px] text-white/35 leading-relaxed">Vous ne savez plus quoi poster. Vos Reels stagnent. L'engagement chute.</p>
+      </div>
+      <div class="rv d3 bg-white/[.04] backdrop-blur-sm border border-white/[.06] rounded-2xl p-7 hover:bg-white/[.06] transition-all duration-300 hover:border-white/10">
+        <div class="w-12 h-12 bg-white/[.06] rounded-xl flex items-center justify-center mb-5"><span class="text-2xl">⏰</span></div>
+        <h3 class="text-[15px] font-bold text-white mb-2">Pas le temps</h3>
+        <p class="text-[13px] text-white/35 leading-relaxed">Entre le service et la gestion, Instagram passe toujours en dernier.</p>
+      </div>
+      <div class="rv d4 bg-white/[.04] backdrop-blur-sm border border-white/[.06] rounded-2xl p-7 hover:bg-white/[.06] transition-all duration-300 hover:border-white/10">
+        <div class="w-12 h-12 bg-white/[.06] rounded-xl flex items-center justify-center mb-5"><span class="text-2xl">🎯</span></div>
+        <h3 class="text-[15px] font-bold text-white mb-2">Pas de stratégie</h3>
+        <p class="text-[13px] text-white/35 leading-relaxed">Vous postez au feeling sans data sur ce qui marche dans votre niche.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- FEATURES                                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-28" id="features">
+<div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+  <div class="text-center mb-16">
+    <p class="rv text-[11px] font-bold text-gold uppercase tracking-[.25em] mb-4">Fonctionnalités</p>
+    <h2 class="rv d1 text-3xl md:text-[2.8rem] font-extrabold text-ink leading-tight text-balance">Tout ce qu'il faut pour<br><span class="font-serif italic font-normal gradient-text">dominer votre niche</span></h2>
+  </div>
+
+  <div class="feat-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div class="feature-card rv bg-white rounded-2xl border border-stone/30 overflow-hidden group">
+      <div class="h-40 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1504627298321-9127024c0c5f?w=600&h=300&fit=crop" alt="Competitor analysis" class="f-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div></div>
+      <div class="p-6"><div class="f-icon w-11 h-11 bg-beige rounded-xl flex items-center justify-center mb-4 -mt-10 relative z-10 border-2 border-white shadow-md"><iconify-icon icon="solar:users-group-rounded-linear" width="20" class="text-golddark"></iconify-icon></div><h3 class="text-[15px] font-bold text-ink mb-2">Veille concurrentielle</h3><p class="text-[13px] text-muted leading-relaxed">Suivez jusqu'à 10 concurrents sur Instagram <em>et</em> TikTok. Reels, vidéos, vues, hooks et transcripts analysés chaque semaine automatiquement.</p></div>
+    </div>
+    <div class="feature-card rv d1 bg-white rounded-2xl border border-stone/30 overflow-hidden group">
+      <div class="h-40 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=300&fit=crop" alt="Viral alerts" class="f-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div></div>
+      <div class="p-6"><div class="f-icon w-11 h-11 bg-beige rounded-xl flex items-center justify-center mb-4 -mt-10 relative z-10 border-2 border-white shadow-md"><iconify-icon icon="solar:fire-linear" width="20" class="text-golddark"></iconify-icon></div><h3 class="text-[15px] font-bold text-ink mb-2">Alertes virales</h3><p class="text-[13px] text-muted leading-relaxed">Un concurrent explose ? Alerté immédiatement avec l'analyse de pourquoi ça marche et comment vous inspirer.</p></div>
+    </div>
+    <div class="feature-card rv d2 bg-white rounded-2xl border border-stone/30 overflow-hidden group">
+      <div class="h-40 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=300&fit=crop" alt="Ideas" class="f-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div></div>
+      <div class="p-6"><div class="f-icon w-11 h-11 bg-beige rounded-xl flex items-center justify-center mb-4 -mt-10 relative z-10 border-2 border-white shadow-md"><iconify-icon icon="solar:lightbulb-linear" width="20" class="text-golddark"></iconify-icon></div><h3 class="text-[15px] font-bold text-ink mb-2">Idées prêtes à filmer</h3><p class="text-[13px] text-muted leading-relaxed">12 idées/semaine avec hook, concept, catégorie et niveau de difficulté. Basées sur ce qui marche dans votre niche.</p></div>
+    </div>
+    <div class="feature-card rv d3 bg-white rounded-2xl border border-stone/30 overflow-hidden group">
+      <div class="h-40 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=300&fit=crop" alt="AI remix" class="f-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div></div>
+      <div class="p-6"><div class="f-icon w-11 h-11 bg-beige rounded-xl flex items-center justify-center mb-4 -mt-10 relative z-10 border-2 border-white shadow-md"><iconify-icon icon="solar:magic-stick-3-linear" width="20" class="text-golddark"></iconify-icon></div><h3 class="text-[15px] font-bold text-ink mb-2">Remix & Génération IA</h3><p class="text-[13px] text-muted leading-relaxed">Un clic sur un Reel ou TikTok concurrent → votre version unique avec hooks, script structuré et caption. Cross-platform.</p></div>
+    </div>
+    <div class="feature-card rv d4 bg-white rounded-2xl border border-stone/30 overflow-hidden group">
+      <div class="h-40 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=300&fit=crop" alt="Scripts" class="f-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div></div>
+      <div class="p-6"><div class="f-icon w-11 h-11 bg-beige rounded-xl flex items-center justify-center mb-4 -mt-10 relative z-10 border-2 border-white shadow-md"><iconify-icon icon="solar:document-text-linear" width="20" class="text-golddark"></iconify-icon></div><h3 class="text-[15px] font-bold text-ink mb-2">Scripts structurés</h3><p class="text-[13px] text-muted leading-relaxed">Accroche → Contexte → Valeur → CTA. Prêts à lire devant la caméra avec caption, hashtags IG et TikTok optimisés.</p></div>
+    </div>
+    <div class="feature-card rv d5 bg-white rounded-2xl border border-stone/30 overflow-hidden group">
+      <div class="h-40 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=300&fit=crop" alt="Reports" class="f-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div></div>
+      <div class="p-6"><div class="f-icon w-11 h-11 bg-beige rounded-xl flex items-center justify-center mb-4 -mt-10 relative z-10 border-2 border-white shadow-md"><iconify-icon icon="solar:chart-2-linear" width="20" class="text-golddark"></iconify-icon></div><h3 class="text-[15px] font-bold text-ink mb-2">Rapports hebdomadaires</h3><p class="text-[13px] text-muted leading-relaxed">Sujets gagnants, hooks performants, power words, émotions qui convertissent. Votre cheat sheet stratégique.</p></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- HOW IT WORKS                                           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-28 bg-beige/25" id="how">
+<div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+  <div class="text-center mb-16">
+    <p class="rv text-[11px] font-bold text-gold uppercase tracking-[.25em] mb-4">Comment ça marche</p>
+    <h2 class="rv d1 text-3xl md:text-[2.8rem] font-extrabold text-ink leading-tight text-balance">De zéro à viral en<br><span class="font-serif italic font-normal gradient-text">3 étapes simples</span></h2>
+  </div>
+
+  <div class="steps-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="step-card rv bg-white rounded-2xl border border-stone/30 p-8 relative overflow-hidden group">
+      <p class="step-num absolute top-5 right-6 text-[4rem] font-extrabold text-beige/80 leading-none font-mono select-none">01</p>
+      <div class="relative z-10">
+        <div class="w-14 h-14 bg-ink rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-ink/10 group-hover:shadow-ink/20 transition-shadow"><iconify-icon icon="solar:settings-linear" width="24" class="text-white"></iconify-icon></div>
+        <h3 class="text-lg font-bold text-ink mb-3">Configurez vos clés</h3>
+        <p class="text-[13px] text-muted leading-relaxed mb-4">Ajoutez vos clés API (OpenAI, Apify, RapidAPI). Connectez Instagram et TikTok. En route en 5 minutes.</p>
+        <div class="flex flex-wrap gap-1.5"><span class="text-[9px] font-bold text-muted bg-beige px-2 py-1 rounded-md">OpenAI</span><span class="text-[9px] font-bold text-muted bg-beige px-2 py-1 rounded-md">Apify</span><span class="text-[9px] font-bold text-muted bg-beige px-2 py-1 rounded-md">RapidAPI</span><span class="text-[9px] font-bold text-muted bg-beige px-2 py-1 rounded-md">TikTok API</span></div>
+      </div>
+    </div>
+    <div class="step-card rv d1 bg-white rounded-2xl border border-stone/30 p-8 relative overflow-hidden group">
+      <p class="step-num absolute top-5 right-6 text-[4rem] font-extrabold text-beige/80 leading-none font-mono select-none">02</p>
+      <div class="relative z-10">
+        <div class="w-14 h-14 bg-ink rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-ink/10"><iconify-icon icon="solar:users-group-rounded-linear" width="24" class="text-white"></iconify-icon></div>
+        <h3 class="text-lg font-bold text-ink mb-3">Ajoutez vos concurrents</h3>
+        <p class="text-[13px] text-muted leading-relaxed mb-4">Jusqu'à 10 comptes Instagram <em>et</em> TikTok. ReelBoost scrape leurs vidéos, transcrit l'audio, et analyse hooks et performance.</p>
+        <div class="flex -space-x-2"><div class="w-7 h-7 rounded-full bg-ink flex items-center justify-center text-[8px] font-bold text-white border-2 border-white">C</div><div class="w-7 h-7 rounded-full bg-gold flex items-center justify-center text-[8px] font-bold text-white border-2 border-white">J</div><div class="w-7 h-7 rounded-full bg-inksoft flex items-center justify-center text-[8px] font-bold text-white border-2 border-white">B</div><div class="w-7 h-7 rounded-full bg-[#ff0050] flex items-center justify-center text-[8px] font-bold text-white border-2 border-white">TK</div><div class="w-7 h-7 rounded-full bg-stone flex items-center justify-center text-[8px] font-bold text-muted border-2 border-white">+6</div></div>
+      </div>
+    </div>
+    <div class="step-card rv d2 bg-white rounded-2xl border border-stone/30 p-8 relative overflow-hidden group">
+      <p class="step-num absolute top-5 right-6 text-[4rem] font-extrabold text-beige/80 leading-none font-mono select-none">03</p>
+      <div class="relative z-10">
+        <div class="w-14 h-14 bg-gold rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-gold/20"><iconify-icon icon="solar:stars-minimalistic-bold" width="24" class="text-white"></iconify-icon></div>
+        <h3 class="text-lg font-bold text-ink mb-3">Recevez & Créez</h3>
+        <p class="text-[13px] text-muted leading-relaxed mb-4">Chaque dimanche : idées cross-platform, scripts, outliers IG & TikTok, rapports. Remixez, adaptez, filmez, postez.</p>
+        <div class="flex items-center gap-2"><div class="bg-gold/15 border border-gold/30 rounded-lg px-2.5 py-1.5 inline-flex items-center gap-1"><iconify-icon icon="solar:magic-stick-3-linear" width="12" class="text-gold"></iconify-icon><span class="text-[10px] text-gold font-bold">S'inspirer</span></div><div class="bg-ink rounded-lg px-2.5 py-1.5 inline-flex items-center gap-1"><span class="text-[10px] text-white font-bold">Script →</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- BIG VISUAL BREAK — Before/After                        -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-28 overflow-hidden">
+<div class="max-w-[1080px] mx-auto px-6 lg:px-10">
+  <div class="rv grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Before -->
+    <div class="bg-white rounded-2xl border border-stone/30 p-8 relative overflow-hidden">
+      <div class="absolute top-4 left-4 bg-red-50 text-red-500 text-[9px] font-bold px-3 py-1 rounded-full border border-red-100">AVANT</div>
+      <div class="mt-8 space-y-4">
+        <div class="flex items-center gap-3 opacity-50"><div class="w-10 h-10 bg-beige rounded-lg"></div><div class="flex-1"><div class="h-3 bg-beige rounded w-3/4 mb-1.5"></div><div class="h-2.5 bg-beige/50 rounded w-1/2"></div></div><span class="text-xs font-bold text-red-400">214 vues</span></div>
+        <div class="flex items-center gap-3 opacity-40"><div class="w-10 h-10 bg-beige rounded-lg"></div><div class="flex-1"><div class="h-3 bg-beige rounded w-2/3 mb-1.5"></div><div class="h-2.5 bg-beige/50 rounded w-2/5"></div></div><span class="text-xs font-bold text-red-400">187 vues</span></div>
+        <div class="flex items-center gap-3 opacity-30"><div class="w-10 h-10 bg-beige rounded-lg"></div><div class="flex-1"><div class="h-3 bg-beige rounded w-4/5 mb-1.5"></div><div class="h-2.5 bg-beige/50 rounded w-1/3"></div></div><span class="text-xs font-bold text-red-400">156 vues</span></div>
+      </div>
+      <div class="mt-6 text-center"><p class="text-3xl font-extrabold text-red-400/30">~190</p><p class="text-xs text-muted">vues moyennes / Reel</p></div>
+    </div>
+    <!-- After -->
+    <div class="rv d1 bg-white rounded-2xl border-2 border-gold/30 p-8 relative overflow-hidden shadow-xl shadow-gold/5">
+      <div class="absolute top-4 left-4 bg-gold text-white text-[9px] font-bold px-3 py-1 rounded-full shadow-md">APRÈS REELBOOST ✨</div>
+      <div class="mt-8 space-y-4">
+        <div class="flex items-center gap-3"><div class="w-10 h-10 bg-gradient-to-br from-beige to-stone rounded-lg flex items-center justify-center"><span class="text-sm">☕</span></div><div class="flex-1"><p class="text-[11px] font-bold text-ink leading-snug">« Tu as 3 secondes avant que... »</p><div class="flex gap-1 mt-0.5"><span class="text-[7px] bg-beige px-1 py-0.5 rounded font-bold text-muted">ASMR</span><span class="text-[6px] bg-pink-50 px-1 py-0.5 rounded font-bold text-[#E1306C]">IG</span><span class="text-[6px] bg-[#fff0f3] px-1 py-0.5 rounded font-bold text-[#ff0050]">TK</span></div></div><span class="text-xs font-extrabold text-green-500">3.2K vues</span></div>
+        <div class="flex items-center gap-3"><div class="w-10 h-10 bg-gradient-to-br from-beige to-stone rounded-lg flex items-center justify-center"><span class="text-sm">🍳</span></div><div class="flex-1"><p class="text-[11px] font-bold text-ink leading-snug">« Comment on prépare nos brunchs »</p><div class="flex gap-1 mt-0.5"><span class="text-[7px] bg-beige px-1 py-0.5 rounded font-bold text-muted">BTS</span><span class="text-[6px] bg-pink-50 px-1 py-0.5 rounded font-bold text-[#E1306C]">IG</span></div></div><span class="text-xs font-extrabold text-green-500">2.8K vues</span></div>
+        <div class="flex items-center gap-3"><div class="w-10 h-10 bg-gradient-to-br from-beige to-stone rounded-lg flex items-center justify-center"><span class="text-sm">😂</span></div><div class="flex-1"><p class="text-[11px] font-bold text-ink leading-snug">« POV: un client commande un "café normal" »</p><div class="flex gap-1 mt-0.5"><span class="text-[7px] bg-beige px-1 py-0.5 rounded font-bold text-muted">Humour</span><span class="text-[6px] bg-[#fff0f3] px-1 py-0.5 rounded font-bold text-[#ff0050]">TK</span></div></div><span class="text-xs font-extrabold text-green-500">12K vues</span></div>
+      </div>
+      <div class="mt-6 text-center"><p class="text-3xl font-extrabold gradient-text inline-block">~2,640</p><p class="text-xs text-muted">vues moyennes / Reel</p><p class="text-[11px] font-bold text-green-500 mt-1">↑ 1,290% d'augmentation</p></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- TESTIMONIALS                                           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-28 bg-beige/20">
+<div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+  <div class="text-center mb-16">
+    <p class="rv text-[11px] font-bold text-gold uppercase tracking-[.25em] mb-4">Témoignages</p>
+    <h2 class="rv d1 text-3xl md:text-[2.8rem] font-extrabold text-ink leading-tight text-balance">Ils ont transformé<br><span class="font-serif italic font-normal gradient-text">leur Instagram</span></h2>
+  </div>
+  <div class="testi-grid grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="testi-card rv bg-white rounded-2xl border border-stone/30 p-7"><div class="flex items-center gap-1 mb-4"><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon></div><p class="text-[13px] text-inksoft leading-relaxed mb-6">« On est passé de 300 à 3 000 vues par Reel en 3 semaines. Les hooks suggérés sont <em class="font-semibold text-ink">incroyablement efficaces</em>. La fonctionnalité S'inspirer a changé notre manière de créer du contenu. »</p><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full overflow-hidden"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Youssef" class="w-full h-full object-cover"></div><div><p class="text-[13px] font-bold text-ink">Youssef Amrani</p><p class="text-[11px] text-muted">@mamatte.brunch.cafe</p></div></div></div>
+    <div class="testi-card rv d1 bg-white rounded-2xl border border-stone/30 p-7"><div class="flex items-center gap-1 mb-4"><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon></div><p class="text-[13px] text-inksoft leading-relaxed mb-6">« La fonctionnalité Remix est un game-changer. Je vois un TikTok viral, je clique, et j'ai <em class="font-semibold text-ink">mon propre script en 30 secondes</em> — pour Instagram et TikTok à la fois. »</p><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full overflow-hidden"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="Sophie" class="w-full h-full object-cover"></div><div><p class="text-[13px] font-bold text-ink">Sophie Clément</p><p class="text-[11px] text-muted">@cafe.sophie.paris</p></div></div></div>
+    <div class="testi-card rv d2 bg-white rounded-2xl border border-stone/30 p-7"><div class="flex items-center gap-1 mb-4"><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon><iconify-icon icon="solar:star-bold" width="14" class="text-gold"></iconify-icon></div><p class="text-[13px] text-inksoft leading-relaxed mb-6">« Les rapports m'ont révélé que le BTS cuisine faisait 3× plus de vues que mes posts produits. <em class="font-semibold text-ink">La data ne ment pas</em>. Mon engagement a doublé en un mois. »</p><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full overflow-hidden"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="Marc" class="w-full h-full object-cover"></div><div><p class="text-[13px] font-bold text-ink">Marc Lefèvre</p><p class="text-[11px] text-muted">@brew.brothers.lyon</p></div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- PRICING                                                -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-28 bg-ink relative overflow-hidden" id="pricing">
+<div class="absolute inset-0 opacity-[.03]" style="background-image:radial-gradient(rgba(200,169,126,.4) 1px,transparent 1px);background-size:32px 32px"></div>
+<div class="max-w-[920px] mx-auto px-6 lg:px-10 relative z-10">
+  <div class="text-center mb-16">
+    <p class="rv text-[11px] font-bold text-gold uppercase tracking-[.25em] mb-4">Tarifs</p>
+    <h2 class="rv d1 text-3xl md:text-[2.8rem] font-extrabold text-white leading-tight mb-4 text-balance">Zéro abonnement.<br><span class="font-serif italic font-normal text-gold/80">Vous payez uniquement vos API keys.</span></h2>
+    <p class="rv d2 text-base text-white/35 max-w-lg mx-auto">Pas de tier premium. Pas de limites artificielles. Le coût réel ? Moins qu'un café par semaine.</p>
+  </div>
+  <div class="price-grid grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="price-card rv bg-white/[.04] backdrop-blur-sm border border-white/[.08] rounded-2xl p-8">
+      <p class="text-[11px] font-bold text-gold uppercase tracking-wider mb-3">Coût API estimé / mois</p>
+      <div class="flex items-end gap-1.5 mb-5"><span class="text-[3rem] font-extrabold text-white leading-none">~3€</span><span class="text-sm text-white/30 mb-2">/ mois</span></div>
+      <p class="text-[13px] text-white/30 mb-6 leading-relaxed">Basé sur une utilisation typique : 3 concurrents, 12 idées/semaine, 4 scripts générés.</p>
+      <div class="space-y-3.5"><div class="flex items-start gap-3"><iconify-icon icon="solar:check-circle-bold" width="17" class="text-gold flex-shrink-0 mt-0.5"></iconify-icon><span class="text-[13px] text-white/50">OpenAI GPT-4o : ~2€/mois</span></div><div class="flex items-start gap-3"><iconify-icon icon="solar:check-circle-bold" width="17" class="text-gold flex-shrink-0 mt-0.5"></iconify-icon><span class="text-[13px] text-white/50">Apify scraping : ~0,50€/mois</span></div><div class="flex items-start gap-3"><iconify-icon icon="solar:check-circle-bold" width="17" class="text-gold flex-shrink-0 mt-0.5"></iconify-icon><span class="text-[13px] text-white/50">RapidAPI : 0€ (freemium)</span></div></div>
+    </div>
+    <div class="price-card pop rv d1 bg-gradient-to-br from-gold/[.08] to-white/[.04] backdrop-blur-sm border-2 border-gold/25 rounded-2xl p-8 relative">
+      <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gold text-white text-[10px] font-bold px-5 py-1.5 rounded-full shadow-lg shadow-gold/20">Recommandé</div>
+      <p class="text-[11px] font-bold text-gold uppercase tracking-wider mb-3">Plateforme ReelBoost</p>
+      <div class="flex items-end gap-1.5 mb-5"><span class="text-[3rem] font-extrabold text-white leading-none">Gratuit</span></div>
+      <p class="text-[13px] text-white/30 mb-6 leading-relaxed">100% gratuit. Pas de limites. Pas de tier premium. Open-source friendly.</p>
+      <div class="space-y-3.5"><div class="flex items-start gap-3"><iconify-icon icon="solar:check-circle-bold" width="17" class="text-gold flex-shrink-0 mt-0.5"></iconify-icon><span class="text-[13px] text-white/50">Analyse IG + TikTok illimitée</span></div><div class="flex items-start gap-3"><iconify-icon icon="solar:check-circle-bold" width="17" class="text-gold flex-shrink-0 mt-0.5"></iconify-icon><span class="text-[13px] text-white/50">Génération IA + Remix cross-platform</span></div><div class="flex items-start gap-3"><iconify-icon icon="solar:check-circle-bold" width="17" class="text-gold flex-shrink-0 mt-0.5"></iconify-icon><span class="text-[13px] text-white/50">Rapports, alertes, trends TikTok</span></div><div class="flex items-start gap-3"><iconify-icon icon="solar:check-circle-bold" width="17" class="text-gold flex-shrink-0 mt-0.5"></iconify-icon><span class="text-[13px] text-white/50">Vos données restent les vôtres</span></div></div>
+      <a href="ReelBoost_Auth_Onboarding.html" class="btn-cta bg-white text-ink w-full py-4 rounded-xl text-[14px] font-bold flex items-center justify-center gap-2.5 mt-8 shadow-lg shadow-white/5 hover:shadow-white/10">Commencer maintenant <iconify-icon icon="solar:arrow-right-linear" width="16"></iconify-icon></a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- FAQ                                                    -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-28" id="faq">
+<div class="max-w-[740px] mx-auto px-6 lg:px-10">
+  <div class="text-center mb-16">
+    <p class="rv text-[11px] font-bold text-gold uppercase tracking-[.25em] mb-4">FAQ</p>
+    <h2 class="rv d1 text-3xl md:text-[2.8rem] font-extrabold text-ink leading-tight">Questions <span class="font-serif italic font-normal gradient-text">fréquentes</span></h2>
+  </div>
+  <div class="rv space-y-2.5" id="faq-list">
+    <div class="faq-row border border-stone/30 rounded-2xl bg-white cursor-pointer" onclick="toggleFaq(this)"><div class="flex items-center justify-between px-6 py-5"><p class="text-[14px] font-semibold text-ink pr-6">Pourquoi dois-je fournir mes propres clés API ?</p><iconify-icon icon="solar:alt-arrow-down-linear" width="18" class="faq-chev text-faded flex-shrink-0"></iconify-icon></div><div class="faq-body"><p class="px-6 pb-5 text-[13px] text-muted leading-relaxed">Pour garder le contrôle total. Pas de middleman, pas de markup, pas de données partagées. Vos clés, votre data, votre vie privée. Et le coût total ? ~3€/mois.</p></div></div>
+    <div class="faq-row border border-stone/30 rounded-2xl bg-white cursor-pointer" onclick="toggleFaq(this)"><div class="flex items-center justify-between px-6 py-5"><p class="text-[14px] font-semibold text-ink pr-6">Comment fonctionne la veille concurrentielle ?</p><iconify-icon icon="solar:alt-arrow-down-linear" width="18" class="faq-chev text-faded flex-shrink-0"></iconify-icon></div><div class="faq-body"><p class="px-6 pb-5 text-[13px] text-muted leading-relaxed">Chaque dimanche, ReelBoost scrape les Reels et TikToks de vos concurrents via Apify, transcrit l'audio avec Whisper, et analyse les hooks, power words et patterns de performance avec GPT-4o. Les deux plateformes dans un seul dashboard.</p></div></div>
+    <div class="faq-row border border-stone/30 rounded-2xl bg-white cursor-pointer" onclick="toggleFaq(this)"><div class="flex items-center justify-between px-6 py-5"><p class="text-[14px] font-semibold text-ink pr-6">C'est légal de scraper Instagram et TikTok ?</p><iconify-icon icon="solar:alt-arrow-down-linear" width="18" class="faq-chev text-faded flex-shrink-0"></iconify-icon></div><div class="faq-body"><p class="px-6 pb-5 text-[13px] text-muted leading-relaxed">ReelBoost analyse uniquement des données publiquement accessibles. C'est de la veille concurrentielle automatisée — exactement comme consulter manuellement le profil d'un concurrent.</p></div></div>
+    <div class="faq-row border border-stone/30 rounded-2xl bg-white cursor-pointer" onclick="toggleFaq(this)"><div class="flex items-center justify-between px-6 py-5"><p class="text-[14px] font-semibold text-ink pr-6">Ça marche pour d'autres niches que le café ?</p><iconify-icon icon="solar:alt-arrow-down-linear" width="18" class="faq-chev text-faded flex-shrink-0"></iconify-icon></div><div class="faq-body"><p class="px-6 pb-5 text-[13px] text-muted leading-relaxed">Oui ! Cafés, restaurants, boulangeries, bars, food trucks — tout business food Instagram-first. L'IA s'adapte à votre niche et à votre ton de marque.</p></div></div>
+    <div class="faq-row border border-stone/30 rounded-2xl bg-white cursor-pointer" onclick="toggleFaq(this)"><div class="flex items-center justify-between px-6 py-5"><p class="text-[14px] font-semibold text-ink pr-6">Combien de temps pour voir des résultats ?</p><iconify-icon icon="solar:alt-arrow-down-linear" width="18" class="faq-chev text-faded flex-shrink-0"></iconify-icon></div><div class="faq-body"><p class="px-6 pb-5 text-[13px] text-muted leading-relaxed">La majorité voit une différence dès la 2e semaine. En moyenne : ×2,8 de vues en 4 semaines en suivant les recommandations de la plateforme.</p></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- FINAL CTA                                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-32 relative overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-br from-beige/40 to-cream"></div>
+  <div class="absolute top-[10%] right-[10%] w-[450px] h-[450px] bg-gradient-to-br from-gold/8 to-transparent rounded-full blur-[80px]"></div>
+  <div class="absolute bottom-[10%] left-[5%] w-[350px] h-[350px] bg-gradient-to-tr from-stone/15 to-transparent rounded-full blur-[60px]"></div>
+  <div class="max-w-[660px] mx-auto px-6 text-center relative z-10">
+    <div class="rv"><div class="w-16 h-16 bg-ink rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-xl shadow-ink/12 hover:rotate-[-10deg] hover:scale-110 transition-transform duration-300 cursor-pointer"><iconify-icon icon="solar:cup-hot-bold" width="32" class="text-white"></iconify-icon></div></div>
+    <h2 class="rv d1 text-3xl md:text-[2.8rem] font-extrabold text-ink leading-tight mb-6 text-balance">Prêt à poster des Reels qui <span class="font-serif italic font-normal gradient-text">cartonnent</span> ?</h2>
+    <p class="rv d2 text-base text-muted leading-relaxed mb-10 max-w-md mx-auto">Configurez en 5 minutes. Recevez vos premières idées dimanche. C'est gratuit, c'est puissant, c'est pour vous.</p>
+    <div class="rv d3">
+      <a href="ReelBoost_Auth_Onboarding.html" class="btn-hero bg-ink text-white px-10 py-5 rounded-2xl text-base font-bold inline-flex items-center gap-3 shadow-xl shadow-ink/15">
+        Commencer gratuitement
+        <iconify-icon icon="solar:arrow-right-linear" width="18"></iconify-icon>
+      </a>
+    </div>
+    <p class="rv d4 text-[11px] text-faded mt-7 flex items-center justify-center gap-3 flex-wrap"><span class="flex items-center gap-1"><iconify-icon icon="solar:lock-linear" width="12"></iconify-icon>Aucune carte requise</span><span class="w-1 h-1 bg-stone rounded-full"></span><span>Open-source friendly</span><span class="w-1 h-1 bg-stone rounded-full"></span><span>Vos clés, vos données</span></p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<footer class="py-16 bg-ink">
+<div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+  <div class="footer-grid grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+    <div class="col-span-2 md:col-span-1">
+      <div class="flex items-center gap-2.5 mb-5"><div class="w-8 h-8 bg-white/10 rounded-xl flex items-center justify-center"><iconify-icon icon="solar:cup-hot-bold" width="16" class="text-gold"></iconify-icon></div><span class="text-base font-extrabold text-white">Reel<span class="text-gold">Boost</span></span></div>
+      <p class="text-[12px] text-white/25 leading-relaxed max-w-[220px]">L'IA qui analyse vos concurrents Instagram & TikTok et génère vos idées de vidéos. Pour les cafés et restaurants qui veulent gagner les réseaux.</p>
+    </div>
+    <div><p class="text-[10px] font-bold text-gold uppercase tracking-[.2em] mb-5">Produit</p><ul class="space-y-3"><li><a href="#features" class="text-[12px] text-white/30 hover:text-white transition-colors">Fonctionnalités</a></li><li><a href="#how" class="text-[12px] text-white/30 hover:text-white transition-colors">Comment ça marche</a></li><li><a href="#pricing" class="text-[12px] text-white/30 hover:text-white transition-colors">Tarifs</a></li><li><a href="#faq" class="text-[12px] text-white/30 hover:text-white transition-colors">FAQ</a></li></ul></div>
+    <div><p class="text-[10px] font-bold text-gold uppercase tracking-[.2em] mb-5">Application</p><ul class="space-y-3"><li><a href="ReelBoost_Dashboard.html" class="text-[12px] text-white/30 hover:text-white transition-colors">Dashboard</a></li><li><a href="ReelBoost_Ideas.html" class="text-[12px] text-white/30 hover:text-white transition-colors">Idées</a></li><li><a href="ReelBoost_Outliers.html" class="text-[12px] text-white/30 hover:text-white transition-colors">Outliers</a></li><li><a href="ReelBoost_Scripts.html" class="text-[12px] text-white/30 hover:text-white transition-colors">Scripts</a></li></ul></div>
+    <div><p class="text-[10px] font-bold text-gold uppercase tracking-[.2em] mb-5">Légal</p><ul class="space-y-3"><li><a href="#" class="text-[12px] text-white/30 hover:text-white transition-colors">Confidentialité</a></li><li><a href="#" class="text-[12px] text-white/30 hover:text-white transition-colors">CGU</a></li><li><a href="#" class="text-[12px] text-white/30 hover:text-white transition-colors">Mentions légales</a></li></ul></div>
+  </div>
+  <div class="border-t border-white/[.05] pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+    <p class="text-[11px] text-white/15">© 2026 ReelBoost — Fait avec ☕ et ❤️ en France</p>
+    <div class="flex items-center gap-5"><a href="#" class="text-white/15 hover:text-gold transition-colors"><iconify-icon icon="simple-icons:instagram" width="17"></iconify-icon></a><a href="#" class="text-white/15 hover:text-gold transition-colors"><iconify-icon icon="simple-icons:x" width="17"></iconify-icon></a><a href="#" class="text-white/15 hover:text-gold transition-colors"><iconify-icon icon="simple-icons:github" width="17"></iconify-icon></a></div>
+  </div>
+</div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                                -->
+<!-- ══════════════════════════════════════════════════════ -->
+<script>
+// ═══ SCROLL REVEAL ═══
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)} });
+}, { threshold:.08, rootMargin:'0px 0px -50px 0px' });
+document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-s').forEach(el => obs.observe(el));
+
+// ═══ NAV GLASS ═══
+const topnav = document.getElementById('topnav');
+window.addEventListener('scroll', () => {
+  if(window.scrollY > 60){
+    topnav.classList.add('nav-glass');
+    topnav.style.background='rgba(250,248,245,.88)';
+    topnav.style.borderBottom='1px solid rgba(232,226,218,.35)';
+  } else {
+    topnav.classList.remove('nav-glass');
+    topnav.style.background='transparent';
+    topnav.style.borderBottom='none';
+  }
+},{passive:true});
+
+// ═══ STAT COUNTER ═══
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const isFloat = target % 1 !== 0;
+    let current = 0;
+    const step = target / 40;
+    const timer = setInterval(() => {
+      current += step;
+      if(current >= target){ current = target; clearInterval(timer); }
+      el.textContent = (isFloat ? current.toFixed(1) : Math.round(current)) + suffix;
+    }, 30);
+    counterObs.unobserve(el);
+  });
+},{threshold:.5});
+document.querySelectorAll('.stat-counter').forEach(el => counterObs.observe(el));
+
+// ═══ FAQ ═══
+function toggleFaq(el){
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-row').forEach(r => r.classList.remove('open'));
+  if(!wasOpen) el.classList.add('open');
+}
+
+// ═══ SMOOTH SCROLL ═══
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
+</body>
+</html>

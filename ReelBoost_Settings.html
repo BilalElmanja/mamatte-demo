@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReelBoost — Paramètres</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Manrope','system-ui','sans-serif'],serif:['Playfair Display','Georgia','serif'],mono:['JetBrains Mono','monospace']},colors:{cream:'#FAF8F5',beige:'#F0EBE3',stone:'#E8E2DA',gold:'#C8A97E',golddark:'#A68B5B',goldlight:'#D4BC99',ink:'#1A1A1A',inksoft:'#2D2D2D',muted:'#8B8680',faded:'#B5AFA8'}}}}</script>
+<style>
+@keyframes slideUpBlur{0%{opacity:0;transform:translateY(20px);filter:blur(8px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes modalIn{0%{opacity:0;transform:scale(.95) translateY(8px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes pulseGreen{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+
+.anim-up{animation:slideUpBlur .7s cubic-bezier(.16,1,.3,1) both}
+.anim-s1{animation:slideUpBlur .7s .05s cubic-bezier(.16,1,.3,1) both}
+.anim-s2{animation:slideUpBlur .7s .1s cubic-bezier(.16,1,.3,1) both}
+.anim-s3{animation:slideUpBlur .7s .15s cubic-bezier(.16,1,.3,1) both}
+.anim-s4{animation:slideUpBlur .7s .2s cubic-bezier(.16,1,.3,1) both}
+.anim-s5{animation:slideUpBlur .7s .25s cubic-bezier(.16,1,.3,1) both}
+.anim-s6{animation:slideUpBlur .7s .3s cubic-bezier(.16,1,.3,1) both}
+
+.sidebar-item{transition:all .25s cubic-bezier(.16,1,.3,1);border-left:3px solid transparent}
+.sidebar-item:hover{background:rgba(26,26,26,.03)}
+.sidebar-item.active{background:rgba(26,26,26,.05);border-left-color:#1A1A1A;color:#1A1A1A;font-weight:600}
+
+.section-card{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.section-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.04)}
+
+.input-field{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.input-field:focus{border-color:#1A1A1A;box-shadow:0 0 0 3px rgba(26,26,26,.06)}
+
+.select-field{transition:all .25s cubic-bezier(.16,1,.3,1);cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%238B8680' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.select-field:focus{border-color:#1A1A1A;box-shadow:0 0 0 3px rgba(26,26,26,.06)}
+
+.toggle-track{transition:all .3s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.toggle-track.on{background:#1A1A1A}
+.toggle-track.on .toggle-knob{transform:translateX(18px)}
+.toggle-knob{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.toggle-track:hover{box-shadow:0 0 0 3px rgba(26,26,26,.06)}
+
+.api-card{transition:all .3s cubic-bezier(.16,1,.3,1);border-left:3px solid transparent}
+.api-card.active{border-left-color:#22c55e}
+.api-card.inactive{border-left-color:#ef4444}
+.api-card.warning{border-left-color:#f59e0b}
+.api-card:hover{background:rgba(26,26,26,.01)}
+
+.btn-primary{transition:all .35s cubic-bezier(.16,1,.3,1)}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.btn-primary:active:not(:disabled){transform:translateY(0) scale(.98)}
+.btn-primary:disabled{opacity:.35;cursor:not-allowed}
+.btn-outline{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.btn-outline:hover{background:rgba(26,26,26,.04);border-color:#B5AFA8}
+.btn-danger{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.btn-danger:hover{background:#dc2626;color:white;border-color:#dc2626}
+
+.modal-content{animation:modalIn .4s cubic-bezier(.16,1,.3,1) both}
+
+.toast{transition:all .4s cubic-bezier(.16,1,.3,1)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#E8E2DA;border-radius:2px}
+@media(max-width:767px){.sidebar{transform:translateX(-100%);position:fixed;z-index:200;height:100vh;top:0;left:0}.sidebar.open{transform:translateX(0)}.bottom-nav{display:flex !important}.mobile-topbar{display:flex !important}}
+@media(min-width:768px){.bottom-nav{display:none !important}.mobile-topbar{display:none !important}}
+@media(min-width:768px) and (max-width:1023px){.sidebar{width:72px !important}.sidebar .lbl,.sidebar .logo-text,.sidebar .sidebar-footer-info{display:none}.sidebar-item{justify-content:center;padding-left:0;padding-right:0}}
+</style>
+</head>
+<body class="min-h-screen font-sans antialiased overflow-x-hidden bg-cream">
+
+<!-- SIDEBAR -->
+<aside class="sidebar fixed top-0 left-0 h-screen w-[240px] bg-white border-r border-stone/50 flex flex-col z-50 transition-transform duration-300" id="sidebar"><div class="px-5 py-5 flex items-center gap-2.5 border-b border-stone/40"><div class="w-8 h-8 bg-ink rounded-lg flex items-center justify-center flex-shrink-0 shadow-md shadow-ink/10"><iconify-icon icon="solar:cup-hot-bold" width="16" class="text-white"></iconify-icon></div><div class="logo-text min-w-0"><p class="text-sm font-bold tracking-tight text-ink leading-none">ReelBoost</p><p class="text-[11px] text-muted truncate mt-0.5">@mamatte.brunch.cafe</p></div></div><nav class="flex-1 py-3 px-2 flex flex-col gap-0.5 overflow-y-auto"><a href="ReelBoost_Dashboard.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:widget-2-linear" width="20"></iconify-icon><span class="lbl">Tableau de bord</span></a><a href="ReelBoost_Ideas.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:lightbulb-linear" width="20"></iconify-icon><span class="lbl">Idées</span></a><a href="ReelBoost_Competitors.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="20"></iconify-icon><span class="lbl">Concurrents</span></a><a href="ReelBoost_MyReels.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:reel-linear" width="20"></iconify-icon><span class="lbl">Mes Reels</span></a><a href="ReelBoost_Outliers.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:fire-linear" width="20"></iconify-icon><span class="lbl">Outliers</span></a><a href="ReelBoost_Reports.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:chart-2-linear" width="20"></iconify-icon><span class="lbl">Rapports</span></a><a href="ReelBoost_Scripts.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:document-text-linear" width="20"></iconify-icon><span class="lbl">Scripts</span></a><div class="my-2 mx-3 h-px bg-stone/40"></div><a href="#" class="sidebar-item active rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:settings-linear" width="20"></iconify-icon><span class="lbl">Paramètres</span></a></nav><div class="px-4 py-4 border-t border-stone/40 flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-xs font-bold text-white flex-shrink-0">M</div><div class="sidebar-footer-info min-w-0"><p class="text-xs font-semibold text-ink truncate">Mamatte Longueau</p></div></div></aside>
+
+<!-- MOBILE -->
+<header class="mobile-topbar hidden fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-lg border-b border-stone/40 z-40 items-center justify-between px-4"><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-beige"><iconify-icon icon="solar:hamburger-menu-linear" width="20" class="text-ink"></iconify-icon></button><span class="text-sm font-bold text-ink">Paramètres</span><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-[10px] font-bold text-white">M</div></header>
+<nav class="bottom-nav hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-lg border-t border-stone/40 z-40 items-center justify-around px-2"><a href="ReelBoost_Dashboard.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:widget-2-linear" width="22"></iconify-icon><span class="text-[9px]">Accueil</span></a><a href="ReelBoost_Ideas.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:lightbulb-linear" width="22"></iconify-icon><span class="text-[9px]">Idées</span></a><a href="ReelBoost_Competitors.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="22"></iconify-icon><span class="text-[9px]">Rivaux</span></a><a href="ReelBoost_MyReels.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:reel-linear" width="22"></iconify-icon><span class="text-[9px]">Reels</span></a><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:menu-dots-bold" width="22"></iconify-icon><span class="text-[9px]">Plus</span></button></nav>
+
+<!-- MAIN -->
+<main class="md:ml-[240px] lg:ml-[240px] md:max-lg:ml-[72px] min-h-screen pt-14 md:pt-0 pb-20 md:pb-0">
+<div class="max-w-[760px] mx-auto px-5 md:px-8 py-6 md:py-8">
+
+  <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-ink mb-8 anim-up">Paramètres</h1>
+
+  <!-- ═══════ 1. PROFILE ═══════ -->
+  <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6 mb-4 anim-s1">
+    <h2 class="text-sm font-bold text-ink flex items-center gap-2 mb-5"><iconify-icon icon="solar:user-circle-linear" width="18" class="text-gold"></iconify-icon>Profil</h2>
+    <div class="space-y-4">
+      <div>
+        <label class="text-[11px] font-bold text-faded uppercase tracking-wider mb-1.5 block">Nom</label>
+        <div class="flex gap-2">
+          <input id="name-input" type="text" value="Mamatte Longueau-Glisy" class="input-field flex-1 bg-beige/30 border border-stone rounded-xl px-4 py-2.5 text-sm text-ink outline-none" oninput="document.getElementById('save-name').classList.remove('hidden')">
+          <button id="save-name" onclick="saveName()" class="btn-primary bg-ink text-white px-4 py-2 rounded-xl text-xs font-bold hidden">Sauver</button>
+        </div>
+      </div>
+      <div>
+        <label class="text-[11px] font-bold text-faded uppercase tracking-wider mb-1.5 block">Email</label>
+        <input type="text" value="contact@mamatte-longueau.fr" class="input-field w-full bg-beige/20 border border-stone/30 rounded-xl px-4 py-2.5 text-sm text-muted outline-none cursor-not-allowed" disabled>
+        <p class="text-[10px] text-faded mt-1">Géré par Clerk · Non modifiable ici</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="text-[11px] font-bold text-faded uppercase tracking-wider mb-1.5 block">Langue du contenu</label>
+          <select onchange="toast('Langue mise à jour : '+this.value)" class="select-field w-full bg-beige/30 border border-stone rounded-xl px-4 py-2.5 text-sm text-ink outline-none">
+            <option selected>🇫🇷 Français</option><option>🇬🇧 English</option><option>🇪🇸 Español</option>
+          </select>
+          <p class="text-[10px] text-faded mt-1">Change la langue du contenu IA généré</p>
+        </div>
+        <div>
+          <label class="text-[11px] font-bold text-faded uppercase tracking-wider mb-1.5 block">Fréquence de publication</label>
+          <select onchange="updateFreq(this.value)" class="select-field w-full bg-beige/30 border border-stone rounded-xl px-4 py-2.5 text-sm text-ink outline-none">
+            <option>1-2x / semaine</option><option selected>3-4x / semaine</option><option>5-7x / semaine</option>
+          </select>
+          <p class="text-[10px] text-faded mt-1" id="freq-hint">→ Vous recevrez <span class="font-bold text-ink">10 idées</span> par semaine</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ 2. INSTAGRAM ═══════ -->
+  <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6 mb-4 anim-s2">
+    <h2 class="text-sm font-bold text-ink flex items-center gap-2 mb-5"><iconify-icon icon="solar:camera-linear" width="18" class="text-gold"></iconify-icon>Connexion Instagram</h2>
+    <div class="flex items-center gap-3 bg-green-50/60 border border-green-200/60 rounded-xl px-4 py-3">
+      <div class="w-10 h-10 rounded-full bg-ink flex items-center justify-center text-sm font-bold text-white flex-shrink-0">M</div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2"><span class="text-sm font-bold text-ink">@mamatte.brunch.cafe</span><span class="w-2.5 h-2.5 bg-green-400 rounded-full" style="animation:pulseGreen 2s infinite"></span></div>
+        <p class="text-[11px] text-muted">2 412 abonnés · 487 posts</p>
+      </div>
+      <button class="btn-outline border border-stone rounded-lg px-3 py-1.5 text-[11px] font-semibold text-muted flex-shrink-0">Changer</button>
+    </div>
+  </div>
+
+  <!-- ═══════ 3. API KEYS ═══════ -->
+  <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6 mb-4 anim-s3">
+    <h2 class="text-sm font-bold text-ink flex items-center gap-2 mb-2"><iconify-icon icon="solar:key-linear" width="18" class="text-gold"></iconify-icon>Clés API</h2>
+    <p class="text-[11px] text-muted mb-5">Vos clés sont chiffrées et stockées de manière sécurisée.</p>
+
+    <div class="space-y-3" id="api-keys-list">
+      <!-- OpenAI -->
+      <div class="api-card active bg-beige/20 border border-stone/40 rounded-xl p-4">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-8 h-8 bg-white rounded-lg border border-stone/40 flex items-center justify-center flex-shrink-0"><iconify-icon icon="simple-icons:openai" width="16" class="text-ink"></iconify-icon></div>
+          <div class="flex-1 min-w-0"><p class="text-sm font-bold text-ink">OpenAI</p><p class="text-[10px] text-muted">Dernier test : il y a 2 heures</p></div>
+          <span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>Actif</span>
+        </div>
+        <div class="flex items-center gap-2 mb-3">
+          <code class="font-mono text-xs text-muted bg-white border border-stone/30 px-3 py-1.5 rounded-lg flex-1 truncate" id="key-openai">sk-proj-****************************4f2g</code>
+          <button onclick="toggleKey('openai')" class="w-8 h-8 rounded-lg border border-stone flex items-center justify-center text-faded hover:text-ink hover:bg-beige transition-all" title="Afficher"><iconify-icon icon="solar:eye-linear" width="14" id="eye-openai"></iconify-icon></button>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="testKey('openai')" class="btn-outline border border-stone rounded-lg px-3 py-1.5 text-[10px] font-bold text-muted flex items-center gap-1"><iconify-icon icon="solar:refresh-linear" width="12"></iconify-icon>Tester</button>
+          <button onclick="changeKey('openai')" class="btn-outline border border-stone rounded-lg px-3 py-1.5 text-[10px] font-bold text-muted flex items-center gap-1"><iconify-icon icon="solar:pen-2-linear" width="12"></iconify-icon>Changer</button>
+        </div>
+      </div>
+
+      <!-- Apify -->
+      <div class="api-card active bg-beige/20 border border-stone/40 rounded-xl p-4">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-8 h-8 bg-white rounded-lg border border-stone/40 flex items-center justify-center flex-shrink-0"><iconify-icon icon="solar:bug-linear" width="16" class="text-ink"></iconify-icon></div>
+          <div class="flex-1 min-w-0"><p class="text-sm font-bold text-ink">Apify</p><p class="text-[10px] text-muted">Dernier test : il y a 2 heures</p></div>
+          <span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>Actif</span>
+        </div>
+        <div class="flex items-center gap-2 mb-3">
+          <code class="font-mono text-xs text-muted bg-white border border-stone/30 px-3 py-1.5 rounded-lg flex-1 truncate">apify_api_**********************8j2k</code>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="testKey('apify')" class="btn-outline border border-stone rounded-lg px-3 py-1.5 text-[10px] font-bold text-muted flex items-center gap-1"><iconify-icon icon="solar:refresh-linear" width="12"></iconify-icon>Tester</button>
+          <button class="btn-outline border border-stone rounded-lg px-3 py-1.5 text-[10px] font-bold text-muted flex items-center gap-1"><iconify-icon icon="solar:pen-2-linear" width="12"></iconify-icon>Changer</button>
+        </div>
+      </div>
+
+      <!-- RapidAPI -->
+      <div class="api-card active bg-beige/20 border border-stone/40 rounded-xl p-4">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-8 h-8 bg-white rounded-lg border border-stone/40 flex items-center justify-center flex-shrink-0"><iconify-icon icon="solar:chart-square-linear" width="16" class="text-ink"></iconify-icon></div>
+          <div class="flex-1 min-w-0"><p class="text-sm font-bold text-ink">RapidAPI</p><p class="text-[10px] text-muted">Dernier test : il y a 2 heures</p></div>
+          <span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>Actif</span>
+        </div>
+        <div class="flex items-center gap-2 mb-3">
+          <code class="font-mono text-xs text-muted bg-white border border-stone/30 px-3 py-1.5 rounded-lg flex-1 truncate">****************************3m1n</code>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="testKey('rapid')" class="btn-outline border border-stone rounded-lg px-3 py-1.5 text-[10px] font-bold text-muted flex items-center gap-1"><iconify-icon icon="solar:refresh-linear" width="12"></iconify-icon>Tester</button>
+          <button class="btn-outline border border-stone rounded-lg px-3 py-1.5 text-[10px] font-bold text-muted flex items-center gap-1"><iconify-icon icon="solar:pen-2-linear" width="12"></iconify-icon>Changer</button>
+        </div>
+      </div>
+
+      <!-- Resend (not configured) -->
+      <div class="api-card inactive bg-beige/20 border border-stone/40 rounded-xl p-4">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-8 h-8 bg-white rounded-lg border border-stone/40 flex items-center justify-center flex-shrink-0"><iconify-icon icon="solar:letter-linear" width="16" class="text-faded"></iconify-icon></div>
+          <div class="flex-1 min-w-0"><p class="text-sm font-bold text-ink">Resend</p><p class="text-[10px] text-faded">Optionnel — uniquement pour les rapports email</p></div>
+          <span class="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-md flex items-center gap-1"><span class="w-1.5 h-1.5 bg-red-400 rounded-full"></span>Non configuré</span>
+        </div>
+        <div id="resend-config" class="hidden">
+          <div class="flex gap-2 mt-3">
+            <input type="text" placeholder="re_xxxxxxxxxxxx" class="input-field flex-1 font-mono text-xs bg-white border border-stone rounded-lg px-3 py-2 outline-none min-w-0">
+            <button onclick="saveResend()" class="btn-primary bg-ink text-white px-4 py-2 rounded-lg text-[10px] font-bold">Sauver</button>
+          </div>
+        </div>
+        <button onclick="document.getElementById('resend-config').classList.toggle('hidden')" class="text-[11px] font-bold text-gold hover:text-golddark transition-colors flex items-center gap-1 mt-2">Configurer <iconify-icon icon="solar:arrow-right-linear" width="10"></iconify-icon></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ 4. NOTIFICATIONS ═══════ -->
+  <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6 mb-4 anim-s4">
+    <h2 class="text-sm font-bold text-ink flex items-center gap-2 mb-5"><iconify-icon icon="solar:bell-linear" width="18" class="text-gold"></iconify-icon>Notifications</h2>
+    <div class="space-y-4">
+      <div class="flex items-center justify-between gap-4">
+        <div><p class="text-sm font-semibold text-ink">Rapport hebdomadaire par email</p><p class="text-[11px] text-muted">Envoyé chaque dimanche après l'analyse</p></div>
+        <div onclick="toggleSwitch(this)" class="toggle-track on w-11 h-6 bg-stone rounded-full p-0.5 flex-shrink-0"><div class="toggle-knob w-5 h-5 bg-white rounded-full shadow-md"></div></div>
+      </div>
+      <div class="h-px bg-stone/30"></div>
+      <div class="flex items-center justify-between gap-4">
+        <div><p class="text-sm font-semibold text-ink">Nouvelles idées prêtes</p><p class="text-[11px] text-muted">Notification quand les idées hebdomadaires sont générées</p></div>
+        <div onclick="toggleSwitch(this)" class="toggle-track on w-11 h-6 bg-stone rounded-full p-0.5 flex-shrink-0"><div class="toggle-knob w-5 h-5 bg-white rounded-full shadow-md"></div></div>
+      </div>
+      <div class="h-px bg-stone/30"></div>
+      <div class="flex items-center justify-between gap-4">
+        <div><p class="text-sm font-semibold text-ink">Alertes virales</p><p class="text-[11px] text-muted">Alerte quand un Reel concurrent dépasse 2× la moyenne</p></div>
+        <div onclick="toggleSwitch(this)" class="toggle-track on w-11 h-6 bg-stone rounded-full p-0.5 flex-shrink-0"><div class="toggle-knob w-5 h-5 bg-white rounded-full shadow-md"></div></div>
+      </div>
+    </div>
+    <div class="mt-4 bg-amber-50/60 border border-amber-200/40 rounded-xl px-4 py-2.5 flex items-start gap-2">
+      <iconify-icon icon="solar:danger-triangle-linear" width="14" class="text-amber-500 mt-0.5 flex-shrink-0"></iconify-icon>
+      <p class="text-[11px] text-amber-700">Les rapports email nécessitent une clé Resend configurée. <a href="#" class="font-bold underline decoration-amber-300 hover:text-amber-900">Configurer ↑</a></p>
+    </div>
+  </div>
+
+  <!-- ═══════ 5. DATA & PRIVACY ═══════ -->
+  <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6 mb-4 anim-s5">
+    <h2 class="text-sm font-bold text-ink flex items-center gap-2 mb-4"><iconify-icon icon="solar:shield-check-linear" width="18" class="text-gold"></iconify-icon>Données & confidentialité</h2>
+    <p class="text-[13px] text-muted leading-relaxed mb-5">Les données de Reels sont conservées 90 jours, puis automatiquement supprimées. Les idées et rapports sont conservés indéfiniment.</p>
+    <div class="flex flex-wrap gap-3">
+      <button onclick="toast('Export en cours... le fichier sera téléchargé.')" class="btn-outline border border-stone rounded-xl px-4 py-2.5 text-xs font-bold text-muted flex items-center gap-2"><iconify-icon icon="solar:file-download-linear" width="14"></iconify-icon>Exporter mes données</button>
+      <button onclick="openDeleteAccount()" class="btn-danger border border-red-200 rounded-xl px-4 py-2.5 text-xs font-bold text-red-400 flex items-center gap-2"><iconify-icon icon="solar:trash-bin-2-linear" width="14"></iconify-icon>Supprimer mon compte</button>
+    </div>
+  </div>
+
+  <!-- ═══════ 6. HELP ═══════ -->
+  <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6 mb-4 anim-s6">
+    <h2 class="text-sm font-bold text-ink flex items-center gap-2 mb-5"><iconify-icon icon="solar:question-circle-linear" width="18" class="text-gold"></iconify-icon>Aide</h2>
+    <div class="space-y-2">
+      <a href="ReelBoost_Auth_Onboarding.html" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-beige/50 transition-all">
+        <iconify-icon icon="solar:restart-linear" width="16" class="text-muted"></iconify-icon>
+        <span class="text-sm font-medium text-ink">Relancer le tutoriel d'onboarding</span>
+        <iconify-icon icon="solar:arrow-right-linear" width="12" class="text-faded ml-auto"></iconify-icon>
+      </a>
+      <a href="#" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-beige/50 transition-all">
+        <iconify-icon icon="solar:book-minimalistic-linear" width="16" class="text-muted"></iconify-icon>
+        <span class="text-sm font-medium text-ink">Documentation</span>
+        <iconify-icon icon="solar:square-top-down-linear" width="12" class="text-faded ml-auto"></iconify-icon>
+      </a>
+      <a href="#" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-beige/50 transition-all">
+        <iconify-icon icon="solar:bug-linear" width="16" class="text-muted"></iconify-icon>
+        <span class="text-sm font-medium text-ink">Signaler un bug</span>
+        <iconify-icon icon="solar:square-top-down-linear" width="12" class="text-faded ml-auto"></iconify-icon>
+      </a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- DELETE ACCOUNT MODAL -->
+<div id="delete-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" onclick="if(event.target===this)closeDeleteAccount()">
+  <div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+  <div class="modal-content relative bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl">
+    <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4"><iconify-icon icon="solar:danger-triangle-linear" width="28" class="text-red-500"></iconify-icon></div>
+    <h3 class="text-lg font-bold text-ink text-center mb-2">Supprimer votre compte ?</h3>
+    <p class="text-sm text-muted text-center mb-5">Cette action supprimera définitivement votre compte et toutes vos données après un délai de 30 jours. Tapez <span class="font-mono font-bold text-red-500">SUPPRIMER</span> pour confirmer.</p>
+    <input id="delete-confirm" type="text" placeholder="Tapez SUPPRIMER" class="input-field w-full bg-red-50/50 border border-red-200 rounded-xl px-4 py-3 text-sm text-ink text-center outline-none font-mono mb-4" oninput="document.getElementById('delete-go').disabled=this.value!=='SUPPRIMER'">
+    <div class="flex gap-3">
+      <button onclick="closeDeleteAccount()" class="flex-1 border border-stone rounded-xl py-2.5 text-sm font-semibold text-muted hover:bg-beige transition-all">Annuler</button>
+      <button id="delete-go" disabled class="flex-1 bg-red-500 text-white rounded-xl py-2.5 text-sm font-semibold hover:bg-red-600 transition-all disabled:opacity-30 disabled:cursor-not-allowed">Supprimer le compte</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none translate-y-4 opacity-0"><div class="bg-ink text-white px-5 py-3 rounded-2xl text-sm font-medium flex items-center gap-2.5 shadow-2xl shadow-ink/20"><iconify-icon icon="solar:check-circle-bold" width="17"></iconify-icon><span id="toast-txt"></span></div></div>
+
+<script>
+// Profile
+function saveName(){document.getElementById('save-name').classList.add('hidden');toast('Nom mis à jour ✓')}
+function updateFreq(v){const map={'1-2x / semaine':'5','3-4x / semaine':'10','5-7x / semaine':'15'};document.getElementById('freq-hint').innerHTML='→ Vous recevrez <span class="font-bold text-ink">'+map[v]+' idées</span> par semaine';toast('Fréquence mise à jour')}
+
+// API Keys
+let keyVisible={openai:false};
+function toggleKey(svc){
+  keyVisible[svc]=!keyVisible[svc];
+  const el=document.getElementById('key-'+svc);
+  const eye=document.getElementById('eye-'+svc);
+  if(keyVisible[svc]){el.textContent='sk-proj-a8fG3kLmN9pQ2rStUvWx7yZ1bCdEfGhI4f2g';eye.setAttribute('icon','solar:eye-closed-linear')}
+  else{el.textContent='sk-proj-****************************4f2g';eye.setAttribute('icon','solar:eye-linear')}
+}
+function testKey(svc){
+  toast('Test de la clé '+svc.charAt(0).toUpperCase()+svc.slice(1)+' en cours...');
+  setTimeout(()=>toast('Clé '+svc.charAt(0).toUpperCase()+svc.slice(1)+' : ✅ Valide'),1500);
+}
+function changeKey(svc){toast('Mode édition — entrez la nouvelle clé')}
+function saveResend(){document.getElementById('resend-config').classList.add('hidden');toast('Clé Resend configurée ✅')}
+
+// Toggles
+function toggleSwitch(el){el.classList.toggle('on');toast(el.classList.contains('on')?'Notification activée':'Notification désactivée')}
+
+// Delete account
+function openDeleteAccount(){document.getElementById('delete-modal').classList.remove('hidden');document.getElementById('delete-modal').classList.add('flex');document.getElementById('delete-confirm').value='';document.getElementById('delete-go').disabled=true}
+function closeDeleteAccount(){document.getElementById('delete-modal').classList.add('hidden');document.getElementById('delete-modal').classList.remove('flex')}
+
+// Toast
+let toastTimer;function toast(m){clearTimeout(toastTimer);const el=document.getElementById('toast');document.getElementById('toast-txt').textContent=m;el.style.opacity='1';el.style.transform='translate(-50%,0)';toastTimer=setTimeout(()=>{el.style.opacity='0';el.style.transform='translate(-50%,8px)'},2800)}
+</script>
+</body>
+</html>

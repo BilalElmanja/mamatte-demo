@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReelBoost — Scripts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Manrope','system-ui','sans-serif'],serif:['Playfair Display','Georgia','serif']},colors:{cream:'#FAF8F5',beige:'#F0EBE3',stone:'#E8E2DA',gold:'#C8A97E',golddark:'#A68B5B',goldlight:'#D4BC99',ink:'#1A1A1A',inksoft:'#2D2D2D',muted:'#8B8680',faded:'#B5AFA8'}}}}</script>
+<style>
+@keyframes slideUpBlur{0%{opacity:0;transform:translateY(20px);filter:blur(8px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes cardIn{0%{opacity:0;transform:translateY(14px) scale(.98)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes modalIn{0%{opacity:0;transform:scale(.95) translateY(8px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes copyPulse{0%{transform:scale(1)}50%{transform:scale(.92)}100%{transform:scale(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes resultIn{0%{opacity:0;transform:translateY(12px) scale(.97)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes sparkle{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+.au{animation:slideUpBlur .7s cubic-bezier(.16,1,.3,1) both}
+.au1{animation:slideUpBlur .7s .06s cubic-bezier(.16,1,.3,1) both}
+.au2{animation:slideUpBlur .7s .12s cubic-bezier(.16,1,.3,1) both}
+.sidebar-item{transition:all .25s cubic-bezier(.16,1,.3,1);border-left:3px solid transparent}
+.sidebar-item:hover{background:rgba(26,26,26,.03)}
+.sidebar-item.active{background:rgba(26,26,26,.05);border-left-color:#1A1A1A;color:#1A1A1A;font-weight:600}
+.script-card{transition:all .4s cubic-bezier(.16,1,.3,1);animation:cardIn .6s cubic-bezier(.16,1,.3,1) both}
+.script-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.06)}
+.option-chip{transition:all .25s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.option-chip:hover{border-color:#B5AFA8;background:rgba(26,26,26,.03)}
+.option-chip.selected{background:#1A1A1A;color:white;border-color:#1A1A1A}
+.btn-primary{transition:all .35s cubic-bezier(.16,1,.3,1)}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.btn-primary:active:not(:disabled){transform:translateY(0) scale(.98)}
+.btn-primary:disabled{opacity:.35;cursor:not-allowed}
+.btn-outline{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.btn-outline:hover{background:rgba(26,26,26,.04);border-color:#B5AFA8}
+.btn-ghost{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.btn-ghost:hover{color:#1A1A1A}
+.remix-btn{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.remix-btn:hover{background:#C8A97E;color:white;border-color:#C8A97E;transform:scale(1.05)}
+.copy-btn.copied{animation:copyPulse .3s cubic-bezier(.16,1,.3,1)}
+.sort-pill{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.sort-pill.active{background:#1A1A1A;color:white}
+.sort-pill:hover:not(.active){background:rgba(26,26,26,.05)}
+.search-input{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.search-input:focus{border-color:#1A1A1A;box-shadow:0 0 0 3px rgba(26,26,26,.06)}
+.modal-content{animation:modalIn .4s cubic-bezier(.16,1,.3,1) both}
+.result-card{animation:resultIn .6s cubic-bezier(.16,1,.3,1) both}
+.shimmer-block{background:linear-gradient(90deg,#F0EBE3,#FAF8F5,#F0EBE3);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:12px}
+.sparkle{animation:sparkle 1.5s ease-in-out infinite}
+.toast{transition:all .4s cubic-bezier(.16,1,.3,1)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#E8E2DA;border-radius:2px}
+@media(max-width:767px){.sidebar{transform:translateX(-100%);position:fixed;z-index:200;height:100vh;top:0;left:0}.sidebar.open{transform:translateX(0)}.bottom-nav{display:flex !important}.mobile-topbar{display:flex !important}}
+@media(min-width:768px){.bottom-nav{display:none !important}.mobile-topbar{display:none !important}}
+@media(min-width:768px) and (max-width:1023px){.sidebar{width:72px !important}.sidebar .lbl,.sidebar .logo-text,.sidebar .sidebar-footer-info{display:none}.sidebar-item{justify-content:center;padding-left:0;padding-right:0}}
+</style>
+</head>
+<body class="min-h-screen font-sans antialiased overflow-x-hidden bg-cream">
+<!-- SIDEBAR -->
+<aside class="sidebar fixed top-0 left-0 h-screen w-[240px] bg-white border-r border-stone/50 flex flex-col z-50 transition-transform duration-300" id="sidebar"><div class="px-5 py-5 flex items-center gap-2.5 border-b border-stone/40"><div class="w-8 h-8 bg-ink rounded-lg flex items-center justify-center flex-shrink-0 shadow-md shadow-ink/10"><iconify-icon icon="solar:cup-hot-bold" width="16" class="text-white"></iconify-icon></div><div class="logo-text min-w-0"><p class="text-sm font-bold tracking-tight text-ink leading-none">ReelBoost</p><p class="text-[11px] text-muted truncate mt-0.5">@mamatte.brunch.cafe</p></div></div><nav class="flex-1 py-3 px-2 flex flex-col gap-0.5 overflow-y-auto"><a href="ReelBoost_Dashboard.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:widget-2-linear" width="20"></iconify-icon><span class="lbl">Tableau de bord</span></a><a href="ReelBoost_Ideas.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:lightbulb-linear" width="20"></iconify-icon><span class="lbl">Idées</span></a><a href="ReelBoost_Competitors.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="20"></iconify-icon><span class="lbl">Concurrents</span></a><a href="ReelBoost_MyReels.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:reel-linear" width="20"></iconify-icon><span class="lbl">Mes Reels</span></a><a href="ReelBoost_Outliers.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:fire-linear" width="20"></iconify-icon><span class="lbl">Outliers</span></a><a href="ReelBoost_Reports.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:chart-2-linear" width="20"></iconify-icon><span class="lbl">Rapports</span></a><a href="#" class="sidebar-item active rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:document-text-linear" width="20"></iconify-icon><span class="lbl">Scripts</span></a><div class="my-2 mx-3 h-px bg-stone/40"></div><a href="ReelBoost_Settings.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:settings-linear" width="20"></iconify-icon><span class="lbl">Paramètres</span></a></nav><div class="px-4 py-4 border-t border-stone/40 flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-xs font-bold text-white flex-shrink-0">M</div><div class="sidebar-footer-info min-w-0"><p class="text-xs font-semibold text-ink truncate">Mamatte Longueau</p></div></div></aside>
+<!-- MOBILE -->
+<header class="mobile-topbar hidden fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-lg border-b border-stone/40 z-40 items-center justify-between px-4"><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-beige"><iconify-icon icon="solar:hamburger-menu-linear" width="20" class="text-ink"></iconify-icon></button><span class="text-sm font-bold text-ink">Scripts</span><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-[10px] font-bold text-white">M</div></header>
+<nav class="bottom-nav hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-lg border-t border-stone/40 z-40 items-center justify-around px-2"><a href="ReelBoost_Dashboard.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:widget-2-linear" width="22"></iconify-icon><span class="text-[9px]">Accueil</span></a><a href="ReelBoost_Ideas.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:lightbulb-linear" width="22"></iconify-icon><span class="text-[9px]">Idées</span></a><a href="ReelBoost_Competitors.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="22"></iconify-icon><span class="text-[9px]">Rivaux</span></a><a href="ReelBoost_MyReels.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:reel-linear" width="22"></iconify-icon><span class="text-[9px]">Reels</span></a><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:menu-dots-bold" width="22"></iconify-icon><span class="text-[9px]">Plus</span></button></nav>
+
+<!-- MAIN -->
+<main class="md:ml-[240px] lg:ml-[240px] md:max-lg:ml-[72px] min-h-screen pt-14 md:pt-0 pb-20 md:pb-0">
+<div class="max-w-[900px] mx-auto px-5 md:px-8 py-6 md:py-8">
+
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 au"><div><h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-ink">Bibliothèque de <span class="font-serif italic text-gold">Scripts</span></h1><p class="text-sm text-muted mt-1">Cliquez <span class="font-semibold text-gold">Variante</span> pour créer une version alternative</p></div><span class="text-xs font-bold text-muted bg-beige px-3 py-1.5 rounded-lg self-start">5 scripts</span></div>
+
+  <div class="flex flex-col sm:flex-row gap-3 mb-6 au1"><div class="relative flex-1"><iconify-icon icon="solar:magnifer-linear" width="16" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-faded"></iconify-icon><input type="text" placeholder="Rechercher un script..." class="search-input w-full bg-white border border-stone/40 rounded-xl pl-10 pr-4 py-2.5 text-sm text-ink placeholder:text-faded outline-none" oninput="filterScripts(this.value)"></div><div class="flex bg-white border border-stone/40 rounded-lg p-0.5 gap-0.5 flex-shrink-0 self-start"><button onclick="setSort(this)" class="sort-pill active px-3 py-1.5 rounded-md text-[11px] font-bold">Récent</button><button onclick="setSort(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">Modifié</button><button onclick="setSort(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">Mots</button></div></div>
+
+  <div class="flex flex-col gap-3 au2" id="scripts-list"></div>
+</div>
+</main>
+
+<!-- VARIANT MODAL -->
+<div id="variant-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" onclick="if(event.target===this)closeVar()">
+<div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+<div class="modal-content relative bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+  <div class="sticky top-0 bg-white/95 backdrop-blur-sm px-6 py-4 border-b border-stone/30 flex items-center justify-between z-10 rounded-t-2xl">
+    <div class="flex items-center gap-2.5"><div class="w-9 h-9 bg-gold/15 rounded-xl flex items-center justify-center"><iconify-icon icon="solar:magic-stick-3-bold" width="18" class="text-golddark"></iconify-icon></div><div><p class="text-sm font-bold text-ink">Générer une variante</p><p class="text-[10px] text-muted">Créez un script alternatif basé sur l'original</p></div></div>
+    <button onclick="closeVar()" class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-beige transition-colors text-muted"><iconify-icon icon="solar:close-circle-linear" width="18"></iconify-icon></button>
+  </div>
+  <div class="px-6 py-5">
+    <!-- Source -->
+    <div class="bg-beige/40 rounded-xl p-4 mb-5"><p class="text-[10px] font-bold text-faded uppercase tracking-wider mb-1">Script source</p><p class="text-[13px] font-semibold text-ink leading-snug line-clamp-2" id="v-hook">—</p></div>
+
+    <!-- What -->
+    <div class="mb-5"><p class="text-[11px] font-bold text-faded uppercase tracking-wider mb-2.5">Type</p><div class="grid grid-cols-3 gap-2"><button onclick="selVT(this,'alt-script')" class="option-chip selected border border-stone rounded-xl p-3 text-center"><iconify-icon icon="solar:document-text-linear" width="18" class="mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold block">Script alt.</span></button><button onclick="selVT(this,'new-hooks')" class="option-chip border border-stone rounded-xl p-3 text-center text-muted"><iconify-icon icon="solar:text-bold-linear" width="18" class="mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold block">Nouveaux hooks</span></button><button onclick="selVT(this,'captions')" class="option-chip border border-stone rounded-xl p-3 text-center text-muted"><iconify-icon icon="solar:chat-round-dots-linear" width="18" class="mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold block">Captions</span></button></div></div>
+
+    <!-- Direction -->
+    <div class="mb-5"><p class="text-[11px] font-bold text-faded uppercase tracking-wider mb-2.5">Direction</p><div class="flex flex-wrap gap-2"><button onclick="selC(this)" class="option-chip selected border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold">🔄 Même angle, ton différent</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">🎭 Version humour</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">✂️ Plus court (15 sec)</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">📖 Plus narratif</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">🎯 Plus commercial</button></div></div>
+
+    <!-- Notes -->
+    <div class="mb-5"><p class="text-[11px] font-bold text-faded uppercase tracking-wider mb-2">Instructions <span class="font-normal text-faded">(optionnel)</span></p><textarea placeholder="Ex: Cibler un public jeune, mettre en avant le côté écolo..." class="w-full bg-beige/30 border border-stone rounded-xl px-4 py-3 text-sm text-ink placeholder:text-faded outline-none focus:border-ink focus:shadow-[0_0_0_3px_rgba(26,26,26,.06)] transition-all resize-none h-16"></textarea></div>
+
+    <!-- Generate -->
+    <button onclick="genVariant()" id="var-gen" class="btn-primary w-full bg-ink text-white py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2.5 shadow-lg shadow-ink/10"><iconify-icon icon="solar:stars-minimalistic-bold" width="18" class="sparkle"></iconify-icon>Générer la variante</button>
+
+    <!-- Loading -->
+    <div id="var-loading" class="hidden mt-5"><div class="flex items-center gap-3 mb-4"><iconify-icon icon="solar:refresh-linear" width="16" class="text-gold" style="animation:spin 1s linear infinite"></iconify-icon><span class="text-sm font-medium text-muted">Génération en cours...</span></div><div class="space-y-2"><div class="shimmer-block h-4 w-3/4"></div><div class="shimmer-block h-4 w-full"></div><div class="shimmer-block h-4 w-5/6"></div><div class="shimmer-block h-4 w-2/3"></div></div></div>
+
+    <!-- Result -->
+    <div id="var-result" class="hidden mt-5">
+      <div class="result-card border-2 border-gold/30 rounded-2xl p-5 bg-gradient-to-br from-gold/5 to-transparent">
+        <div class="flex items-center gap-2 mb-3"><iconify-icon icon="solar:stars-minimalistic-bold" width="14" class="text-gold"></iconify-icon><span class="text-[10px] font-bold text-gold uppercase tracking-wider">Variante générée</span></div>
+
+        <div id="vr-script" class="space-y-3">
+          <div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Accroche</p><p class="text-[13px] text-ink leading-relaxed">« Stop. Regarde bien cette tasse. Dans 3 secondes, tout aura disparu. »</p></div>
+          <div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Contexte</p><p class="text-[13px] text-ink leading-relaxed">On vit dans un monde de rush. Tout va trop vite. Sauf ici. Sauf chez Mamatte. Chaque matin, notre barista prend 45 secondes pour créer quelque chose de beau.</p></div>
+          <div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Valeur</p><p class="text-[13px] text-ink leading-relaxed">Ce n'est pas juste du café. C'est de l'attention. Du soin. De la précision. Et ça, ça ne se scrolle pas — ça se vit.</p></div>
+          <div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">CTA</p><p class="text-[13px] text-ink leading-relaxed">Viens prendre le temps d'un vrai café chez Mamatte ☕ Lien en bio.</p></div>
+        </div>
+
+        <div id="vr-hooks" class="hidden">
+          <p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-2">5 hooks alternatifs</p>
+          <p class="text-[14px] font-semibold text-ink py-2">1. « Stop. Regarde cette tasse. Dans 3 secondes, tout disparaît. »</p>
+          <p class="text-[14px] font-semibold text-ink py-2 border-t border-stone/20">2. « Notre barista crée un chef-d'œuvre éphémère tous les matins »</p>
+          <p class="text-[14px] font-semibold text-ink py-2 border-t border-stone/20">3. « 45 secondes de concentration. 3 secondes de beauté. Et puis… pouf. »</p>
+          <p class="text-[14px] font-semibold text-ink py-2 border-t border-stone/20">4. « Ce latte art va disparaître avant la fin de ce Reel »</p>
+          <p class="text-[14px] font-semibold text-ink py-2 border-t border-stone/20">5. « ASMR : le son du latte art en train d'être créé 🎧 »</p>
+        </div>
+
+        <div id="vr-captions" class="hidden">
+          <p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-2">5 captions</p>
+          <p class="text-[13px] text-ink py-2">1. L'art éphémère du café ☕ Chaque tasse est unique, comme chaque matin chez Mamatte ✨</p>
+          <p class="text-[13px] text-ink py-2 border-t border-stone/20">2. 45 secondes pour créer, 3 secondes pour disparaître. C'est ça, la magie du latte art 💫</p>
+          <p class="text-[13px] text-ink py-2 border-t border-stone/20">3. POV : tu es le premier client du matin et tu reçois ce chef-d'œuvre dans ta tasse 🥹</p>
+          <p class="text-[13px] text-ink py-2 border-t border-stone/20">4. On ne vend pas du café. On vend 45 secondes de beauté pure 🫶 #mamatte</p>
+          <p class="text-[13px] text-ink py-2 border-t border-stone/20">5. Sound ON 🔊 Le bruit du lait qui dessine &gt;&gt;&gt; #asmrcafe #latteart</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mt-5 pt-4 border-t border-gold/20">
+          <button onclick="toast('Sauvegardé comme nouveau script 📝');closeVar()" class="btn-primary bg-ink text-white px-4 py-2.5 rounded-xl text-[11px] font-bold flex items-center gap-1.5"><iconify-icon icon="solar:bookmark-linear" width="13"></iconify-icon>Sauver</button>
+          <button onclick="genVariant()" class="btn-outline border border-stone rounded-xl px-4 py-2.5 text-[11px] font-bold text-muted flex items-center gap-1.5"><iconify-icon icon="solar:refresh-linear" width="13"></iconify-icon>Régénérer</button>
+          <button onclick="toast('Copié 📋')" class="btn-outline border border-stone rounded-xl px-4 py-2.5 text-[11px] font-bold text-muted flex items-center gap-1.5 ml-auto"><iconify-icon icon="solar:copy-linear" width="13"></iconify-icon>Copier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="toast" class="toast fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none translate-y-4 opacity-0"><div class="bg-ink text-white px-5 py-3 rounded-2xl text-sm font-medium flex items-center gap-2.5 shadow-2xl shadow-ink/20"><iconify-icon icon="solar:check-circle-bold" width="17"></iconify-icon><span id="toast-txt"></span></div></div>
+
+<script>
+const SC=[
+  {id:1,hook:"« Tu as 3 secondes avant que ce latte art disparaisse »",cat:'🔊 ASMR',catL:'Food ASMR',diff:'easy',dL:'Facile',dC:'green',w:147,dur:'~60s',date:'17 Fév. 2026',status:'edited',preview:"Accroche · Contexte · Valeur · CTA — Script complet latte art ASMR"},
+  {id:2,hook:"« Le secret de notre cold brew infusé 24h »",cat:'🧑‍🍳 Recette',catL:'Recette',diff:'medium',dL:'Moyen',dC:'amber',w:143,dur:'~55s',date:'14 Fév. 2026',status:'original',preview:"Accroche · Contexte · Valeur · CTA — Cold brew recette"},
+  {id:3,hook:"« Comment on prépare nos brunchs à 5h du mat' »",cat:'🍳 BTS',catL:'BTS',diff:'easy',dL:'Facile',dC:'green',w:132,dur:'~50s',date:'12 Fév. 2026',status:'edited',preview:"Accroche · Contexte · Valeur · CTA — Coulisses brunch"},
+  {id:4,hook:"« On a testé la recette TikTok de l'avocado toast »",cat:'🔥 Tendance',catL:'Tendance',diff:'medium',dL:'Moyen',dC:'amber',w:158,dur:'~65s',date:'10 Fév. 2026',status:'original',preview:"Accroche · Contexte · Valeur · CTA — Test recette virale"},
+  {id:5,hook:"« Ce que commande un barista quand il ne travaille PAS »",cat:'📖 Story',catL:'Story',diff:'easy',dL:'Facile',dC:'green',w:121,dur:'~45s',date:'8 Fév. 2026',status:'original',preview:"Accroche · Contexte · Valeur · CTA — Insider barista"},
+];
+
+let varType='alt-script';
+
+function renderScripts(data){
+  document.getElementById('scripts-list').innerHTML=data.map((s,i)=>`
+  <div class="script-card bg-white rounded-2xl border border-stone/40 p-5 md:p-6" style="animation-delay:${i*.06}s">
+    <div class="flex items-start gap-4">
+      <div class="w-10 h-10 bg-gold/12 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"><iconify-icon icon="solar:document-text-linear" width="20" class="text-golddark"></iconify-icon></div>
+      <div class="flex-1 min-w-0">
+        <p class="text-[14px] md:text-[15px] font-semibold text-ink leading-snug line-clamp-2 mb-2">${s.hook}</p>
+        <div class="flex flex-wrap items-center gap-1.5 mb-2">
+          <span class="text-[10px] font-bold text-muted bg-beige px-2 py-0.5 rounded">${s.cat} ${s.catL}</span>
+          <span class="text-[10px] font-bold text-${s.dC}-600 bg-${s.dC}-50 px-2 py-0.5 rounded">${s.diff==='easy'?'🟢':'🟡'} ${s.dL}</span>
+          <span class="text-[10px] font-bold text-muted bg-beige px-2 py-0.5 rounded">${s.w} mots · ${s.dur}</span>
+          ${s.status==='edited'?'<span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">✏️ Modifié</span>':'<span class="text-[10px] font-bold text-faded bg-beige/60 px-2 py-0.5 rounded">Original</span>'}
+        </div>
+        <p class="text-[11px] text-faded mb-3">Généré le ${s.date}</p>
+        <div class="flex flex-wrap items-center gap-2">
+          <a href="ReelBoost_IdeaDetail.html" class="btn-primary bg-ink text-white px-4 py-2 rounded-lg text-[11px] font-bold flex items-center gap-1.5">Voir le script <iconify-icon icon="solar:arrow-right-linear" width="12"></iconify-icon></a>
+          <button onclick="openVar(${s.id})" class="remix-btn border border-gold/60 rounded-lg px-3 py-2 text-[11px] font-bold text-gold flex items-center gap-1.5"><iconify-icon icon="solar:magic-stick-3-linear" width="13"></iconify-icon>Variante</button>
+          <button onclick="copyScript(this,${s.id})" class="copy-btn btn-outline border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted flex items-center gap-1.5"><iconify-icon icon="solar:copy-linear" width="13"></iconify-icon>Copier</button>
+        </div>
+      </div>
+    </div>
+  </div>`).join('');
+}
+renderScripts(SC);
+
+function openVar(id){const s=SC.find(x=>x.id===id);document.getElementById('v-hook').textContent=s.hook;document.getElementById('var-loading').classList.add('hidden');document.getElementById('var-result').classList.add('hidden');document.getElementById('var-gen').classList.remove('hidden');document.getElementById('variant-modal').classList.remove('hidden');document.getElementById('variant-modal').classList.add('flex')}
+function closeVar(){document.getElementById('variant-modal').classList.add('hidden');document.getElementById('variant-modal').classList.remove('flex')}
+
+function selVT(el,t){varType=t;el.closest('.grid').querySelectorAll('.option-chip').forEach(c=>{c.classList.remove('selected');c.classList.add('text-muted')});el.classList.add('selected');el.classList.remove('text-muted')}
+function selC(el){el.closest('.flex').querySelectorAll('.option-chip').forEach(c=>{c.classList.remove('selected');c.classList.add('text-muted')});el.classList.add('selected');el.classList.remove('text-muted')}
+
+function genVariant(){
+  document.getElementById('var-gen').classList.add('hidden');document.getElementById('var-loading').classList.remove('hidden');document.getElementById('var-result').classList.add('hidden');
+  setTimeout(()=>{
+    document.getElementById('var-loading').classList.add('hidden');document.getElementById('var-result').classList.remove('hidden');
+    document.getElementById('vr-script').classList.toggle('hidden',varType!=='alt-script');
+    document.getElementById('vr-hooks').classList.toggle('hidden',varType!=='new-hooks');
+    document.getElementById('vr-captions').classList.toggle('hidden',varType!=='captions');
+    document.getElementById('var-gen').classList.remove('hidden');
+    document.getElementById('var-result').scrollIntoView({behavior:'smooth',block:'nearest'});
+  },2300);
+}
+
+function copyScript(btn,id){btn.classList.add('copied');btn.innerHTML='<iconify-icon icon="solar:check-read-linear" width="13"></iconify-icon>Copié !';toast('Script copié 📋');setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<iconify-icon icon="solar:copy-linear" width="13"></iconify-icon>Copier'},2000)}
+function filterScripts(q){const f=SC.filter(s=>s.hook.toLowerCase().includes(q.toLowerCase())||s.catL.toLowerCase().includes(q.toLowerCase()));renderScripts(f);if(!f.length)document.getElementById('scripts-list').innerHTML='<div class="text-center py-16"><div class="w-16 h-16 bg-beige rounded-2xl flex items-center justify-center mx-auto mb-4"><iconify-icon icon="solar:magnifer-linear" width="28" class="text-muted"></iconify-icon></div><p class="text-sm font-semibold text-ink mb-1">Aucun script trouvé</p><p class="text-xs text-muted">Essayez un autre terme</p></div>'}
+function setSort(el){el.closest('.flex').querySelectorAll('.sort-pill').forEach(p=>p.classList.remove('active'));el.classList.add('active')}
+let tt;function toast(m){clearTimeout(tt);const el=document.getElementById('toast');document.getElementById('toast-txt').textContent=m;el.style.opacity='1';el.style.transform='translate(-50%,0)';tt=setTimeout(()=>{el.style.opacity='0';el.style.transform='translate(-50%,8px)'},2800)}
+</script>
+</body>
+</html>

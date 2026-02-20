@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReelBoost — Outliers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Manrope','system-ui','sans-serif'],serif:['Playfair Display','Georgia','serif']},colors:{cream:'#FAF8F5',beige:'#F0EBE3',stone:'#E8E2DA',gold:'#C8A97E',golddark:'#A68B5B',goldlight:'#D4BC99',ink:'#1A1A1A',inksoft:'#2D2D2D',muted:'#8B8680',faded:'#B5AFA8',tiktok:'#ff0050',tiktokBg:'#fff0f3',igGrad1:'#833AB4',igGrad2:'#E1306C'}}}}</script>
+<style>
+@keyframes slideUpBlur{0%{opacity:0;transform:translateY(20px);filter:blur(8px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes rowIn{0%{opacity:0;transform:translateX(-10px)}100%{opacity:1;transform:translateX(0)}}
+@keyframes modalIn{0%{opacity:0;transform:scale(.95) translateY(8px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes resultIn{0%{opacity:0;transform:translateY(12px) scale(.97)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes sparkle{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+@keyframes tabSlide{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+.au{animation:slideUpBlur .7s cubic-bezier(.16,1,.3,1) both}
+.au1{animation:slideUpBlur .7s .06s cubic-bezier(.16,1,.3,1) both}
+.au2{animation:slideUpBlur .7s .12s cubic-bezier(.16,1,.3,1) both}
+.sidebar-item{transition:all .25s cubic-bezier(.16,1,.3,1);border-left:3px solid transparent}
+.sidebar-item:hover{background:rgba(26,26,26,.03)}
+.sidebar-item.active{background:rgba(26,26,26,.05);border-left-color:#1A1A1A;color:#1A1A1A;font-weight:600}
+.filter-chip{transition:all .25s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.filter-chip:hover{background:rgba(26,26,26,.05);border-color:#B5AFA8}
+.filter-chip.active{background:#1A1A1A;color:white;border-color:#1A1A1A}
+.sort-pill{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.sort-pill.active{background:#1A1A1A;color:white}
+.sort-pill:hover:not(.active){background:rgba(26,26,26,.05)}
+.outlier-row{transition:all .35s cubic-bezier(.16,1,.3,1);animation:rowIn .5s cubic-bezier(.16,1,.3,1) both}
+.outlier-row:hover{background:rgba(26,26,26,.025)}
+.outlier-row.viral{border-left:3px solid #f97316}
+.inspire-btn{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.inspire-btn:hover{background:#C8A97E;color:white;border-color:#C8A97E;transform:scale(1.05)}
+.option-chip{transition:all .25s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.option-chip:hover{border-color:#B5AFA8;background:rgba(26,26,26,.03)}
+.option-chip.selected{background:#1A1A1A;color:white;border-color:#1A1A1A}
+.modal-content{animation:modalIn .4s cubic-bezier(.16,1,.3,1) both}
+.result-card{animation:resultIn .6s cubic-bezier(.16,1,.3,1) both}
+.shimmer-block{background:linear-gradient(90deg,#F0EBE3,#FAF8F5,#F0EBE3);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:12px}
+.btn-primary{transition:all .35s cubic-bezier(.16,1,.3,1)}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.btn-primary:active:not(:disabled){transform:translateY(0) scale(.98)}
+.btn-outline{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.btn-outline:hover{background:rgba(26,26,26,.04);border-color:#B5AFA8}
+.sparkle{animation:sparkle 1.5s ease-in-out infinite}
+.toast{transition:all .4s cubic-bezier(.16,1,.3,1)}
+/* Platform switcher */
+.platform-tab{transition:all .35s cubic-bezier(.16,1,.3,1);cursor:pointer;position:relative}
+.platform-tab:hover{background:rgba(26,26,26,.03)}
+.platform-tab.active-ig{background:linear-gradient(135deg,rgba(131,58,180,.08),rgba(225,48,108,.08));border-color:rgba(225,48,108,.25);color:#E1306C}
+.platform-tab.active-ig .plat-dot{background:linear-gradient(135deg,#833AB4,#E1306C)}
+.platform-tab.active-tk{background:rgba(255,0,80,.06);border-color:rgba(255,0,80,.2);color:#ff0050}
+.platform-tab.active-tk .plat-dot{background:#ff0050}
+.plat-dot{width:8px;height:8px;border-radius:50%;background:#B5AFA8;transition:all .3s}
+.tab-content{animation:tabSlide .4s cubic-bezier(.16,1,.3,1) both}
+.tk-badge{background:linear-gradient(135deg,#25f4ee,#fe2c55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#E8E2DA;border-radius:2px}
+@media(max-width:767px){.sidebar{transform:translateX(-100%);position:fixed;z-index:200;height:100vh;top:0;left:0}.sidebar.open{transform:translateX(0)}.bottom-nav{display:flex !important}.mobile-topbar{display:flex !important}.desk-cols{display:none !important}}
+@media(min-width:768px){.bottom-nav{display:none !important}.mobile-topbar{display:none !important}}
+@media(min-width:768px) and (max-width:1023px){.sidebar{width:72px !important}.sidebar .lbl,.sidebar .logo-text,.sidebar .sidebar-footer-info{display:none}.sidebar-item{justify-content:center;padding-left:0;padding-right:0}}
+</style>
+</head>
+<body class="min-h-screen font-sans antialiased overflow-x-hidden bg-cream">
+<aside class="sidebar fixed top-0 left-0 h-screen w-[240px] bg-white border-r border-stone/50 flex flex-col z-50 transition-transform duration-300" id="sidebar"><div class="px-5 py-5 flex items-center gap-2.5 border-b border-stone/40"><div class="w-8 h-8 bg-ink rounded-lg flex items-center justify-center flex-shrink-0 shadow-md shadow-ink/10"><iconify-icon icon="solar:cup-hot-bold" width="16" class="text-white"></iconify-icon></div><div class="logo-text min-w-0"><p class="text-sm font-bold tracking-tight text-ink leading-none">ReelBoost</p><p class="text-[11px] text-muted truncate mt-0.5">@mamatte.brunch.cafe</p></div></div><nav class="flex-1 py-3 px-2 flex flex-col gap-0.5 overflow-y-auto"><a href="ReelBoost_Dashboard.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:widget-2-linear" width="20"></iconify-icon><span class="lbl">Tableau de bord</span></a><a href="ReelBoost_Ideas.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:lightbulb-linear" width="20"></iconify-icon><span class="lbl">Idées</span></a><a href="ReelBoost_Competitors.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="20"></iconify-icon><span class="lbl">Concurrents</span></a><a href="ReelBoost_MyReels.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:reel-linear" width="20"></iconify-icon><span class="lbl">Mes Reels</span></a><a href="#" class="sidebar-item active rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:fire-linear" width="20"></iconify-icon><span class="lbl">Outliers</span></a><a href="ReelBoost_Reports.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:chart-2-linear" width="20"></iconify-icon><span class="lbl">Rapports</span></a><a href="ReelBoost_Scripts.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:document-text-linear" width="20"></iconify-icon><span class="lbl">Scripts</span></a><div class="my-2 mx-3 h-px bg-stone/40"></div><a href="ReelBoost_Settings.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:settings-linear" width="20"></iconify-icon><span class="lbl">Paramètres</span></a></nav><div class="px-4 py-4 border-t border-stone/40 flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-xs font-bold text-white flex-shrink-0">M</div><div class="sidebar-footer-info min-w-0"><p class="text-xs font-semibold text-ink truncate">Mamatte Longueau</p></div></div></aside>
+<header class="mobile-topbar hidden fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-lg border-b border-stone/40 z-40 items-center justify-between px-4"><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-beige"><iconify-icon icon="solar:hamburger-menu-linear" width="20" class="text-ink"></iconify-icon></button><span class="text-sm font-bold text-ink">Outliers 🔥</span><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-[10px] font-bold text-white">M</div></header>
+<nav class="bottom-nav hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-lg border-t border-stone/40 z-40 items-center justify-around px-2"><a href="ReelBoost_Dashboard.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:widget-2-linear" width="22"></iconify-icon><span class="text-[9px]">Accueil</span></a><a href="ReelBoost_Ideas.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:lightbulb-linear" width="22"></iconify-icon><span class="text-[9px]">Idées</span></a><a href="ReelBoost_Competitors.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="22"></iconify-icon><span class="text-[9px]">Rivaux</span></a><a href="ReelBoost_MyReels.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:reel-linear" width="22"></iconify-icon><span class="text-[9px]">Reels</span></a><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:menu-dots-bold" width="22"></iconify-icon><span class="text-[9px]">Plus</span></button></nav>
+
+<main class="md:ml-[240px] lg:ml-[240px] md:max-lg:ml-[72px] min-h-screen pt-14 md:pt-0 pb-20 md:pb-0">
+<div class="max-w-[1100px] mx-auto px-5 md:px-8 py-6 md:py-8">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 au">
+    <div><h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-ink">Niche <span class="font-serif italic text-gold">Outliers</span> 🔥</h1><p class="text-sm text-muted mt-1">Top vidéos virales de vos concurrents — Instagram Reels & TikTok</p></div>
+    <button onclick="toast('Export CSV téléchargé 📥')" class="btn-outline border border-stone rounded-xl px-5 py-2.5 text-xs font-bold text-muted flex items-center gap-2 self-start"><iconify-icon icon="solar:file-download-linear" width="16"></iconify-icon>Exporter CSV</button>
+  </div>
+
+  <!-- ═══ PLATFORM SWITCHER ═══ -->
+  <div class="flex gap-3 mb-6 au1">
+    <button onclick="switchPlatform('ig')" id="tab-ig" class="platform-tab active-ig border border-stone/40 rounded-xl px-5 py-3 flex items-center gap-3 flex-1 sm:flex-initial">
+      <div class="plat-dot"></div>
+      <div>
+        <div class="flex items-center gap-1.5"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span class="text-[13px] font-bold">Instagram Reels</span></div>
+        <p class="text-[10px] text-current opacity-60 mt-0.5">7 outliers · 3 concurrents</p>
+      </div>
+    </button>
+    <button onclick="switchPlatform('tk')" id="tab-tk" class="platform-tab border border-stone/40 rounded-xl px-5 py-3 flex items-center gap-3 text-muted flex-1 sm:flex-initial">
+      <div class="plat-dot"></div>
+      <div>
+        <div class="flex items-center gap-1.5"><iconify-icon icon="simple-icons:tiktok" width="13"></iconify-icon><span class="text-[13px] font-bold">TikTok</span></div>
+        <p class="text-[10px] text-current opacity-60 mt-0.5">6 outliers · 2 concurrents</p>
+      </div>
+    </button>
+  </div>
+
+  <!-- ═══ INSTAGRAM TAB ═══ -->
+  <div id="ig-content" class="tab-content">
+    <div class="flex flex-col sm:flex-row gap-3 mb-5">
+      <div class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none"><button onclick="setFilter(this)" class="filter-chip active border border-stone rounded-full px-4 py-2 text-xs font-semibold whitespace-nowrap">Tous</button><button onclick="setFilter(this)" class="filter-chip border border-stone rounded-full px-4 py-2 text-xs font-semibold text-muted whitespace-nowrap">@columbus_cafe_fr</button><button onclick="setFilter(this)" class="filter-chip border border-stone rounded-full px-4 py-2 text-xs font-semibold text-muted whitespace-nowrap">@cafe_joyeux</button><button onclick="setFilter(this)" class="filter-chip border border-stone rounded-full px-4 py-2 text-xs font-semibold text-muted whitespace-nowrap">@coutume_cafe</button></div>
+      <div class="flex bg-white border border-stone/40 rounded-lg p-0.5 gap-0.5 ml-auto self-start flex-shrink-0"><button onclick="setSort(this)" class="sort-pill active px-3 py-1.5 rounded-md text-[11px] font-bold">Vues</button><button onclick="setSort(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">Likes</button><button onclick="setSort(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">Date</button></div>
+    </div>
+    <div class="bg-white rounded-2xl border border-stone/40 overflow-hidden">
+      <div class="desk-cols hidden md:grid grid-cols-[56px_1fr_120px_80px_65px_70px_90px] gap-3 px-5 py-3 border-b border-stone/30 bg-beige/30"><span></span><span class="text-[10px] font-bold text-faded uppercase tracking-wider">Hook</span><span class="text-[10px] font-bold text-faded uppercase tracking-wider">Compte</span><span class="text-[10px] font-bold text-faded uppercase tracking-wider">Vues</span><span class="text-[10px] font-bold text-faded uppercase tracking-wider">Likes</span><span class="text-[10px] font-bold text-faded uppercase tracking-wider">Date</span><span class="text-[10px] font-bold text-gold uppercase tracking-wider text-center">Action</span></div>
+      <div id="ig-list"></div>
+    </div>
+  </div>
+
+  <!-- ═══ TIKTOK TAB ═══ -->
+  <div id="tk-content" class="hidden">
+    <!-- TikTok trend bar -->
+    <div class="bg-gradient-to-r from-tiktokBg to-cream border border-pink-100/50 rounded-xl p-4 mb-5 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+      <div class="flex items-center gap-2"><iconify-icon icon="simple-icons:tiktok" width="16" class="text-tiktok"></iconify-icon><span class="text-[13px] font-bold text-ink">Tendances TikTok de la semaine</span></div>
+      <div class="flex flex-wrap gap-1.5">
+        <span class="text-[10px] font-bold text-tiktok bg-white border border-pink-200/50 px-2.5 py-1 rounded-full">#CoffeeTok</span>
+        <span class="text-[10px] font-bold text-tiktok bg-white border border-pink-200/50 px-2.5 py-1 rounded-full">#BaristaLife</span>
+        <span class="text-[10px] font-bold text-tiktok bg-white border border-pink-200/50 px-2.5 py-1 rounded-full">#ASMRcafe</span>
+        <span class="text-[10px] font-bold text-tiktok bg-white border border-pink-200/50 px-2.5 py-1 rounded-full">#FoodTok</span>
+        <span class="text-[10px] font-bold text-tiktok bg-white border border-pink-200/50 px-2.5 py-1 rounded-full">#SmallBusiness</span>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-3 mb-5">
+      <div class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none"><button onclick="setFilter(this)" class="filter-chip active border border-stone rounded-full px-4 py-2 text-xs font-semibold whitespace-nowrap">Tous</button><button onclick="setFilter(this)" class="filter-chip border border-stone rounded-full px-4 py-2 text-xs font-semibold text-muted whitespace-nowrap">@colombus.officiel</button><button onclick="setFilter(this)" class="filter-chip border border-stone rounded-full px-4 py-2 text-xs font-semibold text-muted whitespace-nowrap">@coutume.paris</button></div>
+      <div class="flex bg-white border border-stone/40 rounded-lg p-0.5 gap-0.5 ml-auto self-start flex-shrink-0"><button onclick="setSort(this)" class="sort-pill active px-3 py-1.5 rounded-md text-[11px] font-bold">Vues</button><button onclick="setSort(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">Likes</button><button onclick="setSort(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">Date</button></div>
+    </div>
+    <div class="bg-white rounded-2xl border border-stone/40 overflow-hidden">
+      <div class="desk-cols hidden md:grid grid-cols-[56px_1fr_120px_80px_65px_70px_90px] gap-3 px-5 py-3 border-b border-stone/30 bg-tiktokBg/30"><span></span><span class="text-[10px] font-bold text-faded uppercase tracking-wider">Hook</span><span class="text-[10px] font-bold text-faded uppercase tracking-wider">Compte</span><span class="text-[10px] font-bold text-faded uppercase tracking-wider">Vues</span><span class="text-[10px] font-bold text-faded uppercase tracking-wider">Likes</span><span class="text-[10px] font-bold text-faded uppercase tracking-wider">Date</span><span class="text-[10px] font-bold text-gold uppercase tracking-wider text-center">Action</span></div>
+      <div id="tk-list"></div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- ═══ INSPIRE MODAL ═══ -->
+<div id="inspire-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" onclick="if(event.target===this)closeInspire()"><div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div><div class="modal-content relative bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl"><div class="sticky top-0 bg-white/95 backdrop-blur-sm px-6 py-4 border-b border-stone/30 flex items-center justify-between z-10 rounded-t-2xl"><div class="flex items-center gap-2.5"><div class="w-9 h-9 bg-gold/15 rounded-xl flex items-center justify-center"><iconify-icon icon="solar:magic-stick-3-bold" width="18" class="text-golddark"></iconify-icon></div><div><p class="text-sm font-bold text-ink" id="m-title">S'inspirer de ce Reel</p><p class="text-[10px] text-muted">Créez votre propre version pour Mamatte</p></div></div><button onclick="closeInspire()" class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-beige transition-colors text-muted"><iconify-icon icon="solar:close-circle-linear" width="18"></iconify-icon></button></div><div class="px-6 py-5">
+<!-- Source ref -->
+<div id="m-source" class="bg-beige/40 rounded-xl p-4 mb-5 flex items-start gap-3"><div class="w-10 h-10 rounded-lg bg-gradient-to-br from-beige to-stone flex items-center justify-center flex-shrink-0"><span class="text-lg" id="m-emoji">☕</span></div><div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 mb-1"><span id="m-platform-icon"></span><p class="text-[10px] font-bold text-faded uppercase tracking-wider" id="m-platform-label">Reel source</p></div><p class="text-[13px] font-semibold text-ink leading-snug line-clamp-2" id="m-hook">—</p><p class="text-[11px] text-muted mt-1" id="m-account">@compte · 0K vues</p></div></div>
+<!-- Gen type -->
+<div class="mb-5"><p class="text-[11px] font-bold text-faded uppercase tracking-wider mb-2.5">Que voulez-vous générer ?</p><div class="grid grid-cols-3 gap-2"><button onclick="selectGenType(this,'idea')" class="option-chip selected border border-stone rounded-xl p-3 text-center"><iconify-icon icon="solar:lightbulb-linear" width="20" class="mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold block">Nouvelle idée</span></button><button onclick="selectGenType(this,'hook')" class="option-chip border border-stone rounded-xl p-3 text-center text-muted"><iconify-icon icon="solar:text-bold-linear" width="20" class="mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold block">Hooks</span></button><button onclick="selectGenType(this,'script')" class="option-chip border border-stone rounded-xl p-3 text-center text-muted"><iconify-icon icon="solar:document-text-linear" width="20" class="mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold block">Script complet</span></button></div></div>
+<!-- Platform target -->
+<div class="mb-5"><p class="text-[11px] font-bold text-faded uppercase tracking-wider mb-2.5">Plateforme cible</p><div class="flex gap-2"><button onclick="selC(this)" class="option-chip selected border border-stone rounded-lg px-4 py-2 text-[11px] font-semibold flex items-center gap-1.5"><iconify-icon icon="simple-icons:instagram" width="12"></iconify-icon>Instagram Reels</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-4 py-2 text-[11px] font-semibold text-muted flex items-center gap-1.5"><iconify-icon icon="simple-icons:tiktok" width="11"></iconify-icon>TikTok</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-4 py-2 text-[11px] font-semibold text-muted">📱 Les deux</button></div></div>
+<!-- Angle -->
+<div class="mb-5"><p class="text-[11px] font-bold text-faded uppercase tracking-wider mb-2.5">Angle créatif</p><div class="flex flex-wrap gap-2"><button onclick="selC(this)" class="option-chip selected border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold">🔄 Même concept, mon style</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">🎭 Twist humoristique</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">📖 Version storytelling</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">🔊 Version ASMR</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">🪡 Stitch / Duet</button></div></div>
+<!-- Tone -->
+<div class="mb-5"><p class="text-[11px] font-bold text-faded uppercase tracking-wider mb-2.5">Ton</p><div class="flex flex-wrap gap-2"><button onclick="selC(this)" class="option-chip selected border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold">☕ Chaleureux</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">💪 Motivant</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">😂 Fun</button><button onclick="selC(this)" class="option-chip border border-stone rounded-lg px-3 py-2 text-[11px] font-semibold text-muted">🎓 Éducatif</button></div></div>
+<!-- Notes -->
+<div class="mb-5"><p class="text-[11px] font-bold text-faded uppercase tracking-wider mb-2">Instructions <span class="font-normal text-faded">(optionnel)</span></p><textarea placeholder="Ex: Mettre en avant notre brunch du dimanche..." class="w-full bg-beige/30 border border-stone rounded-xl px-4 py-3 text-sm text-ink placeholder:text-faded outline-none focus:border-ink focus:shadow-[0_0_0_3px_rgba(26,26,26,.06)] transition-all resize-none h-16"></textarea></div>
+<!-- Generate -->
+<button onclick="gen()" id="gen-btn" class="btn-primary w-full bg-ink text-white py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2.5 shadow-lg shadow-ink/10"><iconify-icon icon="solar:stars-minimalistic-bold" width="18" class="sparkle"></iconify-icon>Générer mon contenu</button>
+<!-- Loading -->
+<div id="gen-loading" class="hidden mt-5"><div class="flex items-center gap-3 mb-4"><iconify-icon icon="solar:refresh-linear" width="16" class="text-gold" style="animation:spin 1s linear infinite"></iconify-icon><span class="text-sm font-medium text-muted">L'IA crée votre contenu...</span></div><div class="space-y-2"><div class="shimmer-block h-4 w-3/4"></div><div class="shimmer-block h-4 w-full"></div><div class="shimmer-block h-4 w-5/6"></div></div></div>
+<!-- Result -->
+<div id="gen-result" class="hidden mt-5"><div class="result-card border-2 border-gold/30 rounded-2xl p-5 bg-gradient-to-br from-gold/5 to-transparent"><div class="flex items-center gap-2 mb-3"><iconify-icon icon="solar:stars-minimalistic-bold" width="14" class="text-gold"></iconify-icon><span class="text-[10px] font-bold text-gold uppercase tracking-wider">Contenu généré</span></div>
+<div id="r-idea" class="space-y-3"><div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Hook</p><p class="text-[15px] font-semibold text-ink leading-snug">« Notre barista révèle sa technique secrète de latte art en 45 secondes »</p></div><div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Concept</p><p class="text-[13px] text-inksoft leading-relaxed">Filmez en plongée pendant que votre barista réalise un motif complexe. Pas de musique, juste le son naturel. Révélez le résultat avec un zoom arrière.</p></div><div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Pourquoi ça marchera</p><p class="text-[12px] text-muted italic leading-relaxed">Le format prouve votre savoir-faire. Le « pas de musique » maximise la complétion (+3,1x). Fonctionne aussi bien sur IG que TikTok.</p></div></div>
+<div id="r-hooks" class="hidden space-y-2"><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-2">5 variations de hooks</p><p class="text-[14px] font-semibold text-ink py-1.5">1. « Notre barista cache un secret dans chaque tasse ☕ »</p><p class="text-[14px] font-semibold text-ink py-1.5 border-t border-stone/20">2. « 45 secondes. C'est le temps pour créer un chef-d'œuvre »</p><p class="text-[14px] font-semibold text-ink py-1.5 border-t border-stone/20">3. « POV : tu es barista et c'est le rush du matin »</p><p class="text-[14px] font-semibold text-ink py-1.5 border-t border-stone/20">4. « Ce son ASMR de latte art >> 🎧 »</p><p class="text-[14px] font-semibold text-ink py-1.5 border-t border-stone/20">5. « Technique que 99% des cafés ne maîtrisent pas »</p></div>
+<div id="r-script" class="hidden space-y-3"><div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Accroche</p><p class="text-[13px] text-ink">« Personne ne vous montre cette technique. Chez Mamatte, on change ça aujourd'hui. »</p></div><div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Contexte</p><p class="text-[13px] text-ink">Chaque matin, notre barista passe 45 secondes sur chaque tasse. Ce que vous voyez en 15 secondes, c'est des heures de pratique.</p></div><div><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">CTA</p><p class="text-[13px] text-ink">Venez le voir en vrai chez Mamatte. Enregistrez cette vidéo pour votre prochain café ☕</p></div><div class="pt-2 border-t border-gold/20"><p class="text-[10px] font-bold text-golddark uppercase tracking-wider mb-1">Caption + Hashtags</p><p class="text-[12px] text-muted">L'art du latte, 45 secondes de pure précision ☕✨ #mamatte #latteart #barista #coffeeshop #asmrcafe #CoffeeTok #fyp</p></div></div>
+<div class="flex flex-wrap gap-2 mt-5 pt-4 border-t border-gold/20"><button onclick="toast('Idée sauvegardée ⭐');closeInspire()" class="btn-primary bg-ink text-white px-4 py-2.5 rounded-xl text-[11px] font-bold flex items-center gap-1.5"><iconify-icon icon="solar:bookmark-linear" width="13"></iconify-icon>Sauver</button><button id="scriptBtn" onclick="toast('Script généré 📝')" class="btn-outline border border-stone rounded-xl px-4 py-2.5 text-[11px] font-bold text-muted flex items-center gap-1.5"><iconify-icon icon="solar:document-add-linear" width="13"></iconify-icon>Script</button><button onclick="gen()" class="btn-outline border border-stone rounded-xl px-4 py-2.5 text-[11px] font-bold text-muted flex items-center gap-1.5"><iconify-icon icon="solar:refresh-linear" width="13"></iconify-icon>Régénérer</button><button onclick="toast('Copié 📋')" class="btn-outline border border-stone rounded-xl px-4 py-2.5 text-[11px] font-bold text-muted flex items-center gap-1.5 ml-auto"><iconify-icon icon="solar:copy-linear" width="13"></iconify-icon>Copier</button></div></div></div>
+</div></div></div>
+
+<div id="toast" class="toast fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none translate-y-4 opacity-0"><div class="bg-ink text-white px-5 py-3 rounded-2xl text-sm font-medium flex items-center gap-2.5 shadow-2xl shadow-ink/20"><iconify-icon icon="solar:check-circle-bold" width="17"></iconify-icon><span id="toast-txt"></span></div></div>
+
+<script>
+const IG=[
+  {id:1,hook:"« Personne ne parle de cette technique de latte art »",account:'columbus_cafe_fr',views:'245K',likes:'12K',date:'5 Fév.',viral:true,emoji:'☕',platform:'ig'},
+  {id:2,hook:"« 3 choses que j'aurais voulu savoir avant d'ouvrir mon café »",account:'cafe_joyeux',views:'89K',likes:'4.1K',date:'3 Fév.',viral:true,emoji:'💡',platform:'ig'},
+  {id:3,hook:"« Ce client a commandé LE truc le plus bizarre »",account:'columbus_cafe_fr',views:'67K',likes:'3.2K',date:'1 Fév.',viral:false,emoji:'😳',platform:'ig'},
+  {id:4,hook:"« Le bruit de notre machine à espresso à 6h du matin »",account:'coutume_cafe',views:'52K',likes:'2.8K',date:'30 Jan.',viral:false,emoji:'🎧',platform:'ig'},
+  {id:5,hook:"« J'ai fait goûter notre nouveau menu à des inconnus »",account:'cafe_joyeux',views:'41K',likes:'1.9K',date:'28 Jan.',viral:false,emoji:'🍞',platform:'ig'},
+  {id:6,hook:"« Comment je transforme 2€ de café en 45€ de CA »",account:'columbus_cafe_fr',views:'38K',likes:'2.1K',date:'25 Jan.',viral:false,emoji:'💰',platform:'ig'},
+  {id:7,hook:"« La vérité sur notre croissant à 2,50€ »",account:'coutume_cafe',views:'34K',likes:'1.6K',date:'22 Jan.',viral:false,emoji:'🥐',platform:'ig'},
+];
+const TK=[
+  {id:101,hook:"« POV : tu es barista et un client commande un 'café normal' »",account:'colombus.officiel',views:'1.2M',likes:'89K',date:'6 Fév.',viral:true,emoji:'😂',platform:'tk'},
+  {id:102,hook:"« Le son de 50 grains de café moulus au ralenti #ASMR »",account:'coutume.paris',views:'890K',likes:'67K',date:'4 Fév.',viral:true,emoji:'🎧',platform:'tk'},
+  {id:103,hook:"« Petit café ou GRAND café ? La réponse va vous surprendre »",account:'colombus.officiel',views:'340K',likes:'24K',date:'2 Fév.',viral:true,emoji:'☕',platform:'tk'},
+  {id:104,hook:"« Recette secrète : notre sauce hollandaise en 30 sec »",account:'coutume.paris',views:'156K',likes:'11K',date:'30 Jan.',viral:false,emoji:'🍳',platform:'tk'},
+  {id:105,hook:"« On a laissé un inconnu faire notre menu du jour »",account:'colombus.officiel',views:'128K',likes:'9.2K',date:'28 Jan.',viral:false,emoji:'🎲',platform:'tk'},
+  {id:106,hook:"« Montrez cette vidéo à quelqu'un qui n'aime pas le café »",account:'coutume.paris',views:'98K',likes:'7.1K',date:'25 Jan.',viral:false,emoji:'☕',platform:'tk'},
+];
+let curPlatform='ig', genType='idea';
+
+function renderList(data, containerId, platformClass) {
+  document.getElementById(containerId).innerHTML = data.map((o,i)=>`
+    <div class="outlier-row ${o.viral?'viral':''} flex items-center gap-3 md:grid md:grid-cols-[56px_1fr_120px_80px_65px_70px_90px] md:gap-3 px-5 py-3.5 ${i>0?'border-t border-stone/30':''}" style="animation-delay:${i*.04}s">
+      <div class="w-11 h-11 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${o.platform==='tk'?'from-pink-50 to-stone':'from-beige to-stone'} flex items-center justify-center flex-shrink-0 relative">
+        <span class="text-lg">${o.emoji}</span>
+        <div class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm border border-stone/20">
+          <iconify-icon icon="${o.platform==='tk'?'simple-icons:tiktok':'simple-icons:instagram'}" width="8" class="${o.platform==='tk'?'text-[#ff0050]':'text-[#E1306C]'}"></iconify-icon>
+        </div>
+      </div>
+      <div class="flex-1 min-w-0 md:pr-2">
+        <p class="text-[13px] md:text-[14px] font-semibold text-ink leading-snug line-clamp-2">${o.hook}</p>
+        <div class="flex gap-1 mt-1 md:hidden"><span class="text-[10px] text-muted">@${o.account}</span><span class="text-[10px] text-muted">·</span><span class="text-[10px] font-bold text-ink">${o.views}${o.viral?' 🔥':''}</span></div>
+      </div>
+      <span class="desk-cols hidden md:block text-xs font-medium text-muted truncate">@${o.account}</span>
+      <span class="desk-cols hidden md:flex items-center gap-1 text-sm font-bold text-ink">${o.views}${o.viral?'<span class="text-orange-500 text-xs">🔥</span>':''}</span>
+      <span class="desk-cols hidden md:block text-xs font-semibold text-muted">${o.likes}</span>
+      <span class="desk-cols hidden md:block text-xs text-faded">${o.date}</span>
+      <button onclick="event.stopPropagation();openInspire(${o.id},'${o.platform}')" class="inspire-btn border border-gold/60 rounded-lg px-3 py-1.5 text-[10px] font-bold text-gold flex items-center gap-1 flex-shrink-0 whitespace-nowrap"><iconify-icon icon="solar:magic-stick-3-linear" width="12"></iconify-icon>S'inspirer</button>
+    </div>`).join('');
+}
+renderList(IG,'ig-list');
+renderList(TK,'tk-list');
+
+function switchPlatform(p){
+  curPlatform=p;
+  document.getElementById('ig-content').classList.toggle('hidden',p!=='ig');
+  document.getElementById('tk-content').classList.toggle('hidden',p!=='tk');
+  const ig=document.getElementById('tab-ig'),tk=document.getElementById('tab-tk');
+  ig.className='platform-tab '+(p==='ig'?'active-ig border border-stone/40 rounded-xl px-5 py-3 flex items-center gap-3 flex-1 sm:flex-initial':'border border-stone/40 rounded-xl px-5 py-3 flex items-center gap-3 text-muted flex-1 sm:flex-initial');
+  tk.className='platform-tab '+(p==='tk'?'active-tk border border-stone/40 rounded-xl px-5 py-3 flex items-center gap-3 flex-1 sm:flex-initial':'border border-stone/40 rounded-xl px-5 py-3 flex items-center gap-3 text-muted flex-1 sm:flex-initial');
+  // Re-animate content
+  const el=document.getElementById(p==='ig'?'ig-content':'tk-content');
+  el.style.animation='none';el.offsetHeight;el.style.animation='tabSlide .4s cubic-bezier(.16,1,.3,1) both';
+}
+
+function openInspire(id,platform){
+  const all=[...IG,...TK];const o=all.find(x=>x.id===id);
+  document.getElementById('m-hook').textContent=o.hook;
+  document.getElementById('m-account').textContent='@'+o.account+' · '+o.views+' vues';
+  document.getElementById('m-emoji').textContent=o.emoji;
+  document.getElementById('m-title').textContent=platform==='tk'?'S\'inspirer de ce TikTok':'S\'inspirer de ce Reel';
+  document.getElementById('m-platform-label').textContent=platform==='tk'?'TikTok source':'Reel source';
+  document.getElementById('m-platform-icon').innerHTML=platform==='tk'?'<iconify-icon icon="simple-icons:tiktok" width="10" class="text-[#ff0050]"></iconify-icon>':'<iconify-icon icon="simple-icons:instagram" width="10" class="text-[#E1306C]"></iconify-icon>';
+  document.getElementById('gen-loading').classList.add('hidden');
+  document.getElementById('gen-result').classList.add('hidden');
+  document.getElementById('gen-btn').classList.remove('hidden');
+  document.getElementById('inspire-modal').classList.remove('hidden');
+  document.getElementById('inspire-modal').classList.add('flex');
+}
+function closeInspire(){document.getElementById('inspire-modal').classList.add('hidden');document.getElementById('inspire-modal').classList.remove('flex')}
+function selectGenType(el,t){genType=t;el.closest('.grid').querySelectorAll('.option-chip').forEach(c=>{c.classList.remove('selected');c.classList.add('text-muted')});el.classList.add('selected');el.classList.remove('text-muted')}
+function selC(el){el.closest('.flex,.div').querySelectorAll('.option-chip').forEach(c=>{c.classList.remove('selected');c.classList.add('text-muted')});el.classList.add('selected');el.classList.remove('text-muted')}
+function gen(){document.getElementById('gen-btn').classList.add('hidden');document.getElementById('gen-loading').classList.remove('hidden');document.getElementById('gen-result').classList.add('hidden');setTimeout(()=>{document.getElementById('gen-loading').classList.add('hidden');document.getElementById('gen-result').classList.remove('hidden');document.getElementById('r-idea').classList.toggle('hidden',genType!=='idea');document.getElementById('r-hooks').classList.toggle('hidden',genType!=='hook');document.getElementById('r-script').classList.toggle('hidden',genType!=='script');document.getElementById('scriptBtn').classList.toggle('hidden',genType==='script');document.getElementById('gen-btn').classList.remove('hidden');document.getElementById('gen-result').scrollIntoView({behavior:'smooth',block:'nearest'})},2400)}
+function setFilter(el){el.closest('.flex').querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active')}
+function setSort(el){el.closest('.flex').querySelectorAll('.sort-pill').forEach(p=>p.classList.remove('active'));el.classList.add('active')}
+let tt;function toast(m){clearTimeout(tt);const el=document.getElementById('toast');document.getElementById('toast-txt').textContent=m;el.style.opacity='1';el.style.transform='translate(-50%,0)';tt=setTimeout(()=>{el.style.opacity='0';el.style.transform='translate(-50%,8px)'},2800)}
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReelBoost — Mes Reels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Manrope','system-ui','sans-serif'],serif:['Playfair Display','Georgia','serif']},colors:{cream:'#FAF8F5',beige:'#F0EBE3',stone:'#E8E2DA',gold:'#C8A97E',golddark:'#A68B5B',goldlight:'#D4BC99',ink:'#1A1A1A',inksoft:'#2D2D2D',muted:'#8B8680',faded:'#B5AFA8'}}}}</script>
+<style>
+@keyframes slideUpBlur{0%{opacity:0;transform:translateY(20px);filter:blur(8px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes rowIn{0%{opacity:0;transform:translateX(-12px)}100%{opacity:1;transform:translateX(0)}}
+
+.anim-up{animation:slideUpBlur .7s cubic-bezier(.16,1,.3,1) both}
+.anim-up-1{animation:slideUpBlur .7s .06s cubic-bezier(.16,1,.3,1) both}
+.anim-up-2{animation:slideUpBlur .7s .12s cubic-bezier(.16,1,.3,1) both}
+
+.sidebar-item{transition:all .25s cubic-bezier(.16,1,.3,1);border-left:3px solid transparent}
+.sidebar-item:hover{background:rgba(26,26,26,.03)}
+.sidebar-item.active{background:rgba(26,26,26,.05);border-left-color:#1A1A1A;color:#1A1A1A;font-weight:600}
+
+.sort-pill{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.sort-pill.active{background:#1A1A1A;color:white}
+.sort-pill:hover:not(.active){background:rgba(26,26,26,.05)}
+
+.reel-row{transition:all .35s cubic-bezier(.16,1,.3,1);animation:rowIn .5s cubic-bezier(.16,1,.3,1) both}
+.reel-row:hover{background:rgba(26,26,26,.025);transform:translateX(3px)}
+
+.thumb{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.thumb:hover{transform:scale(1.05);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.thumb .play-overlay{opacity:0;transition:opacity .25s}
+.thumb:hover .play-overlay{opacity:1}
+
+.power-word{transition:all .2s cubic-bezier(.16,1,.3,1)}
+.power-word:hover{background:#1A1A1A;color:white}
+
+.metric{transition:all .2s}
+.metric:hover .metric-val{color:#1A1A1A}
+
+.btn-primary{transition:all .35s cubic-bezier(.16,1,.3,1)}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.btn-ghost{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.btn-ghost:hover{color:#1A1A1A}
+
+.toast{transition:all .4s cubic-bezier(.16,1,.3,1)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#E8E2DA;border-radius:2px}
+@media(max-width:767px){.sidebar{transform:translateX(-100%);position:fixed;z-index:200;height:100vh;top:0;left:0}.sidebar.open{transform:translateX(0)}.bottom-nav{display:flex !important}.mobile-topbar{display:flex !important}}
+@media(min-width:768px){.bottom-nav{display:none !important}.mobile-topbar{display:none !important}}
+@media(min-width:768px) and (max-width:1023px){.sidebar{width:72px !important}.sidebar .lbl,.sidebar .logo-text,.sidebar .sidebar-footer-info{display:none}.sidebar-item{justify-content:center;padding-left:0;padding-right:0}}
+</style>
+</head>
+<body class="min-h-screen font-sans antialiased overflow-x-hidden bg-cream">
+
+<!-- SIDEBAR -->
+<aside class="sidebar fixed top-0 left-0 h-screen w-[240px] bg-white border-r border-stone/50 flex flex-col z-50 transition-transform duration-300" id="sidebar"><div class="px-5 py-5 flex items-center gap-2.5 border-b border-stone/40"><div class="w-8 h-8 bg-ink rounded-lg flex items-center justify-center flex-shrink-0 shadow-md shadow-ink/10"><iconify-icon icon="solar:cup-hot-bold" width="16" class="text-white"></iconify-icon></div><div class="logo-text min-w-0"><p class="text-sm font-bold tracking-tight text-ink leading-none">ReelBoost</p><p class="text-[11px] text-muted truncate mt-0.5">@mamatte.brunch.cafe</p></div></div><nav class="flex-1 py-3 px-2 flex flex-col gap-0.5 overflow-y-auto"><a href="ReelBoost_Dashboard.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:widget-2-linear" width="20"></iconify-icon><span class="lbl">Tableau de bord</span></a><a href="ReelBoost_Ideas.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:lightbulb-linear" width="20"></iconify-icon><span class="lbl">Idées</span></a><a href="ReelBoost_Competitors.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="20"></iconify-icon><span class="lbl">Concurrents</span></a><a href="#" class="sidebar-item active rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:reel-linear" width="20"></iconify-icon><span class="lbl">Mes Reels</span></a><a href="ReelBoost_Outliers.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:fire-linear" width="20"></iconify-icon><span class="lbl">Outliers</span></a><a href="ReelBoost_Reports.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:chart-2-linear" width="20"></iconify-icon><span class="lbl">Rapports</span></a><a href="ReelBoost_Scripts.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:document-text-linear" width="20"></iconify-icon><span class="lbl">Scripts</span></a><div class="my-2 mx-3 h-px bg-stone/40"></div><a href="ReelBoost_Settings.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:settings-linear" width="20"></iconify-icon><span class="lbl">Paramètres</span></a></nav><div class="px-4 py-4 border-t border-stone/40 flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-xs font-bold text-white flex-shrink-0">M</div><div class="sidebar-footer-info min-w-0"><p class="text-xs font-semibold text-ink truncate">Mamatte Longueau</p></div></div></aside>
+
+<!-- MOBILE -->
+<header class="mobile-topbar hidden fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-lg border-b border-stone/40 z-40 items-center justify-between px-4"><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-beige"><iconify-icon icon="solar:hamburger-menu-linear" width="20" class="text-ink"></iconify-icon></button><span class="text-sm font-bold text-ink">Mes Reels</span><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-[10px] font-bold text-white">M</div></header>
+<nav class="bottom-nav hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-lg border-t border-stone/40 z-40 items-center justify-around px-2"><a href="ReelBoost_Dashboard.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:widget-2-linear" width="22"></iconify-icon><span class="text-[9px]">Accueil</span></a><a href="ReelBoost_Ideas.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:lightbulb-linear" width="22"></iconify-icon><span class="text-[9px]">Idées</span></a><a href="ReelBoost_Competitors.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="22"></iconify-icon><span class="text-[9px]">Rivaux</span></a><a href="#" class="flex flex-col items-center gap-0.5 text-ink"><iconify-icon icon="solar:reel-bold" width="22"></iconify-icon><span class="text-[9px] font-bold">Reels</span></a><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:menu-dots-bold" width="22"></iconify-icon><span class="text-[9px]">Plus</span></button></nav>
+
+<!-- MAIN -->
+<main class="md:ml-[240px] lg:ml-[240px] md:max-lg:ml-[72px] min-h-screen pt-14 md:pt-0 pb-20 md:pb-0">
+<div class="max-w-[1100px] mx-auto px-5 md:px-8 py-6 md:py-8">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 anim-up">
+    <div><h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-ink">Mes <span class="font-serif italic text-gold">Reels</span></h1><p class="text-sm text-muted mt-1">Dernier scraping : <span class="font-medium text-inksoft">il y a 2 jours</span> · Prochain : dimanche 5h</p></div>
+    <div class="flex items-center gap-2"><span class="text-xs font-bold text-muted bg-beige px-2.5 py-1 rounded-lg">18 Reels</span></div>
+  </div>
+
+  <!-- Sort & Filter -->
+  <div class="flex flex-col sm:flex-row gap-3 mb-6 anim-up-1">
+    <div class="flex items-center gap-2">
+      <span class="text-[11px] font-bold text-faded uppercase tracking-wider mr-1">Trier</span>
+      <div class="flex bg-white border border-stone/40 rounded-lg p-0.5 gap-0.5">
+        <button onclick="setSort(this)" class="sort-pill active px-3 py-1.5 rounded-md text-[11px] font-bold">Vues</button>
+        <button onclick="setSort(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">Likes</button>
+        <button onclick="setSort(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">Comm.</button>
+        <button onclick="setSort(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">Date</button>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-[11px] font-bold text-faded uppercase tracking-wider mr-1">Période</span>
+      <div class="flex bg-white border border-stone/40 rounded-lg p-0.5 gap-0.5">
+        <button onclick="setTime(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">7j</button>
+        <button onclick="setTime(this)" class="sort-pill active px-3 py-1.5 rounded-md text-[11px] font-bold">30j</button>
+        <button onclick="setTime(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">90j</button>
+        <button onclick="setTime(this)" class="sort-pill px-3 py-1.5 rounded-md text-[11px] font-bold text-muted">Tout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reels List -->
+  <div class="bg-white rounded-2xl border border-stone/40 overflow-hidden anim-up-2" id="reels-list"></div>
+
+  <!-- Show more -->
+  <div class="flex items-center justify-center gap-3 mt-5">
+    <span class="text-xs text-muted">10 sur 18 Reels affichés</span>
+    <button onclick="showAll()" id="show-all-btn" class="btn-ghost text-xs font-bold text-gold flex items-center gap-1 hover:text-golddark">Tout afficher <iconify-icon icon="solar:arrow-down-linear" width="12"></iconify-icon></button>
+  </div>
+
+</div>
+</main>
+
+<!-- TOAST -->
+<div id="toast" class="toast fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none translate-y-4 opacity-0"><div class="bg-ink text-white px-5 py-3 rounded-2xl text-sm font-medium flex items-center gap-2.5 shadow-2xl shadow-ink/20"><iconify-icon icon="solar:check-circle-bold" width="17"></iconify-icon><span id="toast-txt"></span></div></div>
+
+<script>
+const REELS = [
+  {hook:"« Tu ne vas pas croire ce qu'on prépare à 5h du matin »",cat:'🍳 BTS',power:['croire','prépare'],views:'3 241',likes:'142',comments:'18',date:'12 Fév. 2026',color:'☕'},
+  {hook:"« Le secret de notre cold brew infusé 24h »",cat:'🧑‍🍳 Recette',power:['secret'],views:'2 890',likes:'98',comments:'12',date:'8 Fév. 2026',color:'🫘'},
+  {hook:"« ASMR : le son du latte art versé dans la tasse »",cat:'🔊 ASMR',power:[],views:'2 456',likes:'203',comments:'31',date:'10 Fév. 2026',color:'🎧'},
+  {hook:"« On a testé la recette TikTok de l'avocado toast »",cat:'🔥 Tendance',power:['testé'],views:'2 102',likes:'89',comments:'45',date:'5 Fév. 2026',color:'🥑'},
+  {hook:"« Pourquoi votre café maison n'a pas le même goût »",cat:'📖 Story',power:['pourquoi'],views:'1 876',likes:'67',comments:'23',date:'3 Fév. 2026',color:'☕'},
+  {hook:"« Notre babka est le produit de la semaine 🥇 »",cat:'🍳 BTS',power:[],views:'1 654',likes:'78',comments:'8',date:'1 Fév. 2026',color:'🍰'},
+  {hook:"« Le cocktail offert de la Saint-Valentin 💌 »",cat:'🔥 Tendance',power:['offert'],views:'1 432',likes:'112',comments:'67',date:'14 Fév. 2026',color:'🍸'},
+  {hook:"« Ce que commande un barista quand il ne travaille PAS »",cat:'📖 Story',power:['secret'],views:'1 298',likes:'55',comments:'14',date:'28 Jan. 2026',color:'☕'},
+  {hook:"« 1000 grains de café versés dans le moulin ASMR »",cat:'🔊 ASMR',power:[],views:'1 189',likes:'92',comments:'5',date:'25 Jan. 2026',color:'🫘'},
+  {hook:"« Le brunch parfait en 60 secondes chrono ⏱️ »",cat:'🧑‍🍳 Recette',power:['parfait'],views:'987',likes:'43',comments:'9',date:'22 Jan. 2026',color:'🍳'},
+];
+
+function renderReels(data) {
+  document.getElementById('reels-list').innerHTML = data.map((r,i) => `
+    <div class="reel-row flex items-start gap-4 px-5 py-4 ${i>0?'border-t border-stone/30':''} cursor-pointer" style="animation-delay:${i*.04}s" onclick="window.open('https://instagram.com','_blank')">
+      <!-- Thumbnail -->
+      <div class="thumb relative w-[72px] h-[72px] md:w-20 md:h-20 rounded-xl bg-gradient-to-br from-beige to-stone flex items-center justify-center flex-shrink-0 overflow-hidden">
+        <span class="text-2xl">${r.color}</span>
+        <div class="play-overlay absolute inset-0 bg-black/30 rounded-xl flex items-center justify-center"><iconify-icon icon="solar:play-bold" width="20" class="text-white"></iconify-icon></div>
+      </div>
+
+      <!-- Content -->
+      <div class="flex-1 min-w-0 py-0.5">
+        <p class="text-[14px] md:text-[15px] font-semibold text-ink leading-snug line-clamp-2 mb-1.5">${r.hook}</p>
+        <div class="flex flex-wrap items-center gap-1.5 mb-1">
+          <span class="text-[10px] font-bold text-muted bg-beige px-2 py-0.5 rounded">${r.cat}</span>
+          ${r.power.map(w=>`<span class="power-word text-[10px] font-bold text-ink bg-gold/15 px-2 py-0.5 rounded cursor-default">« ${w} »</span>`).join('')}
+        </div>
+        <p class="text-[11px] text-faded">Publié le ${r.date}</p>
+      </div>
+
+      <!-- Metrics -->
+      <div class="flex flex-col items-end gap-1 flex-shrink-0 pt-1">
+        <div class="metric flex items-center gap-1.5"><span class="metric-val text-sm font-bold text-ink">${r.views}</span><iconify-icon icon="solar:eye-linear" width="14" class="text-faded"></iconify-icon></div>
+        <div class="metric flex items-center gap-1.5"><span class="metric-val text-xs font-semibold text-muted">${r.likes}</span><iconify-icon icon="solar:heart-linear" width="12" class="text-faded"></iconify-icon></div>
+        <div class="metric flex items-center gap-1.5"><span class="metric-val text-xs font-semibold text-muted">${r.comments}</span><iconify-icon icon="solar:chat-round-linear" width="12" class="text-faded"></iconify-icon></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderReels(REELS);
+
+function setSort(el){el.closest('.flex').querySelectorAll('.sort-pill').forEach(p=>p.classList.remove('active'));el.classList.add('active')}
+function setTime(el){el.closest('.flex').querySelectorAll('.sort-pill').forEach(p=>p.classList.remove('active'));el.classList.add('active')}
+function showAll(){document.getElementById('show-all-btn').textContent='Tous les Reels affichés';toast('18 Reels chargés')}
+
+let toastTimer;function toast(m){clearTimeout(toastTimer);const el=document.getElementById('toast');document.getElementById('toast-txt').textContent=m;el.style.opacity='1';el.style.transform='translate(-50%,0)';toastTimer=setTimeout(()=>{el.style.opacity='0';el.style.transform='translate(-50%,8px)'},2800)}
+</script>
+</body>
+</html>

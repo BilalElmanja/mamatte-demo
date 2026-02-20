@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReelBoost — Tableau de bord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Manrope','system-ui','sans-serif'],serif:['Playfair Display','Georgia','serif']},colors:{cream:'#FAF8F5',beige:'#F0EBE3',stone:'#E8E2DA',gold:'#C8A97E',golddark:'#A68B5B',goldlight:'#D4BC99',ink:'#1A1A1A',inksoft:'#2D2D2D',muted:'#8B8680',faded:'#B5AFA8',tiktok:'#ff0050',tiktokBg:'#fff0f3'}}}}</script>
+<style>
+@keyframes slideUpBlur{0%{opacity:0;transform:translateY(20px);filter:blur(8px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes cardPop{0%{opacity:0;transform:scale(.95) translateY(10px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+.au{animation:slideUpBlur .7s cubic-bezier(.16,1,.3,1) both}
+.au1{animation:slideUpBlur .7s .06s cubic-bezier(.16,1,.3,1) both}
+.au2{animation:slideUpBlur .7s .12s cubic-bezier(.16,1,.3,1) both}
+.au3{animation:slideUpBlur .7s .18s cubic-bezier(.16,1,.3,1) both}
+.au4{animation:slideUpBlur .7s .24s cubic-bezier(.16,1,.3,1) both}
+.au5{animation:slideUpBlur .7s .30s cubic-bezier(.16,1,.3,1) both}
+.sidebar-item{transition:all .25s cubic-bezier(.16,1,.3,1);border-left:3px solid transparent}
+.sidebar-item:hover{background:rgba(26,26,26,.03)}
+.sidebar-item.active{background:rgba(26,26,26,.05);border-left-color:#1A1A1A;color:#1A1A1A;font-weight:600}
+.stat-card{transition:all .4s cubic-bezier(.16,1,.3,1);animation:cardPop .6s cubic-bezier(.16,1,.3,1) both}
+.stat-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.06)}
+.section-card{transition:all .35s cubic-bezier(.16,1,.3,1)}
+.section-card:hover{box-shadow:0 12px 30px rgba(0,0,0,.04)}
+.idea-row{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.idea-row:hover{background:rgba(26,26,26,.02)}
+.btn-primary{transition:all .3s cubic-bezier(.16,1,.3,1)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.btn-outline{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.btn-outline:hover{background:rgba(26,26,26,.04)}
+.platform-badge{transition:all .25s}
+.platform-badge:hover{transform:scale(1.05)}
+.toast{transition:all .4s cubic-bezier(.16,1,.3,1)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#E8E2DA;border-radius:2px}
+@media(max-width:767px){.sidebar{transform:translateX(-100%);position:fixed;z-index:200;height:100vh;top:0;left:0}.sidebar.open{transform:translateX(0)}.bottom-nav{display:flex !important}.mobile-topbar{display:flex !important}}
+@media(min-width:768px){.bottom-nav{display:none !important}.mobile-topbar{display:none !important}}
+@media(min-width:768px) and (max-width:1023px){.sidebar{width:72px !important}.sidebar .lbl,.sidebar .logo-text,.sidebar .sidebar-footer-info{display:none}.sidebar-item{justify-content:center;padding-left:0;padding-right:0}}
+</style>
+</head>
+<body class="min-h-screen font-sans antialiased overflow-x-hidden bg-cream">
+<aside class="sidebar fixed top-0 left-0 h-screen w-[240px] bg-white border-r border-stone/50 flex flex-col z-50 transition-transform duration-300" id="sidebar"><div class="px-5 py-5 flex items-center gap-2.5 border-b border-stone/40"><div class="w-8 h-8 bg-ink rounded-lg flex items-center justify-center flex-shrink-0 shadow-md shadow-ink/10"><iconify-icon icon="solar:cup-hot-bold" width="16" class="text-white"></iconify-icon></div><div class="logo-text min-w-0"><p class="text-sm font-bold tracking-tight text-ink leading-none">ReelBoost</p><p class="text-[11px] text-muted truncate mt-0.5">@mamatte.brunch.cafe</p></div></div><nav class="flex-1 py-3 px-2 flex flex-col gap-0.5 overflow-y-auto"><a href="#" class="sidebar-item active rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:widget-2-linear" width="20"></iconify-icon><span class="lbl">Tableau de bord</span></a><a href="ReelBoost_Ideas.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:lightbulb-linear" width="20"></iconify-icon><span class="lbl">Idées</span></a><a href="ReelBoost_Competitors.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="20"></iconify-icon><span class="lbl">Concurrents</span></a><a href="ReelBoost_MyReels.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:reel-linear" width="20"></iconify-icon><span class="lbl">Mes Reels</span></a><a href="ReelBoost_Outliers.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:fire-linear" width="20"></iconify-icon><span class="lbl">Outliers</span></a><a href="ReelBoost_Reports.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:chart-2-linear" width="20"></iconify-icon><span class="lbl">Rapports</span></a><a href="ReelBoost_Scripts.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:document-text-linear" width="20"></iconify-icon><span class="lbl">Scripts</span></a><div class="my-2 mx-3 h-px bg-stone/40"></div><a href="ReelBoost_Settings.html" class="sidebar-item rounded-lg px-3 py-2.5 flex items-center gap-3 text-sm text-muted"><iconify-icon icon="solar:settings-linear" width="20"></iconify-icon><span class="lbl">Paramètres</span></a></nav><div class="px-4 py-4 border-t border-stone/40 flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-xs font-bold text-white flex-shrink-0">M</div><div class="sidebar-footer-info min-w-0"><p class="text-xs font-semibold text-ink truncate">Mamatte Longueau</p></div></div></aside>
+<header class="mobile-topbar hidden fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-lg border-b border-stone/40 z-40 items-center justify-between px-4"><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-beige"><iconify-icon icon="solar:hamburger-menu-linear" width="20" class="text-ink"></iconify-icon></button><span class="text-sm font-bold text-ink">Tableau de bord</span><div class="w-8 h-8 rounded-full bg-ink flex items-center justify-center text-[10px] font-bold text-white">M</div></header>
+<nav class="bottom-nav hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-lg border-t border-stone/40 z-40 items-center justify-around px-2"><a href="#" class="flex flex-col items-center gap-0.5 text-ink"><iconify-icon icon="solar:widget-2-bold" width="22"></iconify-icon><span class="text-[9px] font-bold">Accueil</span></a><a href="ReelBoost_Ideas.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:lightbulb-linear" width="22"></iconify-icon><span class="text-[9px]">Idées</span></a><a href="ReelBoost_Competitors.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:users-group-rounded-linear" width="22"></iconify-icon><span class="text-[9px]">Rivaux</span></a><a href="ReelBoost_MyReels.html" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:reel-linear" width="22"></iconify-icon><span class="text-[9px]">Reels</span></a><button onclick="document.getElementById('sidebar').classList.toggle('open')" class="flex flex-col items-center gap-0.5 text-muted"><iconify-icon icon="solar:menu-dots-bold" width="22"></iconify-icon><span class="text-[9px]">Plus</span></button></nav>
+
+<main class="md:ml-[240px] lg:ml-[240px] md:max-lg:ml-[72px] min-h-screen pt-14 md:pt-0 pb-20 md:pb-0">
+<div class="max-w-[1100px] mx-auto px-5 md:px-8 py-6 md:py-8">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-7 au">
+    <div><h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-ink">Bonjour, <span class="font-serif italic text-gold">Mamatte</span> ☕</h1><p class="text-sm text-muted mt-1">Dernier scraping : <span class="font-medium text-inksoft">il y a 2 jours</span> · Prochain : dimanche 5h</p></div>
+    <div class="flex items-center gap-2"><span class="platform-badge inline-flex items-center gap-1.5 text-[10px] font-bold text-[#E1306C] bg-pink-50 border border-pink-100 px-2.5 py-1 rounded-lg"><iconify-icon icon="simple-icons:instagram" width="11"></iconify-icon>Connecté</span><span class="platform-badge inline-flex items-center gap-1.5 text-[10px] font-bold text-tiktok bg-tiktokBg border border-pink-100 px-2.5 py-1 rounded-lg"><iconify-icon icon="simple-icons:tiktok" width="10"></iconify-icon>Connecté</span></div>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-7 au1">
+    <div class="stat-card bg-white rounded-2xl border border-stone/40 p-5" style="animation-delay:.04s"><p class="text-[10px] font-bold text-faded uppercase tracking-wider mb-2">Idées cette semaine</p><p class="text-3xl font-extrabold text-ink">12</p><p class="text-[11px] text-green-500 font-bold mt-1">↑ +4 vs. sem. dernière</p></div>
+    <div class="stat-card bg-white rounded-2xl border border-stone/40 p-5" style="animation-delay:.08s"><p class="text-[10px] font-bold text-faded uppercase tracking-wider mb-2">Outliers détectés</p><p class="text-3xl font-extrabold text-ink">13</p><div class="flex gap-1 mt-1"><span class="text-[9px] font-bold text-[#E1306C] bg-pink-50 px-1.5 py-0.5 rounded">7 IG</span><span class="text-[9px] font-bold text-tiktok bg-tiktokBg px-1.5 py-0.5 rounded">6 TK</span></div></div>
+    <div class="stat-card bg-white rounded-2xl border border-stone/40 p-5" style="animation-delay:.12s"><p class="text-[10px] font-bold text-faded uppercase tracking-wider mb-2">Concurrents suivis</p><p class="text-3xl font-extrabold text-ink">5</p><div class="flex gap-1 mt-1"><span class="text-[9px] font-bold text-[#E1306C] bg-pink-50 px-1.5 py-0.5 rounded">3 IG</span><span class="text-[9px] font-bold text-tiktok bg-tiktokBg px-1.5 py-0.5 rounded">2 TK</span></div></div>
+    <div class="stat-card bg-white rounded-2xl border border-stone/40 p-5" style="animation-delay:.16s"><p class="text-[10px] font-bold text-faded uppercase tracking-wider mb-2">Scripts générés</p><p class="text-3xl font-extrabold text-ink">5</p><p class="text-[11px] text-muted mt-1">2 modifiés cette sem.</p></div>
+  </div>
+
+  <!-- Two columns -->
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-5">
+
+    <!-- Left: Latest ideas -->
+    <div class="lg:col-span-3">
+      <div class="section-card bg-white rounded-2xl border border-stone/40 overflow-hidden au2">
+        <div class="px-5 py-4 border-b border-stone/30 flex items-center justify-between"><div class="flex items-center gap-2"><iconify-icon icon="solar:lightbulb-linear" width="18" class="text-gold"></iconify-icon><h2 class="text-sm font-bold text-ink">Dernières idées</h2></div><a href="ReelBoost_Ideas.html" class="text-[11px] font-bold text-gold hover:text-golddark transition-colors">Tout voir →</a></div>
+        <div>
+          <div class="idea-row px-5 py-3.5 flex items-start gap-3 border-b border-stone/20"><div class="w-9 h-9 rounded-lg bg-beige flex items-center justify-center flex-shrink-0 text-sm">☕</div><div class="flex-1 min-w-0"><p class="text-[13px] font-semibold text-ink leading-snug line-clamp-1">« Tu as 3 secondes avant que ce latte art disparaisse »</p><div class="flex gap-1 mt-1"><span class="text-[9px] font-bold text-muted bg-beige px-1.5 py-0.5 rounded">🔊 ASMR</span><span class="text-[9px] font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">Facile</span></div></div><div class="flex gap-1 flex-shrink-0"><span class="text-[8px] font-bold text-[#E1306C] bg-pink-50 px-1.5 py-0.5 rounded"><iconify-icon icon="simple-icons:instagram" width="8"></iconify-icon></span><span class="text-[8px] font-bold text-tiktok bg-tiktokBg px-1.5 py-0.5 rounded"><iconify-icon icon="simple-icons:tiktok" width="7"></iconify-icon></span></div></div>
+          <div class="idea-row px-5 py-3.5 flex items-start gap-3 border-b border-stone/20"><div class="w-9 h-9 rounded-lg bg-beige flex items-center justify-center flex-shrink-0 text-sm">🧑‍🍳</div><div class="flex-1 min-w-0"><p class="text-[13px] font-semibold text-ink leading-snug line-clamp-1">« Le secret de notre cold brew infusé 24h »</p><div class="flex gap-1 mt-1"><span class="text-[9px] font-bold text-muted bg-beige px-1.5 py-0.5 rounded">🧑‍🍳 Recette</span><span class="text-[9px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded">Moyen</span></div></div><div class="flex gap-1 flex-shrink-0"><span class="text-[8px] font-bold text-[#E1306C] bg-pink-50 px-1.5 py-0.5 rounded"><iconify-icon icon="simple-icons:instagram" width="8"></iconify-icon></span></div></div>
+          <div class="idea-row px-5 py-3.5 flex items-start gap-3 border-b border-stone/20"><div class="w-9 h-9 rounded-lg bg-beige flex items-center justify-center flex-shrink-0 text-sm">😂</div><div class="flex-1 min-w-0"><p class="text-[13px] font-semibold text-ink leading-snug line-clamp-1">« POV : un client commande un "café normal" »</p><div class="flex gap-1 mt-1"><span class="text-[9px] font-bold text-muted bg-beige px-1.5 py-0.5 rounded">🎭 Humour</span><span class="text-[9px] font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">Facile</span></div></div><div class="flex gap-1 flex-shrink-0"><span class="text-[8px] font-bold text-tiktok bg-tiktokBg px-1.5 py-0.5 rounded"><iconify-icon icon="simple-icons:tiktok" width="7"></iconify-icon></span></div></div>
+          <div class="idea-row px-5 py-3.5 flex items-start gap-3"><div class="w-9 h-9 rounded-lg bg-beige flex items-center justify-center flex-shrink-0 text-sm">🎧</div><div class="flex-1 min-w-0"><p class="text-[13px] font-semibold text-ink leading-snug line-clamp-1">« 50 grains de café moulus au ralenti #ASMR »</p><div class="flex gap-1 mt-1"><span class="text-[9px] font-bold text-muted bg-beige px-1.5 py-0.5 rounded">🔊 ASMR</span><span class="text-[9px] font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">Facile</span></div></div><div class="flex gap-1 flex-shrink-0"><span class="text-[8px] font-bold text-[#E1306C] bg-pink-50 px-1.5 py-0.5 rounded"><iconify-icon icon="simple-icons:instagram" width="8"></iconify-icon></span><span class="text-[8px] font-bold text-tiktok bg-tiktokBg px-1.5 py-0.5 rounded"><iconify-icon icon="simple-icons:tiktok" width="7"></iconify-icon></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Alerts & TikTok trends -->
+    <div class="lg:col-span-2 flex flex-col gap-5">
+
+      <!-- Viral alert -->
+      <div class="section-card bg-gradient-to-br from-orange-50 to-cream rounded-2xl border border-orange-200/40 p-5 au3">
+        <div class="flex items-center gap-2 mb-3"><span class="text-base">🔥</span><h2 class="text-sm font-bold text-orange-600">Alertes virales</h2><span class="ml-auto text-[9px] font-bold text-orange-500 bg-orange-100 px-2 py-0.5 rounded-full">2 nouvelles</span></div>
+        <div class="space-y-3">
+          <div class="bg-white/80 rounded-xl p-3 border border-orange-100/50"><div class="flex items-center gap-1.5 mb-1"><iconify-icon icon="simple-icons:instagram" width="10" class="text-[#E1306C]"></iconify-icon><span class="text-[10px] font-bold text-ink">@columbus_cafe_fr</span><span class="text-[10px] text-orange-500 font-bold ml-auto">245K vues</span></div><p class="text-[12px] text-inksoft font-medium leading-snug">« Personne ne parle de cette technique de latte art »</p><button onclick="window.location='ReelBoost_Outliers.html'" class="mt-2 text-[10px] font-bold text-gold hover:text-golddark transition-colors flex items-center gap-1"><iconify-icon icon="solar:magic-stick-3-linear" width="11"></iconify-icon>S'inspirer →</button></div>
+          <div class="bg-white/80 rounded-xl p-3 border border-orange-100/50"><div class="flex items-center gap-1.5 mb-1"><iconify-icon icon="simple-icons:tiktok" width="9" class="text-tiktok"></iconify-icon><span class="text-[10px] font-bold text-ink">@colombus.officiel</span><span class="text-[10px] text-orange-500 font-bold ml-auto">1.2M vues</span></div><p class="text-[12px] text-inksoft font-medium leading-snug">« POV : tu es barista et un client commande un "café normal" »</p><button onclick="window.location='ReelBoost_Outliers.html'" class="mt-2 text-[10px] font-bold text-gold hover:text-golddark transition-colors flex items-center gap-1"><iconify-icon icon="solar:magic-stick-3-linear" width="11"></iconify-icon>S'inspirer →</button></div>
+        </div>
+      </div>
+
+      <!-- TikTok trending -->
+      <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 au4">
+        <div class="flex items-center gap-2 mb-3"><iconify-icon icon="simple-icons:tiktok" width="14" class="text-tiktok"></iconify-icon><h2 class="text-sm font-bold text-ink">TikTok Trends</h2><span class="ml-auto text-[9px] font-bold text-tiktok bg-tiktokBg px-2 py-0.5 rounded-full">Cette semaine</span></div>
+        <div class="space-y-2">
+          <div class="flex items-center gap-2.5 py-1.5"><span class="text-[10px] font-bold text-tiktok bg-tiktokBg w-5 h-5 rounded-md flex items-center justify-center">1</span><span class="text-[12px] font-semibold text-ink flex-1">#CoffeeTok</span><span class="text-[10px] text-muted">2.4B vues</span></div>
+          <div class="flex items-center gap-2.5 py-1.5"><span class="text-[10px] font-bold text-tiktok bg-tiktokBg w-5 h-5 rounded-md flex items-center justify-center">2</span><span class="text-[12px] font-semibold text-ink flex-1">#BaristaLife</span><span class="text-[10px] text-muted">890M vues</span></div>
+          <div class="flex items-center gap-2.5 py-1.5"><span class="text-[10px] font-bold text-tiktok bg-tiktokBg w-5 h-5 rounded-md flex items-center justify-center">3</span><span class="text-[12px] font-semibold text-ink flex-1">#ASMRcafe</span><span class="text-[10px] text-muted">540M vues</span></div>
+          <div class="flex items-center gap-2.5 py-1.5"><span class="text-[10px] font-bold text-tiktok bg-tiktokBg w-5 h-5 rounded-md flex items-center justify-center">4</span><span class="text-[12px] font-semibold text-ink flex-1">#FoodTok</span><span class="text-[10px] text-muted">12.1B vues</span></div>
+          <div class="flex items-center gap-2.5 py-1.5"><span class="text-[10px] font-bold text-tiktok bg-tiktokBg w-5 h-5 rounded-md flex items-center justify-center">5</span><span class="text-[12px] font-semibold text-ink flex-1">#SmallBusinessTikTok</span><span class="text-[10px] text-muted">4.2B vues</span></div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 au5">
+        <h2 class="text-sm font-bold text-ink mb-3">Actions rapides</h2>
+        <div class="grid grid-cols-2 gap-2">
+          <a href="ReelBoost_Ideas.html" class="btn-outline border border-stone rounded-xl p-3 text-center hover:border-faded"><iconify-icon icon="solar:lightbulb-linear" width="18" class="text-gold mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold text-ink block">Voir les idées</span></a>
+          <a href="ReelBoost_Outliers.html" class="btn-outline border border-stone rounded-xl p-3 text-center hover:border-faded"><iconify-icon icon="solar:fire-linear" width="18" class="text-orange-500 mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold text-ink block">Outliers</span></a>
+          <a href="ReelBoost_Scripts.html" class="btn-outline border border-stone rounded-xl p-3 text-center hover:border-faded"><iconify-icon icon="solar:document-text-linear" width="18" class="text-muted mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold text-ink block">Scripts</span></a>
+          <a href="ReelBoost_Reports.html" class="btn-outline border border-stone rounded-xl p-3 text-center hover:border-faded"><iconify-icon icon="solar:chart-2-linear" width="18" class="text-muted mb-1 block mx-auto"></iconify-icon><span class="text-[11px] font-bold text-ink block">Rapports</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Platform comparison -->
+  <div class="section-card bg-white rounded-2xl border border-stone/40 p-5 mt-5 au5">
+    <div class="flex items-center gap-2 mb-4"><iconify-icon icon="solar:chart-2-linear" width="18" class="text-gold"></iconify-icon><h2 class="text-sm font-bold text-ink">Vos performances cross-platform</h2></div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="bg-gradient-to-br from-pink-50/50 to-cream rounded-xl border border-pink-100/40 p-4">
+        <div class="flex items-center gap-2 mb-3"><iconify-icon icon="simple-icons:instagram" width="14" class="text-[#E1306C]"></iconify-icon><span class="text-[12px] font-bold text-ink">Instagram Reels</span></div>
+        <div class="grid grid-cols-3 gap-3 text-center">
+          <div><p class="text-lg font-extrabold text-ink">18</p><p class="text-[9px] text-muted">Reels</p></div>
+          <div><p class="text-lg font-extrabold text-ink">2.1K</p><p class="text-[9px] text-muted">Vues moy.</p></div>
+          <div><p class="text-lg font-extrabold text-green-500">+42%</p><p class="text-[9px] text-muted">vs. mois dern.</p></div>
+        </div>
+      </div>
+      <div class="bg-gradient-to-br from-tiktokBg/50 to-cream rounded-xl border border-pink-100/40 p-4">
+        <div class="flex items-center gap-2 mb-3"><iconify-icon icon="simple-icons:tiktok" width="13" class="text-tiktok"></iconify-icon><span class="text-[12px] font-bold text-ink">TikTok</span></div>
+        <div class="grid grid-cols-3 gap-3 text-center">
+          <div><p class="text-lg font-extrabold text-ink">8</p><p class="text-[9px] text-muted">Vidéos</p></div>
+          <div><p class="text-lg font-extrabold text-ink">4.6K</p><p class="text-[9px] text-muted">Vues moy.</p></div>
+          <div><p class="text-lg font-extrabold text-green-500">+128%</p><p class="text-[9px] text-muted">vs. mois dern.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<div id="toast" class="toast fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none translate-y-4 opacity-0"><div class="bg-ink text-white px-5 py-3 rounded-2xl text-sm font-medium flex items-center gap-2.5 shadow-2xl shadow-ink/20"><iconify-icon icon="solar:check-circle-bold" width="17"></iconify-icon><span id="toast-txt"></span></div></div>
+<script>let tt;function toast(m){clearTimeout(tt);const el=document.getElementById('toast');document.getElementById('toast-txt').textContent=m;el.style.opacity='1';el.style.transform='translate(-50%,0)';tt=setTimeout(()=>{el.style.opacity='0';el.style.transform='translate(-50%,8px)'},2800)}</script>
+</body>
+</html>

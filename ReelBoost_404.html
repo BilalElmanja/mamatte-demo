@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReelBoost — Page introuvable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Manrope','system-ui','sans-serif'],serif:['Playfair Display','Georgia','serif']},colors:{cream:'#FAF8F5',beige:'#F0EBE3',stone:'#E8E2DA',gold:'#C8A97E',golddark:'#A68B5B',goldlight:'#D4BC99',ink:'#1A1A1A',inksoft:'#2D2D2D',muted:'#8B8680',faded:'#B5AFA8'}}}}</script>
+<style>
+@keyframes slideUpBlur{0%{opacity:0;transform:translateY(30px);filter:blur(10px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-12px) rotate(1deg)}50%{transform:translateY(-6px) rotate(-1deg)}75%{transform:translateY(-16px) rotate(.5deg)}}
+@keyframes steam{0%{opacity:0;transform:translateY(0) scaleX(1)}50%{opacity:.6}100%{opacity:0;transform:translateY(-30px) scaleX(1.5)}}
+@keyframes drift{0%{transform:translateX(0) translateY(0)}50%{transform:translateX(15px) translateY(-8px)}100%{transform:translateX(0) translateY(0)}}
+@keyframes pulse404{0%,100%{opacity:.15}50%{opacity:.08}}
+
+.anim-up{animation:slideUpBlur .8s cubic-bezier(.16,1,.3,1) both}
+.anim-up-1{animation:slideUpBlur .8s .1s cubic-bezier(.16,1,.3,1) both}
+.anim-up-2{animation:slideUpBlur .8s .2s cubic-bezier(.16,1,.3,1) both}
+.anim-up-3{animation:slideUpBlur .8s .3s cubic-bezier(.16,1,.3,1) both}
+
+.float{animation:float 5s ease-in-out infinite}
+.steam-1{animation:steam 2.5s ease-out infinite}
+.steam-2{animation:steam 2.5s .6s ease-out infinite}
+.steam-3{animation:steam 2.5s 1.2s ease-out infinite}
+.orb{animation:drift 8s ease-in-out infinite}
+.orb-2{animation:drift 10s 2s ease-in-out infinite reverse}
+.bg-404{animation:pulse404 4s ease-in-out infinite}
+
+.btn-primary{transition:all .35s cubic-bezier(.16,1,.3,1)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.15)}
+.btn-primary:active{transform:translateY(0) scale(.98)}
+.btn-ghost{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.btn-ghost:hover{color:#1A1A1A}
+</style>
+</head>
+<body class="min-h-screen font-sans antialiased bg-cream flex items-center justify-center p-6 overflow-hidden relative">
+
+<!-- Background orbs -->
+<div class="orb absolute w-[300px] h-[300px] bg-gradient-to-br from-gold/10 to-beige/30 rounded-full blur-3xl top-[10%] left-[5%]"></div>
+<div class="orb-2 absolute w-[400px] h-[400px] bg-gradient-to-br from-stone/20 to-goldlight/10 rounded-full blur-3xl bottom-[10%] right-[5%]"></div>
+
+<!-- Giant 404 background text -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+  <span class="bg-404 text-[20rem] md:text-[28rem] font-extrabold text-ink/10 leading-none tracking-tighter">404</span>
+</div>
+
+<!-- Content -->
+<div class="relative z-10 text-center max-w-md">
+
+  <!-- Coffee cup illustration -->
+  <div class="float mb-8 anim-up">
+    <div class="relative inline-block">
+      <!-- Steam -->
+      <div class="absolute -top-6 left-1/2 -translate-x-1/2 flex gap-3">
+        <div class="steam-1 w-2 h-6 bg-gradient-to-t from-stone/40 to-transparent rounded-full"></div>
+        <div class="steam-2 w-1.5 h-5 bg-gradient-to-t from-stone/30 to-transparent rounded-full"></div>
+        <div class="steam-3 w-2 h-7 bg-gradient-to-t from-stone/35 to-transparent rounded-full"></div>
+      </div>
+      <!-- Cup -->
+      <div class="w-28 h-28 bg-white rounded-3xl border-2 border-stone/50 flex items-center justify-center shadow-xl shadow-ink/5 relative">
+        <div class="w-20 h-20 bg-ink rounded-2xl flex items-center justify-center">
+          <iconify-icon icon="solar:cup-hot-bold" width="36" class="text-white"></iconify-icon>
+        </div>
+        <!-- Cup handle -->
+        <div class="absolute -right-3 top-1/2 -translate-y-1/2 w-5 h-10 border-2 border-stone/50 border-l-0 rounded-r-full bg-white"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Text -->
+  <h1 class="text-4xl md:text-5xl font-bold text-ink tracking-tight mb-3 anim-up-1">
+    Page <span class="font-serif italic text-gold">introuvable</span>
+  </h1>
+  <p class="text-base text-muted leading-relaxed mb-8 anim-up-2">
+    Cette page a peut-être été déplacée, supprimée, ou n'a jamais existé. Comme un Reel qui n'a jamais été filmé.
+  </p>
+
+  <!-- Actions -->
+  <div class="flex flex-col sm:flex-row items-center justify-center gap-3 anim-up-3">
+    <a href="ReelBoost_Dashboard.html" class="btn-primary bg-ink text-white px-7 py-3.5 rounded-xl text-sm font-bold flex items-center gap-2 shadow-lg shadow-ink/10">
+      <iconify-icon icon="solar:widget-2-linear" width="16"></iconify-icon>Retour au tableau de bord
+    </a>
+    <button onclick="history.back()" class="btn-ghost text-sm font-semibold text-muted flex items-center gap-2 px-4 py-3">
+      <iconify-icon icon="solar:arrow-left-linear" width="14"></iconify-icon>Page précédente
+    </button>
+  </div>
+
+  <!-- Breadcrumbs -->
+  <div class="mt-12 anim-up-3">
+    <div class="flex items-center justify-center gap-4 text-[11px] text-faded">
+      <a href="ReelBoost_Ideas.html" class="hover:text-ink transition-colors">Idées</a>
+      <span>·</span>
+      <a href="ReelBoost_Competitors.html" class="hover:text-ink transition-colors">Concurrents</a>
+      <span>·</span>
+      <a href="ReelBoost_Reports.html" class="hover:text-ink transition-colors">Rapports</a>
+      <span>·</span>
+      <a href="ReelBoost_Settings.html" class="hover:text-ink transition-colors">Paramètres</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
